@@ -1,0 +1,38 @@
+{
+  "name": "trood-init",
+  "version": "1.0.0",
+  "dependencies": {},
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^2.9.0",
+    "@typescript-eslint/parser": "^2.9.0",
+    "babel-eslint": "^10.0.3",
+    "eslint": "^6.7.1",
+    "eslint-config-react-app": "^5.0.2",
+    "eslint-plugin-flowtype": "^4.5.2",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.17.0",
+    "eslint-plugin-react-hooks": "^2.3.0",
+    "pre-commit": "^1.2.2",
+    "stylelint": "^12.0.0",
+    "stylelint-config-standard": "^19.0.0",
+    "trood-core-react-scripts": "1.1.4"
+  },
+  "scripts": {
+    "lint": "npm run jslint && npm run stylelint",
+    "jslint": "eslint src/ --ext .js",
+    "stylelint": "stylelint \"src/**/*.css\"",
+    "start": "trood-core-react-scripts start",
+    "build": "trood-core-react-scripts build",
+    "pot": "rip json2pot \"./.trood-core/translate/messages/**/*.json\" -c \"id\" -o \"./translate/index.pot\"",
+    "initMeta": "trood-core-react-scripts initMeta"
+  },
+  "pre-commit": [
+    "lint"
+  ],
+  "browserslist": [
+    ">0.2%",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
+}
