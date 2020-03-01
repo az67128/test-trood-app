@@ -1,29 +1,47 @@
-import React from 'react';
+import React from 'react'
 import TInput, { INPUT_TYPES } from '$trood/components/TInput'
 
-const EditComponent = ({ model, modelErrors, modelFormActions }) => {
+const EditComponent = ({
+  model,
+  modelErrors,
+  modelFormActions, 
+}) => {
 
   return (
     <React.Fragment>
       <TInput
           {...{
-          label: 'id',
+          type: INPUT_TYPES.multi,
+          label: 'name',
           placeholder: 'Not chosen',
-          type: INPUT_TYPES.float,
-          value: model.id,
-          errors: modelErrors.id,
-          onChange: val => modelFormActions.changeField('id', val),
-          onValid: () => modelFormActions.resetFieldError('id'),
-          onInvalid: err => modelFormActions.setFieldError('id', err),
+          value: model.name,
+          errors: modelErrors.name,
+          onChange: val => modelFormActions.changeField('name', val),
+          onValid: () => modelFormActions.resetFieldError('name'),
+          onInvalid: err => modelFormActions.setFieldError('name', err),
+          validate: {
+            checkOnBlur: true,
+            required: true,
+          },
+        }}
+      />
+      <TInput
+          {...{
+          type: INPUT_TYPES.multi,
+          label: 'documentSet',
+          placeholder: 'Not chosen',
+          value: model.documentSet,
+          errors: modelErrors.documentSet,
+          onChange: val => modelFormActions.changeField('documentSet', val),
+          onValid: () => modelFormActions.resetFieldError('documentSet'),
+          onInvalid: err => modelFormActions.setFieldError('documentSet', err),
           validate: {
             checkOnBlur: true,
             required: false,
           },
         }}
       />
-name-string
-document_set-array
     </React.Fragment>
-  );
-};
+  )
+}
 export default EditComponent

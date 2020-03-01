@@ -4,7 +4,6 @@ import AsyncEntitiesList from '$trood/components/AsyncEntitiesList'
 import TIcon, { ICONS_TYPES } from '$trood/components/TIcon'
 
 const Payments = ({paymentEntities, paymentApiActions, paymentEditorActions={}})=>{
-    console.log(paymentEditorActions.editChildEntity)
     const paymentsApiConfig = {
         filter: {
           depth: 3,
@@ -15,7 +14,6 @@ const Payments = ({paymentEntities, paymentApiActions, paymentEditorActions={}})
     const  paymentsNextPage = paymentEntities.getNextPage(paymentsApiConfig)
     const paymentsIsLoading = paymentEntities.getIsLoadingArray(paymentsApiConfig)
     const paymentsNextPageAction = () => paymentApiActions.loadNextPage(paymentsApiConfig)
-    console.log(paymentsArray)
     return <div>
         <AsyncEntitiesList {...{
           

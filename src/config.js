@@ -239,6 +239,29 @@ export default {
         },
       ],
     },
+    {
+      title: 'Activities',
+      url: 'activities',
+      type: 'grid',
+      components: [
+        {
+          id: 'activities-table',
+          type: 'LegalCoreComponents/Activities',
+          span: 3,
+          withMargin: true,
+          models: {
+            activity: 'activity',
+            activityStatus: 'activityStatus',
+            activityAccessStatus: 'activityAccessStatus',
+            vacationPeriod: 'vacationPeriod',
+            statusRequestVacation: 'statusRequestVacation',
+            requestVacation: 'requestVacation',
+            activityType: 'activityType',
+            employee: 'employee',
+          },
+        },
+      ],
+    },
   ],
   entityPages: {},
 }

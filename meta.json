@@ -1,0 +1,4350 @@
+{
+  "data": [
+    {
+      "name": "active_status",
+      "key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "number",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "nextval" }
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "order",
+          "type": "number",
+          "optional": false,
+          "unique": false
+        }
+      ],
+      "cas": false
+    },
+    {
+      "name": "activity",
+      "key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "number",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "nextval" }
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "responsible",
+          "type": "object",
+          "linkMeta": "employee",
+          "linkType": "inner",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "executor",
+          "type": "object",
+          "linkMeta": "employee",
+          "linkType": "inner",
+          "optional": true,
+          "unique": false
+        },
+        {
+          "name": "activity_status",
+          "type": "object",
+          "linkMeta": "activity_status",
+          "linkType": "inner",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "matter",
+          "type": "object",
+          "linkMeta": "matter",
+          "linkType": "inner",
+          "optional": true,
+          "unique": false
+        },
+        {
+          "name": "important",
+          "type": "bool",
+          "optional": true,
+          "unique": false,
+          "default": false
+        },
+        {
+          "name": "created",
+          "type": "datetime",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "now" }
+        },
+        {
+          "name": "details",
+          "type": "string",
+          "optional": true,
+          "unique": false
+        },
+        {
+          "name": "start",
+          "type": "datetime",
+          "optional": true,
+          "unique": false
+        },
+        {
+          "name": "deadline",
+          "type": "datetime",
+          "optional": true,
+          "unique": false
+        },
+        {
+          "name": "deleted",
+          "type": "bool",
+          "optional": true,
+          "unique": false,
+          "default": false
+        },
+        {
+          "name": "document_set",
+          "type": "generic",
+          "linkMeta": "document",
+          "linkType": "outer",
+          "outerLinkField": "target_object",
+          "optional": true,
+          "unique": false,
+          "queryMode": true,
+          "retrieveMode": true
+        },
+        {
+          "name": "comment_set",
+          "type": "generic",
+          "linkMeta": "comment",
+          "linkType": "outer",
+          "outerLinkField": "target_object",
+          "optional": true,
+          "unique": false,
+          "queryMode": true,
+          "retrieveMode": true
+        },
+        {
+          "name": "time_entry_set",
+          "type": "array",
+          "linkMeta": "time_entry",
+          "linkType": "outer",
+          "outerLinkField": "activity",
+          "optional": true,
+          "unique": false,
+          "queryMode": true,
+          "retrieveMode": true
+        },
+        {
+          "name": "activity_type",
+          "type": "object",
+          "linkMeta": "activity_type",
+          "linkType": "inner",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "invitation_list",
+          "type": "object",
+          "linkMeta": "invitation_list",
+          "linkType": "inner",
+          "optional": true,
+          "unique": false
+        },
+        {
+          "name": "timer_set",
+          "type": "array",
+          "linkMeta": "timer",
+          "linkType": "outer",
+          "outerLinkField": "activity",
+          "optional": true,
+          "unique": false,
+          "queryMode": true
+        },
+        {
+          "name": "activity_access_status",
+          "type": "object",
+          "linkMeta": "activity_access_status",
+          "linkType": "inner",
+          "optional": false,
+          "unique": false,
+          "default": 1
+        },
+        {
+          "name": "have_time",
+          "type": "bool",
+          "optional": true,
+          "unique": false,
+          "default": false
+        }
+      ],
+      "actions": [
+        {
+          "method": "create",
+          "protocol": "REST",
+          "args": ["http://legal-agents:8080/activity/agent_activity/"],
+          "activeIfNotRoot": true,
+          "includeValues": { "cas": "cas", "id": "id" },
+          "name": "c09974cc"
+        },
+        {
+          "method": "update",
+          "protocol": "REST",
+          "args": ["http://legal-agents:8080/activity/agent_activity/"],
+          "activeIfNotRoot": true,
+          "includeValues": { "cas": "cas", "id": "id" },
+          "name": "704dd4b9"
+        }
+      ],
+      "cas": false
+    },
+    {
+      "name": "activity_access_status",
+      "key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "number",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "nextval" }
+        },
+        {
+          "name": "code",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "order",
+          "type": "number",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "activity_set",
+          "type": "array",
+          "linkMeta": "activity",
+          "linkType": "outer",
+          "outerLinkField": "activity_access_status",
+          "optional": true,
+          "unique": false,
+          "queryMode": true
+        }
+      ],
+      "cas": false
+    },
+    {
+      "name": "activity_status",
+      "key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "number",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "nextval" }
+        },
+        {
+          "name": "code",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "order",
+          "type": "number",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "activity_set",
+          "type": "array",
+          "linkMeta": "activity",
+          "linkType": "outer",
+          "outerLinkField": "activity_status",
+          "optional": true,
+          "unique": false,
+          "queryMode": true
+        }
+      ],
+      "cas": false
+    },
+    {
+      "name": "activity_type",
+      "key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "number",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "nextval" }
+        },
+        {
+          "name": "code",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "order",
+          "type": "number",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "activity_set",
+          "type": "array",
+          "linkMeta": "activity",
+          "linkType": "outer",
+          "outerLinkField": "activity_type",
+          "optional": true,
+          "unique": false,
+          "queryMode": true
+        }
+      ],
+      "cas": false
+    },
+    {
+      "name": "approver",
+      "key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "number",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "nextval" }
+        },
+        {
+          "name": "priority",
+          "type": "number",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "employee",
+          "type": "object",
+          "linkMeta": "employee",
+          "linkType": "inner",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "request_vacation",
+          "type": "object",
+          "linkMeta": "request_vacation",
+          "linkType": "inner",
+          "optional": true,
+          "unique": false
+        },
+        {
+          "name": "approve",
+          "type": "string",
+          "optional": true,
+          "unique": false
+        },
+        {
+          "name": "comment",
+          "type": "string",
+          "optional": true,
+          "unique": false
+        },
+        {
+          "name": "approve_date",
+          "type": "datetime",
+          "optional": true,
+          "unique": false
+        }
+      ],
+      "actions": [
+        {
+          "method": "update",
+          "protocol": "REST",
+          "args": ["http://legal-agents:8080/approver/agent_approver/"],
+          "activeIfNotRoot": true,
+          "includeValues": null,
+          "name": "approver_update_action"
+        }
+      ],
+      "cas": false
+    },
+    {
+      "name": "assessment",
+      "key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "number",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "nextval" }
+        },
+        {
+          "name": "rating",
+          "type": "number",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "rewiewer",
+          "type": "object",
+          "linkMeta": "employee",
+          "linkType": "inner",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "details",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "created",
+          "type": "datetime",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "now" }
+        },
+        {
+          "name": "is_min",
+          "type": "bool",
+          "optional": true,
+          "unique": false,
+          "default": false
+        },
+        {
+          "name": "is_max",
+          "type": "bool",
+          "optional": true,
+          "unique": false,
+          "default": false
+        },
+        {
+          "name": "team_member",
+          "type": "object",
+          "linkMeta": "team_member",
+          "linkType": "inner",
+          "optional": false,
+          "unique": false
+        }
+      ],
+      "actions": [
+        {
+          "method": "create",
+          "protocol": "REST",
+          "args": ["http://legal-agents:8080/assessment/agent_assessment/"],
+          "activeIfNotRoot": true,
+          "includeValues": { "cas": "cas", "id": "id" },
+          "name": "assessment_create_action"
+        },
+        {
+          "method": "remove",
+          "protocol": "REST",
+          "args": ["http://legal-agents:8080/assessment/agent_assessment/"],
+          "activeIfNotRoot": true,
+          "includeValues": { "cas": "cas", "id": "id" },
+          "name": "assessment_delete_action"
+        },
+        {
+          "method": "update",
+          "protocol": "REST",
+          "args": ["http://legal-agents:8080/assessment/agent_assessment/"],
+          "activeIfNotRoot": true,
+          "includeValues": { "cas": "cas", "id": "id" },
+          "name": "assessment_update_action"
+        }
+      ],
+      "cas": false
+    },
+    {
+      "name": "bank_details",
+      "key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "number",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "nextval" }
+        },
+        {
+          "name": "bank_name",
+          "type": "string",
+          "optional": true,
+          "unique": false
+        },
+        {
+          "name": "bank_address",
+          "type": "string",
+          "optional": true,
+          "unique": false
+        },
+        { "name": "bik", "type": "string", "optional": true, "unique": false },
+        { "name": "ks", "type": "string", "optional": true, "unique": false },
+        { "name": "rs", "type": "string", "optional": true, "unique": false },
+        {
+          "name": "requisites",
+          "type": "object",
+          "linkMeta": "requisites",
+          "linkType": "inner",
+          "optional": true,
+          "unique": false
+        },
+        { "name": "inn", "type": "string", "optional": true, "unique": false },
+        { "name": "kpp", "type": "string", "optional": true, "unique": false },
+        {
+          "name": "swift",
+          "type": "string",
+          "optional": true,
+          "unique": false
+        },
+        { "name": "iban", "type": "string", "optional": true, "unique": false }
+      ],
+      "cas": false
+    },
+    {
+      "name": "bill",
+      "key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "number",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "nextval" }
+        },
+        {
+          "name": "number",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "approver",
+          "type": "object",
+          "linkMeta": "employee",
+          "linkType": "inner",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "matter",
+          "type": "object",
+          "linkMeta": "matter",
+          "linkType": "inner",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "created",
+          "type": "datetime",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "now" }
+        },
+        {
+          "name": "approved_date",
+          "type": "datetime",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "now" }
+        },
+        {
+          "name": "bill_status",
+          "type": "object",
+          "linkMeta": "bill_status",
+          "linkType": "inner",
+          "optional": true,
+          "unique": false
+        },
+        {
+          "name": "date_invoice_sent",
+          "type": "datetime",
+          "optional": true,
+          "unique": false
+        },
+        {
+          "name": "sum_bill",
+          "type": "number",
+          "optional": true,
+          "unique": false,
+          "default": 0
+        },
+        {
+          "name": "total_sum_payment",
+          "type": "number",
+          "optional": true,
+          "unique": false,
+          "default": 0
+        },
+        {
+          "name": "deleted",
+          "type": "bool",
+          "optional": true,
+          "unique": false,
+          "default": false
+        },
+        {
+          "name": "time_entry_set",
+          "type": "array",
+          "linkMeta": "time_entry",
+          "linkType": "outer",
+          "outerLinkField": "bill",
+          "optional": true,
+          "unique": false,
+          "queryMode": true,
+          "retrieveMode": true
+        },
+        {
+          "name": "expense_set",
+          "type": "array",
+          "linkMeta": "expense",
+          "linkType": "outer",
+          "outerLinkField": "bill",
+          "optional": true,
+          "unique": false,
+          "queryMode": true,
+          "retrieveMode": true
+        },
+        {
+          "name": "invoice_set",
+          "type": "array",
+          "linkMeta": "invoice",
+          "linkType": "outer",
+          "outerLinkField": "bill",
+          "optional": true,
+          "unique": false,
+          "queryMode": true,
+          "retrieveMode": true
+        },
+        {
+          "name": "document_set",
+          "type": "generic",
+          "linkMeta": "document",
+          "linkType": "outer",
+          "outerLinkField": "target_object",
+          "optional": true,
+          "unique": false,
+          "queryMode": true,
+          "retrieveMode": true
+        },
+        {
+          "name": "payment_set",
+          "type": "array",
+          "linkMeta": "payment",
+          "linkType": "outer",
+          "outerLinkField": "bill",
+          "optional": true,
+          "unique": false,
+          "queryMode": true,
+          "retrieveMode": true
+        },
+        {
+          "name": "date_full_paid",
+          "type": "datetime",
+          "optional": true,
+          "unique": false
+        }
+      ],
+      "actions": [
+        {
+          "method": "create",
+          "protocol": "REST",
+          "args": ["http://legal-agents:8080/bill/agent_bill/"],
+          "activeIfNotRoot": true,
+          "includeValues": { "cas": "cas", "id": "id" },
+          "name": "8903f634"
+        },
+        {
+          "method": "update",
+          "protocol": "REST",
+          "args": ["http://legal-agents:8080/bill/agent_bill/"],
+          "activeIfNotRoot": true,
+          "includeValues": { "cas": "cas", "id": "id" },
+          "name": "77c6cc05"
+        }
+      ],
+      "cas": false
+    },
+    {
+      "name": "bill_price_list",
+      "key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "number",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "nextval" }
+        },
+        {
+          "name": "matter",
+          "type": "object",
+          "linkMeta": "matter",
+          "linkType": "inner",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "employee",
+          "type": "objects",
+          "linkMeta": "employee",
+          "linkType": "inner",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "bill_price_list__employee_set",
+          "type": "array",
+          "linkMeta": "bill_price_list__employee",
+          "linkType": "outer",
+          "outerLinkField": "bill_price_list",
+          "optional": true,
+          "unique": false,
+          "queryMode": true
+        }
+      ],
+      "cas": false
+    },
+    {
+      "name": "bill_price_list__employee",
+      "key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "number",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "nextval" }
+        },
+        {
+          "name": "bill_price_list",
+          "type": "object",
+          "linkMeta": "bill_price_list",
+          "linkType": "inner",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "employee",
+          "type": "object",
+          "linkMeta": "employee",
+          "linkType": "inner",
+          "optional": false,
+          "unique": false
+        }
+      ],
+      "cas": false
+    },
+    {
+      "name": "bill_status",
+      "key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "number",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "nextval" }
+        },
+        {
+          "name": "code",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "order",
+          "type": "number",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "bill_set",
+          "type": "array",
+          "linkMeta": "bill",
+          "linkType": "outer",
+          "outerLinkField": "bill_status",
+          "optional": true,
+          "unique": false,
+          "queryMode": true
+        }
+      ],
+      "cas": false
+    },
+    {
+      "name": "budget_type",
+      "key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "number",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "nextval" }
+        },
+        {
+          "name": "code",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "order",
+          "type": "number",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "matter_set",
+          "type": "array",
+          "linkMeta": "matter",
+          "linkType": "outer",
+          "outerLinkField": "budget_type",
+          "optional": true,
+          "unique": false,
+          "queryMode": true
+        }
+      ],
+      "cas": false
+    },
+    {
+      "name": "candidate",
+      "key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "number",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "nextval" }
+        },
+        {
+          "name": "recruiter",
+          "type": "object",
+          "linkMeta": "employee",
+          "linkType": "inner",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "created",
+          "type": "datetime",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "now" }
+        },
+        {
+          "name": "avatar",
+          "type": "string",
+          "optional": true,
+          "unique": false
+        },
+        {
+          "name": "comment_set",
+          "type": "generic",
+          "linkMeta": "comment",
+          "linkType": "outer",
+          "outerLinkField": "target_object",
+          "optional": true,
+          "unique": false,
+          "queryMode": true
+        },
+        {
+          "name": "cv_record_set",
+          "type": "generic",
+          "linkMeta": "cv_record",
+          "linkType": "outer",
+          "outerLinkField": "target_object",
+          "optional": true,
+          "unique": false,
+          "queryMode": true,
+          "retrieveMode": true
+        },
+        {
+          "name": "document_set",
+          "type": "generic",
+          "linkMeta": "document",
+          "linkType": "outer",
+          "outerLinkField": "target_object",
+          "optional": true,
+          "unique": false,
+          "queryMode": true,
+          "retrieveMode": true
+        },
+        {
+          "name": "contact_set",
+          "type": "generic",
+          "linkMeta": "contact",
+          "linkType": "outer",
+          "outerLinkField": "target_object",
+          "optional": true,
+          "unique": false,
+          "queryMode": true,
+          "retrieveMode": true
+        },
+        {
+          "name": "vacancy_candidate_set",
+          "type": "array",
+          "linkMeta": "vacancy_candidate",
+          "linkType": "outer",
+          "outerLinkField": "candidate",
+          "optional": true,
+          "unique": false,
+          "queryMode": true,
+          "retrieveMode": true
+        }
+      ],
+      "cas": false
+    },
+    {
+      "name": "candidate_status",
+      "key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "number",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "nextval" }
+        },
+        {
+          "name": "code",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "order",
+          "type": "number",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "vacancy_candidate_set",
+          "type": "array",
+          "linkMeta": "vacancy_candidate",
+          "linkType": "outer",
+          "outerLinkField": "candidate_status",
+          "optional": true,
+          "unique": false,
+          "queryMode": true
+        }
+      ],
+      "cas": false
+    },
+    {
+      "name": "client",
+      "key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "number",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "nextval" }
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "client_active_status",
+          "type": "object",
+          "linkMeta": "client_active_status",
+          "linkType": "inner",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "responsible",
+          "type": "object",
+          "linkMeta": "employee",
+          "linkType": "inner",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "client_type",
+          "type": "object",
+          "linkMeta": "client_type",
+          "linkType": "inner",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "created",
+          "type": "datetime",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "now" }
+        },
+        {
+          "name": "conflict_check_date",
+          "type": "datetime",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "now" }
+        },
+        {
+          "name": "revenue",
+          "type": "number",
+          "optional": true,
+          "unique": false,
+          "default": 0
+        },
+        {
+          "name": "payment_set",
+          "type": "array",
+          "linkMeta": "payment",
+          "linkType": "outer",
+          "outerLinkField": "client",
+          "optional": true,
+          "unique": false,
+          "queryMode": true
+        },
+        {
+          "name": "contact_set",
+          "type": "generic",
+          "linkMeta": "contact",
+          "linkType": "outer",
+          "outerLinkField": "target_object",
+          "optional": true,
+          "unique": false,
+          "queryMode": true,
+          "retrieveMode": true
+        },
+        {
+          "name": "comment_set",
+          "type": "generic",
+          "linkMeta": "comment",
+          "linkType": "outer",
+          "outerLinkField": "target_object",
+          "optional": true,
+          "unique": false,
+          "queryMode": true,
+          "retrieveMode": true
+        },
+        {
+          "name": "document_set",
+          "type": "generic",
+          "linkMeta": "document",
+          "linkType": "outer",
+          "outerLinkField": "target_object",
+          "optional": true,
+          "unique": false,
+          "queryMode": true,
+          "retrieveMode": true
+        },
+        {
+          "name": "conflict_firm_set",
+          "type": "array",
+          "linkMeta": "conflict_firm",
+          "linkType": "outer",
+          "outerLinkField": "client",
+          "optional": true,
+          "unique": false,
+          "queryMode": true,
+          "retrieveMode": true
+        },
+        {
+          "name": "contact_person_set",
+          "type": "array",
+          "linkMeta": "contact_person",
+          "linkType": "outer",
+          "outerLinkField": "client",
+          "optional": true,
+          "unique": false,
+          "queryMode": true,
+          "retrieveMode": true
+        },
+        {
+          "name": "matter_set",
+          "type": "array",
+          "linkMeta": "matter",
+          "linkType": "outer",
+          "outerLinkField": "client",
+          "optional": true,
+          "unique": false,
+          "queryMode": true,
+          "retrieveMode": true
+        },
+        {
+          "name": "requisites_set",
+          "type": "array",
+          "linkMeta": "requisites",
+          "linkType": "outer",
+          "outerLinkField": "client",
+          "optional": true,
+          "unique": false,
+          "queryMode": true,
+          "retrieveMode": true
+        },
+        {
+          "name": "conflict_status",
+          "type": "object",
+          "linkMeta": "conflict_status",
+          "linkType": "inner",
+          "optional": true,
+          "unique": false
+        },
+        {
+          "name": "client_rate_set",
+          "type": "array",
+          "linkMeta": "client_rate",
+          "linkType": "outer",
+          "outerLinkField": "client",
+          "optional": true,
+          "unique": false,
+          "queryMode": true,
+          "retrieveMode": true
+        }
+      ],
+      "actions": [
+        {
+          "method": "create",
+          "protocol": "REST",
+          "args": ["http://legal-agents:8080/client/agent_client/"],
+          "activeIfNotRoot": true,
+          "includeValues": { "cas": "cas", "id": "id" },
+          "name": "client_create_action"
+        },
+        {
+          "method": "update",
+          "protocol": "REST",
+          "args": ["http://legal-agents:8080/client/agent_client/"],
+          "activeIfNotRoot": true,
+          "includeValues": { "cas": "cas", "id": "id" },
+          "name": "client_update_action"
+        }
+      ],
+      "cas": false
+    },
+    {
+      "name": "client_active_status",
+      "key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "number",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "nextval" }
+        },
+        {
+          "name": "code",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "order",
+          "type": "number",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "client_set",
+          "type": "array",
+          "linkMeta": "client",
+          "linkType": "outer",
+          "outerLinkField": "client_active_status",
+          "optional": true,
+          "unique": false,
+          "queryMode": true
+        }
+      ],
+      "cas": false
+    },
+    {
+      "name": "client_rate",
+      "key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "number",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "nextval" }
+        },
+        {
+          "name": "client",
+          "type": "object",
+          "linkMeta": "client",
+          "linkType": "inner",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "employee_position",
+          "type": "object",
+          "linkMeta": "employee_position",
+          "linkType": "inner",
+          "optional": false,
+          "unique": false
+        },
+        { "name": "rate", "type": "number", "optional": false, "unique": false }
+      ],
+      "actions": [
+        {
+          "method": "create",
+          "protocol": "REST",
+          "args": ["http://legal-agents:8080/client_rate/agent_client_rate/"],
+          "activeIfNotRoot": true,
+          "includeValues": { "cas": "cas", "id": "id" },
+          "name": "client_rate_create_action"
+        },
+        {
+          "method": "update",
+          "protocol": "REST",
+          "args": ["http://legal-agents:8080/client_rate/agent_client_rate/"],
+          "activeIfNotRoot": true,
+          "includeValues": { "cas": "cas", "id": "id" },
+          "name": "client_rate_update_action"
+        }
+      ],
+      "cas": false
+    },
+    {
+      "name": "client_type",
+      "key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "number",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "nextval" }
+        },
+        {
+          "name": "code",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "order",
+          "type": "number",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "client_set",
+          "type": "array",
+          "linkMeta": "client",
+          "linkType": "outer",
+          "outerLinkField": "client_type",
+          "optional": true,
+          "unique": false,
+          "queryMode": true
+        }
+      ],
+      "cas": false
+    },
+    {
+      "name": "comment",
+      "key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "number",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "nextval" }
+        },
+        {
+          "name": "author",
+          "type": "object",
+          "linkMeta": "employee",
+          "linkType": "inner",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "comment",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "target_object",
+          "type": "generic",
+          "linkMetaList": [
+            "activity",
+            "matter",
+            "client",
+            "candidate",
+            "vacancy_candidate"
+          ],
+          "linkType": "inner",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "created",
+          "type": "datetime",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "now" }
+        }
+      ],
+      "cas": false
+    },
+    {
+      "name": "conflict_firm",
+      "key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "number",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "nextval" }
+        },
+        {
+          "name": "company_code",
+          "type": "string",
+          "optional": true,
+          "unique": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "client",
+          "type": "object",
+          "linkMeta": "client",
+          "linkType": "inner",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "created",
+          "type": "datetime",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "now" }
+        },
+        {
+          "name": "ur_adress",
+          "type": "string",
+          "optional": true,
+          "unique": false
+        },
+        {
+          "name": "details",
+          "type": "string",
+          "optional": true,
+          "unique": false
+        }
+      ],
+      "actions": [
+        {
+          "method": "create",
+          "protocol": "REST",
+          "args": ["http://legal-agents:8080/client/agent_client/"],
+          "activeIfNotRoot": true,
+          "includeValues": { "cas": "cas", "id": "id" },
+          "name": "check_conflict_firm_after_creation"
+        },
+        {
+          "method": "update",
+          "protocol": "REST",
+          "args": ["http://legal-agents:8080/client/agent_client/"],
+          "activeIfNotRoot": true,
+          "includeValues": { "cas": "cas", "id": "id" },
+          "name": "check_confilct_firm_after_update"
+        },
+        {
+          "method": "remove",
+          "protocol": "REST",
+          "args": ["http://legal-agents:8080/client/agent_client/"],
+          "activeIfNotRoot": true,
+          "includeValues": { "cas": "cas", "id": "id" },
+          "name": "check_conflict_firm_after_remove"
+        }
+      ],
+      "cas": false
+    },
+    {
+      "name": "conflict_status",
+      "key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "number",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "nextval" }
+        },
+        {
+          "name": "code",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "order",
+          "type": "number",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "client_set",
+          "type": "array",
+          "linkMeta": "client",
+          "linkType": "outer",
+          "outerLinkField": "conflict_status",
+          "optional": true,
+          "unique": false,
+          "queryMode": true
+        }
+      ],
+      "cas": false
+    },
+    {
+      "name": "contact",
+      "key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "number",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "nextval" }
+        },
+        {
+          "name": "contact_type",
+          "type": "object",
+          "linkMeta": "contact_type",
+          "linkType": "inner",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "target_object",
+          "type": "generic",
+          "linkMetaList": ["employee", "contact_person", "client", "candidate"],
+          "linkType": "inner",
+          "optional": false,
+          "unique": false
+        }
+      ],
+      "cas": false
+    },
+    {
+      "name": "contact_person",
+      "key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "number",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "nextval" }
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "client",
+          "type": "object",
+          "linkMeta": "client",
+          "linkType": "inner",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "created",
+          "type": "datetime",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "now" }
+        },
+        {
+          "name": "position",
+          "type": "string",
+          "optional": true,
+          "unique": false
+        },
+        {
+          "name": "details",
+          "type": "string",
+          "optional": true,
+          "unique": false
+        },
+        {
+          "name": "phone",
+          "type": "string",
+          "optional": true,
+          "unique": false
+        },
+        {
+          "name": "email",
+          "type": "string",
+          "optional": true,
+          "unique": false
+        },
+        {
+          "name": "avatar",
+          "type": "string",
+          "optional": true,
+          "unique": false
+        },
+        {
+          "name": "matter__contact_person_set",
+          "type": "array",
+          "linkMeta": "matter__contact_person",
+          "linkType": "outer",
+          "outerLinkField": "contact_person",
+          "optional": true,
+          "unique": false,
+          "queryMode": true
+        },
+        {
+          "name": "contact_set",
+          "type": "generic",
+          "linkMeta": "contact",
+          "linkType": "outer",
+          "outerLinkField": "target_object",
+          "optional": true,
+          "unique": false,
+          "queryMode": true,
+          "retrieveMode": true
+        }
+      ],
+      "cas": false
+    },
+    {
+      "name": "contact_type",
+      "key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "number",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "nextval" }
+        },
+        {
+          "name": "code",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "order",
+          "type": "number",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "contact_set",
+          "type": "array",
+          "linkMeta": "contact",
+          "linkType": "outer",
+          "outerLinkField": "contact_type",
+          "optional": true,
+          "unique": false,
+          "queryMode": true
+        }
+      ],
+      "cas": false
+    },
+    {
+      "name": "cv_record",
+      "key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "number",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "nextval" }
+        },
+        {
+          "name": "author",
+          "type": "object",
+          "linkMeta": "employee",
+          "linkType": "inner",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "target_object",
+          "type": "generic",
+          "linkMetaList": ["candidate", "employee"],
+          "linkType": "inner",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "created",
+          "type": "datetime",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "now" }
+        }
+      ],
+      "cas": false
+    },
+    {
+      "name": "doc_custom_type",
+      "key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "number",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "nextval" }
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "document_set",
+          "type": "array",
+          "linkMeta": "document",
+          "linkType": "outer",
+          "outerLinkField": "doc_custom_type",
+          "optional": true,
+          "unique": false,
+          "queryMode": true
+        }
+      ],
+      "cas": false
+    },
+    {
+      "name": "document",
+      "key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "number",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "nextval" }
+        },
+        {
+          "name": "author",
+          "type": "object",
+          "linkMeta": "employee",
+          "linkType": "inner",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "file",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "target_object",
+          "type": "generic",
+          "linkMetaList": [
+            "activity",
+            "matter",
+            "client",
+            "invoice",
+            "candidate",
+            "employee",
+            "bill"
+          ],
+          "linkType": "inner",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "document_type",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "created",
+          "type": "datetime",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "now" }
+        },
+        {
+          "name": "doc_custom_type",
+          "type": "object",
+          "linkMeta": "doc_custom_type",
+          "linkType": "inner",
+          "optional": true,
+          "unique": false
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "optional": true,
+          "unique": false
+        },
+        {
+          "name": "filename",
+          "type": "string",
+          "optional": false,
+          "unique": false,
+          "default": "__empty__"
+        }
+      ],
+      "cas": false
+    },
+    {
+      "name": "employee",
+      "key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "number",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "nextval" }
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "position",
+          "type": "object",
+          "linkMeta": "employee_position",
+          "linkType": "inner",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "role",
+          "type": "object",
+          "linkMeta": "employee_role",
+          "linkType": "inner",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "email",
+          "type": "string",
+          "optional": false,
+          "unique": true
+        },
+        {
+          "name": "rate",
+          "type": "number",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "account",
+          "type": "number",
+          "optional": true,
+          "unique": false
+        },
+        {
+          "name": "active",
+          "type": "bool",
+          "optional": true,
+          "unique": false,
+          "default": true
+        },
+        {
+          "name": "created",
+          "type": "datetime",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "now" }
+        },
+        {
+          "name": "avatar",
+          "type": "string",
+          "optional": true,
+          "unique": false
+        },
+        {
+          "name": "phone",
+          "type": "string",
+          "optional": true,
+          "unique": false
+        },
+        {
+          "name": "total_rating",
+          "type": "number",
+          "optional": true,
+          "unique": false
+        },
+        {
+          "name": "client_set",
+          "type": "array",
+          "linkMeta": "client",
+          "linkType": "outer",
+          "outerLinkField": "responsible",
+          "optional": true,
+          "unique": false,
+          "queryMode": true
+        },
+        {
+          "name": "candidate_set",
+          "type": "array",
+          "linkMeta": "candidate",
+          "linkType": "outer",
+          "outerLinkField": "recruiter",
+          "optional": true,
+          "unique": false,
+          "queryMode": true
+        },
+        {
+          "name": "matter_set",
+          "type": "array",
+          "linkMeta": "matter",
+          "linkType": "outer",
+          "outerLinkField": "responsible",
+          "optional": true,
+          "unique": false,
+          "queryMode": true
+        },
+        {
+          "name": "matter_info_set",
+          "type": "array",
+          "linkMeta": "matter_info",
+          "linkType": "outer",
+          "outerLinkField": "author",
+          "optional": true,
+          "unique": false,
+          "queryMode": true
+        },
+        {
+          "name": "request_vacation_set",
+          "type": "array",
+          "linkMeta": "request_vacation",
+          "linkType": "outer",
+          "outerLinkField": "author",
+          "optional": true,
+          "unique": false,
+          "queryMode": true
+        },
+        {
+          "name": "vacancy_set",
+          "type": "array",
+          "linkMeta": "vacancy",
+          "linkType": "outer",
+          "outerLinkField": "recruiter",
+          "optional": true,
+          "unique": false,
+          "queryMode": true
+        },
+        {
+          "name": "vacancy_candidate_set",
+          "type": "array",
+          "linkMeta": "vacancy_candidate",
+          "linkType": "outer",
+          "outerLinkField": "recruiter",
+          "optional": true,
+          "unique": false,
+          "queryMode": true
+        },
+        {
+          "name": "activity_set",
+          "type": "array",
+          "linkMeta": "activity",
+          "linkType": "outer",
+          "outerLinkField": "responsible",
+          "optional": true,
+          "unique": false,
+          "queryMode": true
+        },
+        {
+          "name": "bill_set",
+          "type": "array",
+          "linkMeta": "bill",
+          "linkType": "outer",
+          "outerLinkField": "approver",
+          "optional": true,
+          "unique": false,
+          "queryMode": true
+        },
+        {
+          "name": "invoice_set",
+          "type": "array",
+          "linkMeta": "invoice",
+          "linkType": "outer",
+          "outerLinkField": "author",
+          "optional": true,
+          "unique": false,
+          "queryMode": true
+        },
+        {
+          "name": "payment_set",
+          "type": "array",
+          "linkMeta": "payment",
+          "linkType": "outer",
+          "outerLinkField": "author",
+          "optional": true,
+          "unique": false,
+          "queryMode": true
+        },
+        {
+          "name": "time_entry_set",
+          "type": "array",
+          "linkMeta": "time_entry",
+          "linkType": "outer",
+          "outerLinkField": "author",
+          "optional": true,
+          "unique": false,
+          "queryMode": true
+        },
+        {
+          "name": "price_set",
+          "type": "array",
+          "linkMeta": "price",
+          "linkType": "outer",
+          "outerLinkField": "author",
+          "optional": true,
+          "unique": false,
+          "queryMode": true
+        },
+        {
+          "name": "expense_set",
+          "type": "array",
+          "linkMeta": "expense",
+          "linkType": "outer",
+          "outerLinkField": "author",
+          "optional": true,
+          "unique": false,
+          "queryMode": true
+        },
+        {
+          "name": "comment_set",
+          "type": "array",
+          "linkMeta": "comment",
+          "linkType": "outer",
+          "outerLinkField": "author",
+          "optional": true,
+          "unique": false,
+          "queryMode": true
+        },
+        {
+          "name": "matter__employee_set",
+          "type": "array",
+          "linkMeta": "matter__employee",
+          "linkType": "outer",
+          "outerLinkField": "employee",
+          "optional": true,
+          "unique": false,
+          "queryMode": true
+        },
+        {
+          "name": "bill_price_list__employee_set",
+          "type": "array",
+          "linkMeta": "bill_price_list__employee",
+          "linkType": "outer",
+          "outerLinkField": "employee",
+          "optional": true,
+          "unique": false,
+          "queryMode": true
+        },
+        {
+          "name": "invitation_list__employee_set",
+          "type": "array",
+          "linkMeta": "invitation_list__employee",
+          "linkType": "outer",
+          "outerLinkField": "employee",
+          "optional": true,
+          "unique": false,
+          "queryMode": true
+        },
+        {
+          "name": "contact_set",
+          "type": "generic",
+          "linkMeta": "contact",
+          "linkType": "outer",
+          "outerLinkField": "target_object",
+          "optional": true,
+          "unique": false,
+          "queryMode": true,
+          "retrieveMode": true
+        },
+        {
+          "name": "cv_record_set",
+          "type": "generic",
+          "linkMeta": "cv_record",
+          "linkType": "outer",
+          "outerLinkField": "target_object",
+          "optional": true,
+          "unique": false,
+          "queryMode": true,
+          "retrieveMode": true
+        },
+        {
+          "name": "document_set",
+          "type": "generic",
+          "linkMeta": "document",
+          "linkType": "outer",
+          "outerLinkField": "target_object",
+          "optional": true,
+          "unique": false,
+          "queryMode": true,
+          "retrieveMode": true
+        },
+        {
+          "name": "approver_set",
+          "type": "array",
+          "linkMeta": "approver",
+          "linkType": "outer",
+          "outerLinkField": "employee",
+          "optional": true,
+          "unique": false,
+          "queryMode": true
+        },
+        {
+          "name": "vacation_period_set",
+          "type": "array",
+          "linkMeta": "vacation_period",
+          "linkType": "outer",
+          "outerLinkField": "author",
+          "optional": true,
+          "unique": false,
+          "queryMode": true
+        },
+        {
+          "name": "timer_set",
+          "type": "array",
+          "linkMeta": "timer",
+          "linkType": "outer",
+          "outerLinkField": "employee",
+          "optional": true,
+          "unique": false,
+          "queryMode": true
+        },
+        {
+          "name": "team_member_set",
+          "type": "array",
+          "linkMeta": "team_member",
+          "linkType": "outer",
+          "outerLinkField": "employee",
+          "optional": true,
+          "unique": false,
+          "queryMode": true
+        }
+      ],
+      "actions": [
+        {
+          "method": "update",
+          "protocol": "REST",
+          "args": ["http://legal-agents:8080/employee/agent_employee/"],
+          "activeIfNotRoot": true,
+          "includeValues": { "cas": "cas", "id": "id" },
+          "name": "client_rate_update_action"
+        }
+      ],
+      "cas": false
+    },
+    {
+      "name": "employee_position",
+      "key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "number",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "nextval" }
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "employee_set",
+          "type": "array",
+          "linkMeta": "employee",
+          "linkType": "outer",
+          "outerLinkField": "position",
+          "optional": true,
+          "unique": false,
+          "queryMode": true
+        },
+        {
+          "name": "client_rate_set",
+          "type": "array",
+          "linkMeta": "client_rate",
+          "linkType": "outer",
+          "outerLinkField": "employee_position",
+          "optional": true,
+          "unique": false,
+          "queryMode": true
+        }
+      ],
+      "cas": false
+    },
+    {
+      "name": "employee_role",
+      "key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "number",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "nextval" }
+        },
+        {
+          "name": "code",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "order",
+          "type": "number",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "employee_set",
+          "type": "array",
+          "linkMeta": "employee",
+          "linkType": "outer",
+          "outerLinkField": "role",
+          "optional": true,
+          "unique": false,
+          "queryMode": true
+        }
+      ],
+      "cas": false
+    },
+    {
+      "name": "expense",
+      "key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "number",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "nextval" }
+        },
+        {
+          "name": "author",
+          "type": "object",
+          "linkMeta": "employee",
+          "linkType": "inner",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "amount",
+          "type": "number",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "created",
+          "type": "datetime",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "now" }
+        },
+        {
+          "name": "expense_type",
+          "type": "object",
+          "linkMeta": "expense_type",
+          "linkType": "inner",
+          "optional": true,
+          "unique": false
+        },
+        {
+          "name": "billiable",
+          "type": "bool",
+          "optional": true,
+          "unique": false
+        },
+        {
+          "name": "details",
+          "type": "string",
+          "optional": true,
+          "unique": false
+        },
+        {
+          "name": "bill",
+          "type": "object",
+          "linkMeta": "bill",
+          "linkType": "inner",
+          "optional": true,
+          "unique": false
+        },
+        {
+          "name": "matter",
+          "type": "object",
+          "linkMeta": "matter",
+          "linkType": "inner",
+          "optional": true,
+          "unique": false
+        },
+        {
+          "name": "expense_date",
+          "type": "datetime",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "now" }
+        }
+      ],
+      "actions": [
+        {
+          "method": "remove",
+          "protocol": "REST",
+          "args": ["http://legal-agents:8080/expense/agent_delete/"],
+          "activeIfNotRoot": true,
+          "includeValues": { "cas": "cas", "id": "id" },
+          "name": "expense_delete_action"
+        },
+        {
+          "method": "create",
+          "protocol": "REST",
+          "args": ["http://legal-agents:8080/expense/agent_expense/"],
+          "activeIfNotRoot": true,
+          "includeValues": { "cas": "cas", "id": "id" },
+          "name": "expense_create_action"
+        },
+        {
+          "method": "update",
+          "protocol": "REST",
+          "args": ["http://legal-agents:8080/expense/agent_expense/"],
+          "activeIfNotRoot": true,
+          "includeValues": { "cas": "cas", "id": "id" },
+          "name": "expense_update_action"
+        }
+      ],
+      "cas": false
+    },
+    {
+      "name": "expense_type",
+      "key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "number",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "nextval" }
+        },
+        {
+          "name": "code",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "order",
+          "type": "number",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "expense_set",
+          "type": "array",
+          "linkMeta": "expense",
+          "linkType": "outer",
+          "outerLinkField": "expense_type",
+          "optional": true,
+          "unique": false,
+          "queryMode": true
+        }
+      ],
+      "cas": false
+    },
+    {
+      "name": "invitation_list",
+      "key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "number",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "nextval" }
+        },
+        {
+          "name": "employee",
+          "type": "objects",
+          "linkMeta": "employee",
+          "linkType": "inner",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "invitation_list__employee_set",
+          "type": "array",
+          "linkMeta": "invitation_list__employee",
+          "linkType": "outer",
+          "outerLinkField": "invitation_list",
+          "optional": true,
+          "unique": false,
+          "queryMode": true
+        },
+        {
+          "name": "activity_set",
+          "type": "array",
+          "linkMeta": "activity",
+          "linkType": "outer",
+          "outerLinkField": "invitation_list",
+          "optional": true,
+          "unique": false,
+          "queryMode": true,
+          "retrieveMode": true
+        }
+      ],
+      "cas": false
+    },
+    {
+      "name": "invitation_list__employee",
+      "key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "number",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "nextval" }
+        },
+        {
+          "name": "employee",
+          "type": "object",
+          "linkMeta": "employee",
+          "linkType": "inner",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "invitation_list",
+          "type": "object",
+          "linkMeta": "invitation_list",
+          "linkType": "inner",
+          "optional": true,
+          "unique": false
+        }
+      ],
+      "cas": false
+    },
+    {
+      "name": "invoice",
+      "key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "number",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "nextval" }
+        },
+        {
+          "name": "author",
+          "type": "object",
+          "linkMeta": "employee",
+          "linkType": "inner",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "number",
+          "type": "string",
+          "optional": true,
+          "unique": false
+        },
+        {
+          "name": "bill",
+          "type": "object",
+          "linkMeta": "bill",
+          "linkType": "inner",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "file",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "created",
+          "type": "datetime",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "now" }
+        },
+        {
+          "name": "document_set",
+          "type": "generic",
+          "linkMeta": "document",
+          "linkType": "outer",
+          "outerLinkField": "target_object",
+          "optional": true,
+          "unique": false,
+          "queryMode": true
+        }
+      ],
+      "cas": false
+    },
+    {
+      "name": "matter",
+      "key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "number",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "nextval" }
+        },
+        { "name": "code", "type": "string", "optional": true, "unique": false },
+        {
+          "name": "name",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "responsible",
+          "type": "object",
+          "linkMeta": "employee",
+          "linkType": "inner",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "client",
+          "type": "object",
+          "linkMeta": "client",
+          "linkType": "inner",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "matter_type",
+          "type": "object",
+          "linkMeta": "matter_type",
+          "linkType": "inner",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "matter_status",
+          "type": "object",
+          "linkMeta": "matter_status",
+          "linkType": "inner",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "matter_active_status",
+          "type": "object",
+          "linkMeta": "matter_active_status",
+          "linkType": "inner",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "budget_type",
+          "type": "object",
+          "linkMeta": "budget_type",
+          "linkType": "inner",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "contact_persons",
+          "type": "objects",
+          "linkMeta": "contact_person",
+          "linkType": "inner",
+          "optional": true,
+          "unique": false
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "optional": true,
+          "unique": false
+        },
+        {
+          "name": "amount",
+          "type": "number",
+          "optional": true,
+          "unique": false
+        },
+        {
+          "name": "created",
+          "type": "datetime",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "now" }
+        },
+        {
+          "name": "total_bill_amount",
+          "type": "number",
+          "optional": true,
+          "unique": false,
+          "default": 0
+        },
+        {
+          "name": "start_date",
+          "type": "datetime",
+          "optional": true,
+          "unique": false
+        },
+        {
+          "name": "end_date",
+          "type": "datetime",
+          "optional": true,
+          "unique": false
+        },
+        {
+          "name": "activity_set",
+          "type": "array",
+          "linkMeta": "activity",
+          "linkType": "outer",
+          "outerLinkField": "matter",
+          "optional": true,
+          "unique": false,
+          "queryMode": true
+        },
+        {
+          "name": "bill_set",
+          "type": "array",
+          "linkMeta": "bill",
+          "linkType": "outer",
+          "outerLinkField": "matter",
+          "optional": true,
+          "unique": false,
+          "queryMode": true
+        },
+        {
+          "name": "payment_set",
+          "type": "array",
+          "linkMeta": "payment",
+          "linkType": "outer",
+          "outerLinkField": "matter",
+          "optional": true,
+          "unique": false,
+          "queryMode": true
+        },
+        {
+          "name": "time_entry_set",
+          "type": "array",
+          "linkMeta": "time_entry",
+          "linkType": "outer",
+          "outerLinkField": "matter",
+          "optional": true,
+          "unique": false,
+          "queryMode": true
+        },
+        {
+          "name": "expense_set",
+          "type": "array",
+          "linkMeta": "expense",
+          "linkType": "outer",
+          "outerLinkField": "matter",
+          "optional": true,
+          "unique": false,
+          "queryMode": true
+        },
+        {
+          "name": "bill_price_list_set",
+          "type": "array",
+          "linkMeta": "bill_price_list",
+          "linkType": "outer",
+          "outerLinkField": "matter",
+          "optional": true,
+          "unique": false,
+          "queryMode": true
+        },
+        {
+          "name": "document_set",
+          "type": "generic",
+          "linkMeta": "document",
+          "linkType": "outer",
+          "outerLinkField": "target_object",
+          "optional": true,
+          "unique": false,
+          "queryMode": true
+        },
+        {
+          "name": "matter__contact_person_set",
+          "type": "array",
+          "linkMeta": "matter__contact_person",
+          "linkType": "outer",
+          "outerLinkField": "matter",
+          "optional": true,
+          "unique": false,
+          "queryMode": true
+        },
+        {
+          "name": "comment_set",
+          "type": "generic",
+          "linkMeta": "comment",
+          "linkType": "outer",
+          "outerLinkField": "target_object",
+          "optional": true,
+          "unique": false,
+          "queryMode": true,
+          "retrieveMode": true
+        },
+        {
+          "name": "matter_info_set",
+          "type": "array",
+          "linkMeta": "matter_info",
+          "linkType": "outer",
+          "outerLinkField": "matter",
+          "optional": true,
+          "unique": false,
+          "queryMode": true,
+          "retrieveMode": true
+        },
+        {
+          "name": "team_member_set",
+          "type": "array",
+          "linkMeta": "team_member",
+          "linkType": "outer",
+          "outerLinkField": "matter",
+          "optional": true,
+          "unique": false,
+          "queryMode": true,
+          "retrieveMode": true
+        }
+      ],
+      "actions": [
+        {
+          "method": "create",
+          "protocol": "REST",
+          "args": ["http://legal-agents:8080/matter/agent_matter/"],
+          "activeIfNotRoot": true,
+          "includeValues": { "cas": "cas", "id": "id" },
+          "name": "29b58a9f"
+        },
+        {
+          "method": "update",
+          "protocol": "REST",
+          "args": ["http://legal-agents:8080/matter/agent_matter/"],
+          "activeIfNotRoot": true,
+          "includeValues": { "cas": "cas", "id": "id" },
+          "name": "matter_update_action"
+        }
+      ],
+      "cas": false
+    },
+    {
+      "name": "matter__contact_person",
+      "key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "number",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "nextval" }
+        },
+        {
+          "name": "matter",
+          "type": "object",
+          "linkMeta": "matter",
+          "linkType": "inner",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "contact_person",
+          "type": "object",
+          "linkMeta": "contact_person",
+          "linkType": "inner",
+          "optional": false,
+          "unique": false
+        }
+      ],
+      "cas": false
+    },
+    {
+      "name": "matter__employee",
+      "key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "number",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "nextval" }
+        },
+        {
+          "name": "employee",
+          "type": "object",
+          "linkMeta": "employee",
+          "linkType": "inner",
+          "optional": false,
+          "unique": false
+        }
+      ],
+      "cas": false
+    },
+    {
+      "name": "matter_active_status",
+      "key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "number",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "nextval" }
+        },
+        {
+          "name": "code",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "order",
+          "type": "number",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "matter_set",
+          "type": "array",
+          "linkMeta": "matter",
+          "linkType": "outer",
+          "outerLinkField": "matter_active_status",
+          "optional": true,
+          "unique": false,
+          "queryMode": true
+        }
+      ],
+      "cas": false
+    },
+    {
+      "name": "matter_info",
+      "key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "number",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "nextval" }
+        },
+        {
+          "name": "author",
+          "type": "object",
+          "linkMeta": "employee",
+          "linkType": "inner",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "info",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "matter",
+          "type": "object",
+          "linkMeta": "matter",
+          "linkType": "inner",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "created",
+          "type": "datetime",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "now" }
+        }
+      ],
+      "cas": false
+    },
+    {
+      "name": "matter_status",
+      "key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "number",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "nextval" }
+        },
+        {
+          "name": "code",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "order",
+          "type": "number",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "matter_set",
+          "type": "array",
+          "linkMeta": "matter",
+          "linkType": "outer",
+          "outerLinkField": "matter_status",
+          "optional": true,
+          "unique": false,
+          "queryMode": true
+        }
+      ],
+      "cas": false
+    },
+    {
+      "name": "matter_type",
+      "key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "number",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "nextval" }
+        },
+        {
+          "name": "code",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "order",
+          "type": "number",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "matter_set",
+          "type": "array",
+          "linkMeta": "matter",
+          "linkType": "outer",
+          "outerLinkField": "matter_type",
+          "optional": true,
+          "unique": false,
+          "queryMode": true
+        }
+      ],
+      "cas": false
+    },
+    {
+      "name": "paid_status",
+      "key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "number",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "nextval" }
+        },
+        {
+          "name": "code",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "order",
+          "type": "number",
+          "optional": false,
+          "unique": false
+        }
+      ],
+      "cas": false
+    },
+    {
+      "name": "payment",
+      "key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "number",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "nextval" }
+        },
+        {
+          "name": "author",
+          "type": "object",
+          "linkMeta": "employee",
+          "linkType": "inner",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "sum_payment",
+          "type": "number",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "client",
+          "type": "object",
+          "linkMeta": "client",
+          "linkType": "inner",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "number",
+          "type": "string",
+          "optional": true,
+          "unique": false
+        },
+        {
+          "name": "created",
+          "type": "datetime",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "now" }
+        },
+        {
+          "name": "payment_date",
+          "type": "datetime",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "now" }
+        },
+        {
+          "name": "matter",
+          "type": "object",
+          "linkMeta": "matter",
+          "linkType": "inner",
+          "optional": true,
+          "unique": false
+        },
+        {
+          "name": "bill",
+          "type": "object",
+          "linkMeta": "bill",
+          "linkType": "inner",
+          "optional": true,
+          "unique": false
+        }
+      ],
+      "actions": [
+        {
+          "method": "create",
+          "protocol": "REST",
+          "args": ["http://legal-agents:8080/payment/agent_payment/"],
+          "activeIfNotRoot": true,
+          "includeValues": { "cas": "cas", "id": "id" },
+          "name": "e425f0b3"
+        },
+        {
+          "method": "update",
+          "protocol": "REST",
+          "args": ["http://legal-agents:8080/payment/agent_payment/"],
+          "activeIfNotRoot": true,
+          "includeValues": { "cas": "cas", "id": "id" },
+          "name": "242fe644"
+        },
+        {
+          "method": "remove",
+          "protocol": "REST",
+          "args": ["http://legal-agents:8080/payment/agent_delete_payment/"],
+          "activeIfNotRoot": true,
+          "includeValues": { "cas": "cas", "id": "id" },
+          "name": "9c2b5ef4"
+        }
+      ],
+      "cas": false
+    },
+    {
+      "name": "price",
+      "key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "number",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "nextval" }
+        },
+        {
+          "name": "number",
+          "type": "number",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "price_unit",
+          "type": "object",
+          "linkMeta": "price_unit",
+          "linkType": "inner",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "amount",
+          "type": "number",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "author",
+          "type": "object",
+          "linkMeta": "employee",
+          "linkType": "inner",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "created",
+          "type": "datetime",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "now" }
+        },
+        {
+          "name": "utbms",
+          "type": "object",
+          "linkMeta": "utbms",
+          "linkType": "inner",
+          "optional": true,
+          "unique": false
+        },
+        {
+          "name": "service_type",
+          "type": "object",
+          "linkMeta": "service_type",
+          "linkType": "inner",
+          "optional": true,
+          "unique": false
+        }
+      ],
+      "cas": false
+    },
+    {
+      "name": "price_unit",
+      "key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "number",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "nextval" }
+        },
+        {
+          "name": "code",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "order",
+          "type": "number",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "price_set",
+          "type": "array",
+          "linkMeta": "price",
+          "linkType": "outer",
+          "outerLinkField": "price_unit",
+          "optional": true,
+          "unique": false,
+          "queryMode": true
+        }
+      ],
+      "cas": false
+    },
+    {
+      "name": "rate_type",
+      "key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "number",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "nextval" }
+        },
+        {
+          "name": "code",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "order",
+          "type": "number",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "team_member_set",
+          "type": "array",
+          "linkMeta": "team_member",
+          "linkType": "outer",
+          "outerLinkField": "rate_type",
+          "optional": true,
+          "unique": false,
+          "queryMode": true
+        }
+      ],
+      "cas": false
+    },
+    {
+      "name": "request_vacation",
+      "key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "number",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "nextval" }
+        },
+        {
+          "name": "author",
+          "type": "object",
+          "linkMeta": "employee",
+          "linkType": "inner",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "status_request_vacation",
+          "type": "object",
+          "linkMeta": "status_request_vacation",
+          "linkType": "inner",
+          "optional": true,
+          "unique": false
+        },
+        {
+          "name": "created",
+          "type": "datetime",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "now" }
+        },
+        {
+          "name": "status_date",
+          "type": "datetime",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "now" }
+        },
+        {
+          "name": "number",
+          "type": "string",
+          "optional": true,
+          "unique": false
+        },
+        {
+          "name": "vacation_period_set",
+          "type": "array",
+          "linkMeta": "vacation_period",
+          "linkType": "outer",
+          "outerLinkField": "request_vacation",
+          "optional": true,
+          "unique": false,
+          "queryMode": true,
+          "retrieveMode": true
+        },
+        {
+          "name": "approver_set",
+          "type": "array",
+          "linkMeta": "approver",
+          "linkType": "outer",
+          "outerLinkField": "request_vacation",
+          "optional": true,
+          "unique": false,
+          "queryMode": true,
+          "retrieveMode": true
+        }
+      ],
+      "actions": [
+        {
+          "method": "create",
+          "protocol": "REST",
+          "args": [
+            "http://legal-agents:8080/request_vacation/agent_request_vacation/"
+          ],
+          "activeIfNotRoot": true,
+          "includeValues": { "cas": "cas", "id": "id" },
+          "name": "request_vacation_create_action"
+        },
+        {
+          "method": "update",
+          "protocol": "REST",
+          "args": [
+            "http://legal-agents:8080/request_vacation/agent_request_vacation/"
+          ],
+          "activeIfNotRoot": true,
+          "includeValues": { "cas": "cas", "id": "id" },
+          "name": "request_vacation_update_action"
+        }
+      ],
+      "cas": false
+    },
+    {
+      "name": "requisites",
+      "key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "number",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "nextval" }
+        },
+        {
+          "name": "legal_name",
+          "type": "string",
+          "optional": true,
+          "unique": false
+        },
+        { "name": "inn", "type": "string", "optional": true, "unique": false },
+        {
+          "name": "legal_address",
+          "type": "string",
+          "optional": true,
+          "unique": false
+        },
+        { "name": "ogrn", "type": "string", "optional": true, "unique": false },
+        { "name": "kpp", "type": "string", "optional": true, "unique": false },
+        {
+          "name": "director",
+          "type": "string",
+          "optional": true,
+          "unique": false
+        },
+        {
+          "name": "accaunter",
+          "type": "string",
+          "optional": true,
+          "unique": false
+        },
+        {
+          "name": "client",
+          "type": "object",
+          "linkMeta": "client",
+          "linkType": "inner",
+          "optional": true,
+          "unique": false
+        },
+        {
+          "name": "bank_details_set",
+          "type": "array",
+          "linkMeta": "bank_details",
+          "linkType": "outer",
+          "outerLinkField": "requisites",
+          "optional": true,
+          "unique": false,
+          "queryMode": true,
+          "retrieveMode": true
+        }
+      ],
+      "actions": [
+        {
+          "method": "create",
+          "protocol": "REST",
+          "args": ["http://legal-agents:8080/client/agent_client/"],
+          "activeIfNotRoot": true,
+          "includeValues": { "cas": "cas", "id": "id" },
+          "name": "check_requisites_after_creation"
+        },
+        {
+          "method": "update",
+          "protocol": "REST",
+          "args": ["http://legal-agents:8080/client/agent_client/"],
+          "activeIfNotRoot": true,
+          "includeValues": { "cas": "cas", "id": "id" },
+          "name": "check_requisites_after_update"
+        },
+        {
+          "method": "remove",
+          "protocol": "REST",
+          "args": ["http://legal-agents:8080/client/agent_client/"],
+          "activeIfNotRoot": true,
+          "includeValues": { "cas": "cas", "id": "id" },
+          "name": "check_requisites_after_remove"
+        }
+      ],
+      "cas": false
+    },
+    {
+      "name": "resolve_candidate",
+      "key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "number",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "nextval" }
+        },
+        {
+          "name": "code",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "order",
+          "type": "number",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "vacancy_candidate_set",
+          "type": "array",
+          "linkMeta": "vacancy_candidate",
+          "linkType": "outer",
+          "outerLinkField": "resolve_candidate",
+          "optional": true,
+          "unique": false,
+          "queryMode": true
+        }
+      ],
+      "cas": false
+    },
+    {
+      "name": "service_type",
+      "key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "number",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "nextval" }
+        },
+        {
+          "name": "code",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "order",
+          "type": "number",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "price_set",
+          "type": "array",
+          "linkMeta": "price",
+          "linkType": "outer",
+          "outerLinkField": "service_type",
+          "optional": true,
+          "unique": false,
+          "queryMode": true
+        }
+      ],
+      "cas": false
+    },
+    {
+      "name": "status_request_vacation",
+      "key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "number",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "nextval" }
+        },
+        {
+          "name": "code",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "order",
+          "type": "number",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "request_vacation_set",
+          "type": "array",
+          "linkMeta": "request_vacation",
+          "linkType": "outer",
+          "outerLinkField": "status_request_vacation",
+          "optional": true,
+          "unique": false,
+          "queryMode": true
+        }
+      ],
+      "cas": false
+    },
+    {
+      "name": "team_member",
+      "key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "number",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "nextval" }
+        },
+        {
+          "name": "employee",
+          "type": "object",
+          "linkMeta": "employee",
+          "linkType": "inner",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "matter",
+          "type": "object",
+          "linkMeta": "matter",
+          "linkType": "inner",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "rate_type",
+          "type": "object",
+          "linkMeta": "rate_type",
+          "linkType": "inner",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "rate",
+          "type": "number",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "assessment_set",
+          "type": "array",
+          "linkMeta": "assessment",
+          "linkType": "outer",
+          "outerLinkField": "team_member",
+          "optional": true,
+          "unique": false,
+          "queryMode": true,
+          "retrieveMode": true
+        }
+      ],
+      "cas": false
+    },
+    {
+      "name": "time_entry",
+      "key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "number",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "nextval" }
+        },
+        {
+          "name": "author",
+          "type": "object",
+          "linkMeta": "employee",
+          "linkType": "inner",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "time_entry_billable",
+          "type": "object",
+          "linkMeta": "time_entry_billable",
+          "linkType": "inner",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "duration",
+          "type": "number",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "matter",
+          "type": "object",
+          "linkMeta": "matter",
+          "linkType": "inner",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "time_entry_date",
+          "type": "datetime",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "now" }
+        },
+        {
+          "name": "created",
+          "type": "datetime",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "now" }
+        },
+        {
+          "name": "details",
+          "type": "string",
+          "optional": true,
+          "unique": false
+        },
+        {
+          "name": "activity",
+          "type": "object",
+          "linkMeta": "activity",
+          "linkType": "inner",
+          "optional": true,
+          "unique": false
+        },
+        {
+          "name": "bill",
+          "type": "object",
+          "linkMeta": "bill",
+          "linkType": "inner",
+          "optional": true,
+          "unique": false
+        },
+        {
+          "name": "approved_duration",
+          "type": "number",
+          "optional": true,
+          "unique": false
+        },
+        {
+          "name": "approved_date",
+          "type": "datetime",
+          "optional": true,
+          "unique": false
+        },
+        {
+          "name": "utbms",
+          "type": "object",
+          "linkMeta": "utbms",
+          "linkType": "inner",
+          "optional": true,
+          "unique": false
+        },
+        {
+          "name": "time_entry_status",
+          "type": "object",
+          "linkMeta": "time_entry_status",
+          "linkType": "inner",
+          "optional": true,
+          "unique": false
+        },
+        {
+          "name": "rate",
+          "type": "number",
+          "optional": true,
+          "unique": false,
+          "default": 0
+        },
+        {
+          "name": "approve_rate",
+          "type": "number",
+          "optional": true,
+          "unique": false,
+          "default": 0
+        },
+        {
+          "name": "deleted",
+          "type": "bool",
+          "optional": true,
+          "unique": false,
+          "default": false
+        },
+        {
+          "name": "sum_record",
+          "type": "number",
+          "optional": true,
+          "unique": false,
+          "default": 0
+        },
+        {
+          "name": "approved_sum_record",
+          "type": "number",
+          "optional": true,
+          "unique": false,
+          "default": 0
+        },
+        {
+          "name": "have_time",
+          "type": "bool",
+          "optional": true,
+          "unique": false,
+          "default": false
+        },
+        {
+          "name": "time_entry_end_date",
+          "type": "datetime",
+          "optional": true,
+          "unique": false
+        }
+      ],
+      "actions": [
+        {
+          "method": "create",
+          "protocol": "REST",
+          "args": ["http://legal-agents:8080/time_entry/agent_setup/"],
+          "activeIfNotRoot": true,
+          "includeValues": {
+            "approve_rate": "approve_rate",
+            "approved_duration": "approved_duration",
+            "author": "author",
+            "cas": "cas",
+            "duration": "duration",
+            "id": "id",
+            "rate": "rate"
+          },
+          "name": "c3bb449a"
+        },
+        {
+          "method": "update",
+          "protocol": "REST",
+          "args": ["http://legal-agents:8080/time_entry/agent_setup/"],
+          "activeIfNotRoot": true,
+          "includeValues": {
+            "approve_rate": "approve_rate",
+            "approved_duration": "approved_duration",
+            "author": "author",
+            "cas": "cas",
+            "duration": "duration",
+            "id": "id",
+            "rate": "rate"
+          },
+          "name": "8ae38c63"
+        },
+        {
+          "method": "remove",
+          "protocol": "REST",
+          "args": ["http://legal-agents:8080/time_entry/agent_delete/"],
+          "activeIfNotRoot": true,
+          "includeValues": { "cas": "cas", "id": "id" },
+          "name": "00042504"
+        },
+        {
+          "method": "create",
+          "protocol": "REST",
+          "args": ["http://legal-agents:8080/payment/agent_payment/"],
+          "activeIfNotRoot": true,
+          "includeValues": { "cas": "cas", "id": "id" },
+          "name": "49b27984"
+        },
+        {
+          "method": "update",
+          "protocol": "REST",
+          "args": ["http://legal-agents:8080/payment/agent_payment/"],
+          "activeIfNotRoot": true,
+          "includeValues": { "cas": "cas", "id": "id" },
+          "name": "12f83621"
+        },
+        {
+          "method": "remove",
+          "protocol": "REST",
+          "args": ["http://legal-agents:8080/payment/agent_delete_payment/"],
+          "activeIfNotRoot": true,
+          "includeValues": { "cas": "cas", "id": "id" },
+          "name": "0d2a906e"
+        }
+      ],
+      "cas": false
+    },
+    {
+      "name": "time_entry_billable",
+      "key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "number",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "nextval" }
+        },
+        {
+          "name": "code",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "order",
+          "type": "number",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "time_entry_set",
+          "type": "array",
+          "linkMeta": "time_entry",
+          "linkType": "outer",
+          "outerLinkField": "time_entry_billable",
+          "optional": true,
+          "unique": false,
+          "queryMode": true
+        }
+      ],
+      "cas": false
+    },
+    {
+      "name": "time_entry_status",
+      "key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "number",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "nextval" }
+        },
+        {
+          "name": "code",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "order",
+          "type": "number",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "time_entry_set",
+          "type": "array",
+          "linkMeta": "time_entry",
+          "linkType": "outer",
+          "outerLinkField": "time_entry_status",
+          "optional": true,
+          "unique": false,
+          "queryMode": true
+        }
+      ],
+      "cas": false
+    },
+    {
+      "name": "timer",
+      "key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "number",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "nextval" }
+        },
+        {
+          "name": "timer_status",
+          "type": "object",
+          "linkMeta": "timer_status",
+          "linkType": "inner",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "employee",
+          "type": "object",
+          "linkMeta": "employee",
+          "linkType": "inner",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "activity",
+          "type": "object",
+          "linkMeta": "activity",
+          "linkType": "inner",
+          "optional": true,
+          "unique": false
+        },
+        {
+          "name": "start",
+          "type": "datetime",
+          "optional": true,
+          "unique": false
+        },
+        {
+          "name": "duration",
+          "type": "number",
+          "optional": true,
+          "unique": false,
+          "default": 0
+        }
+      ],
+      "actions": [
+        {
+          "method": "create",
+          "protocol": "REST",
+          "args": ["http://legal-agents:8080/timer/agent_timer/"],
+          "activeIfNotRoot": true,
+          "includeValues": { "cas": "cas", "id": "id" },
+          "name": "timer_create_action"
+        },
+        {
+          "method": "update",
+          "protocol": "REST",
+          "args": ["http://legal-agents:8080/timer/agent_timer/"],
+          "activeIfNotRoot": true,
+          "includeValues": { "cas": "cas", "id": "id" },
+          "name": "timer_update_action"
+        }
+      ],
+      "cas": false
+    },
+    {
+      "name": "timer_status",
+      "key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "number",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "nextval" }
+        },
+        {
+          "name": "code",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "order",
+          "type": "number",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "timer_set",
+          "type": "array",
+          "linkMeta": "timer",
+          "linkType": "outer",
+          "outerLinkField": "timer_status",
+          "optional": true,
+          "unique": false,
+          "queryMode": true
+        }
+      ],
+      "cas": false
+    },
+    {
+      "name": "utbms",
+      "key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "number",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "nextval" }
+        },
+        {
+          "name": "code",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "order",
+          "type": "number",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "time_entry_set",
+          "type": "array",
+          "linkMeta": "time_entry",
+          "linkType": "outer",
+          "outerLinkField": "utbms",
+          "optional": true,
+          "unique": false,
+          "queryMode": true
+        },
+        {
+          "name": "price_set",
+          "type": "array",
+          "linkMeta": "price",
+          "linkType": "outer",
+          "outerLinkField": "utbms",
+          "optional": true,
+          "unique": false,
+          "queryMode": true
+        }
+      ],
+      "cas": false
+    },
+    {
+      "name": "vacancy",
+      "key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "number",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "nextval" }
+        },
+        {
+          "name": "recruiter",
+          "type": "object",
+          "linkMeta": "employee",
+          "linkType": "inner",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "vacancy_status",
+          "type": "object",
+          "linkMeta": "vacancy_status",
+          "linkType": "inner",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "details",
+          "type": "string",
+          "optional": true,
+          "unique": false
+        },
+        {
+          "name": "created",
+          "type": "datetime",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "now" }
+        },
+        {
+          "name": "vacancy_candidate_set",
+          "type": "array",
+          "linkMeta": "vacancy_candidate",
+          "linkType": "outer",
+          "outerLinkField": "vacancy",
+          "optional": true,
+          "unique": false,
+          "queryMode": true,
+          "retrieveMode": true
+        }
+      ],
+      "cas": false
+    },
+    {
+      "name": "vacancy_candidate",
+      "key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "number",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "nextval" }
+        },
+        {
+          "name": "recruiter",
+          "type": "object",
+          "linkMeta": "employee",
+          "linkType": "inner",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "candidate_status",
+          "type": "object",
+          "linkMeta": "candidate_status",
+          "linkType": "inner",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "resolve_candidate",
+          "type": "object",
+          "linkMeta": "resolve_candidate",
+          "linkType": "inner",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "candidate",
+          "type": "object",
+          "linkMeta": "candidate",
+          "linkType": "inner",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "vacancy",
+          "type": "object",
+          "linkMeta": "vacancy",
+          "linkType": "inner",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "created",
+          "type": "datetime",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "now" }
+        },
+        {
+          "name": "status_date",
+          "type": "datetime",
+          "optional": true,
+          "unique": false
+        },
+        {
+          "name": "resolve_date",
+          "type": "datetime",
+          "optional": true,
+          "unique": false
+        },
+        {
+          "name": "comment_set",
+          "type": "generic",
+          "linkMeta": "comment",
+          "linkType": "outer",
+          "outerLinkField": "target_object",
+          "optional": true,
+          "unique": false,
+          "queryMode": true,
+          "retrieveMode": true
+        }
+      ],
+      "cas": false
+    },
+    {
+      "name": "vacancy_status",
+      "key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "number",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "nextval" }
+        },
+        {
+          "name": "code",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "order",
+          "type": "number",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "vacancy_set",
+          "type": "array",
+          "linkMeta": "vacancy",
+          "linkType": "outer",
+          "outerLinkField": "vacancy_status",
+          "optional": true,
+          "unique": false,
+          "queryMode": true
+        }
+      ],
+      "cas": false
+    },
+    {
+      "name": "vacation_period",
+      "key": "id",
+      "fields": [
+        {
+          "name": "id",
+          "type": "number",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "nextval" }
+        },
+        {
+          "name": "start_date",
+          "type": "datetime",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "end_date",
+          "type": "datetime",
+          "optional": false,
+          "unique": false
+        },
+        { "name": "paid", "type": "bool", "optional": false, "unique": false },
+        {
+          "name": "request_vacation",
+          "type": "object",
+          "linkMeta": "request_vacation",
+          "linkType": "inner",
+          "optional": true,
+          "unique": false
+        },
+        {
+          "name": "created",
+          "type": "datetime",
+          "optional": true,
+          "unique": false,
+          "default": { "func": "now" }
+        },
+        {
+          "name": "author",
+          "type": "object",
+          "linkMeta": "employee",
+          "linkType": "inner",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "vacation_is",
+          "type": "object",
+          "linkMeta": "employee",
+          "linkType": "inner",
+          "optional": false,
+          "unique": false
+        }
+      ],
+      "cas": false
+    }
+  ],
+  "status": "OK",
+  "total_count": 64
+}

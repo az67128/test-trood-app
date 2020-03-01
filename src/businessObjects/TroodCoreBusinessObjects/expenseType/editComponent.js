@@ -1,34 +1,51 @@
-import React from 'react';
-import TInput, { INPUT_TYPES } from '$trood/components/TInput'
+import React from 'react'
 import TInput, { INPUT_TYPES } from '$trood/components/TInput'
 
-const EditComponent = ({ model, modelErrors, modelFormActions }) => {
+const EditComponent = ({
+  model,
+  modelErrors,
+  modelFormActions, 
+}) => {
 
   return (
     <React.Fragment>
       <TInput
           {...{
-          label: 'id',
+          type: INPUT_TYPES.multi,
+          label: 'code',
           placeholder: 'Not chosen',
-          type: INPUT_TYPES.float,
-          value: model.id,
-          errors: modelErrors.id,
-          onChange: val => modelFormActions.changeField('id', val),
-          onValid: () => modelFormActions.resetFieldError('id'),
-          onInvalid: err => modelFormActions.setFieldError('id', err),
+          value: model.code,
+          errors: modelErrors.code,
+          onChange: val => modelFormActions.changeField('code', val),
+          onValid: () => modelFormActions.resetFieldError('code'),
+          onInvalid: err => modelFormActions.setFieldError('code', err),
           validate: {
             checkOnBlur: true,
-            required: false,
+            required: true,
           },
         }}
       />
-code-string
-name-string
       <TInput
           {...{
+          type: INPUT_TYPES.multi,
+          label: 'name',
+          placeholder: 'Not chosen',
+          value: model.name,
+          errors: modelErrors.name,
+          onChange: val => modelFormActions.changeField('name', val),
+          onValid: () => modelFormActions.resetFieldError('name'),
+          onInvalid: err => modelFormActions.setFieldError('name', err),
+          validate: {
+            checkOnBlur: true,
+            required: true,
+          },
+        }}
+      />
+      <TInput
+          {...{
+          type: INPUT_TYPES.float,
           label: 'order',
           placeholder: 'Not chosen',
-          type: INPUT_TYPES.float,
           value: model.order,
           errors: modelErrors.order,
           onChange: val => modelFormActions.changeField('order', val),
@@ -40,8 +57,23 @@ name-string
           },
         }}
       />
-expense_set-array
+      <TInput
+          {...{
+          type: INPUT_TYPES.multi,
+          label: 'expenseSet',
+          placeholder: 'Not chosen',
+          value: model.expenseSet,
+          errors: modelErrors.expenseSet,
+          onChange: val => modelFormActions.changeField('expenseSet', val),
+          onValid: () => modelFormActions.resetFieldError('expenseSet'),
+          onInvalid: err => modelFormActions.setFieldError('expenseSet', err),
+          validate: {
+            checkOnBlur: true,
+            required: false,
+          },
+        }}
+      />
     </React.Fragment>
-  );
-};
+  )
+}
 export default EditComponent

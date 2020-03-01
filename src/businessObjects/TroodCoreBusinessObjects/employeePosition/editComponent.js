@@ -1,30 +1,63 @@
-import React from 'react';
+import React from 'react'
 import TInput, { INPUT_TYPES } from '$trood/components/TInput'
 
-const EditComponent = ({ model, modelErrors, modelFormActions }) => {
+const EditComponent = ({
+  model,
+  modelErrors,
+  modelFormActions, 
+}) => {
 
   return (
     <React.Fragment>
       <TInput
           {...{
-          label: 'id',
+          type: INPUT_TYPES.multi,
+          label: 'name',
           placeholder: 'Not chosen',
-          type: INPUT_TYPES.float,
-          value: model.id,
-          errors: modelErrors.id,
-          onChange: val => modelFormActions.changeField('id', val),
-          onValid: () => modelFormActions.resetFieldError('id'),
-          onInvalid: err => modelFormActions.setFieldError('id', err),
+          value: model.name,
+          errors: modelErrors.name,
+          onChange: val => modelFormActions.changeField('name', val),
+          onValid: () => modelFormActions.resetFieldError('name'),
+          onInvalid: err => modelFormActions.setFieldError('name', err),
+          validate: {
+            checkOnBlur: true,
+            required: true,
+          },
+        }}
+      />
+      <TInput
+          {...{
+          type: INPUT_TYPES.multi,
+          label: 'employeeSet',
+          placeholder: 'Not chosen',
+          value: model.employeeSet,
+          errors: modelErrors.employeeSet,
+          onChange: val => modelFormActions.changeField('employeeSet', val),
+          onValid: () => modelFormActions.resetFieldError('employeeSet'),
+          onInvalid: err => modelFormActions.setFieldError('employeeSet', err),
           validate: {
             checkOnBlur: true,
             required: false,
           },
         }}
       />
-name-string
-employee_set-array
-client_rate_set-array
+      <TInput
+          {...{
+          type: INPUT_TYPES.multi,
+          label: 'clientRateSet',
+          placeholder: 'Not chosen',
+          value: model.clientRateSet,
+          errors: modelErrors.clientRateSet,
+          onChange: val => modelFormActions.changeField('clientRateSet', val),
+          onValid: () => modelFormActions.resetFieldError('clientRateSet'),
+          onInvalid: err => modelFormActions.setFieldError('clientRateSet', err),
+          validate: {
+            checkOnBlur: true,
+            required: false,
+          },
+        }}
+      />
     </React.Fragment>
-  );
-};
+  )
+}
 export default EditComponent
