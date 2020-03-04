@@ -1,4 +1,8 @@
 import React from 'react'
+import style from './editComponent.css'
+import modalsStyle from '$trood/styles/modals.css'
+import classNames from 'classnames'
+
 import TInput, { INPUT_TYPES } from '$trood/components/TInput'
 
 const EditComponent = ({
@@ -8,12 +12,12 @@ const EditComponent = ({
 }) => {
 
   return (
-    <React.Fragment>
+    <div {...{className: classNames(style.root, modalsStyle.root)}}>
       <TInput
           {...{
           type: INPUT_TYPES.multi,
           label: 'name',
-          placeholder: 'Not chosen',
+          className: modalsStyle.control,
           value: model.name,
           errors: modelErrors.name,
           onChange: val => modelFormActions.changeField('name', val),
@@ -29,7 +33,7 @@ const EditComponent = ({
           {...{
           type: INPUT_TYPES.float,
           label: 'order',
-          placeholder: 'Not chosen',
+          className: modalsStyle.control,
           value: model.order,
           errors: modelErrors.order,
           onChange: val => modelFormActions.changeField('order', val),
@@ -41,7 +45,7 @@ const EditComponent = ({
           },
         }}
       />
-    </React.Fragment>
+    </div>
   )
 }
 export default EditComponent

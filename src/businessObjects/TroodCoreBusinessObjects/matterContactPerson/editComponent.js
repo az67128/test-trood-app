@@ -1,6 +1,10 @@
 import React from 'react'
+import style from './editComponent.css'
+import modalsStyle from '$trood/styles/modals.css'
+import classNames from 'classnames'
+
 import TSelect, { SELECT_TYPES } from '$trood/components/TSelect'
-import { getNestedObjectField } from '$trood/helpers/nestedObjects'
+import { RESTIFY_CONFIG } from 'redux-restify'
 
 const EditComponent = ({
   model,
@@ -12,9 +16,10 @@ const EditComponent = ({
   contactPersonApiActions, 
 }) => {
       const [matterSearch, matterSearchSet] = React.useState('')
+      const matterModelConfig = RESTIFY_CONFIG.registeredModels['matter']
       const matterApiConfig = {
         filter: {
-          q: matterSearch ? 'like(name,*' + matterSearch + ')' : '',
+          q: matterSearch ? `eq(${matterModelConfig.idField},${matterSearch})` : '',
           depth: 1,
         },
       }
@@ -28,9 +33,10 @@ const EditComponent = ({
       }
       
       const [contactPersonSearch, contactPersonSearchSet] = React.useState('')
+      const contactPersonModelConfig = RESTIFY_CONFIG.registeredModels['contactPerson']
       const contactPersonApiConfig = {
         filter: {
-          q: contactPersonSearch ? 'like(name,*' + contactPersonSearch + ')' : '',
+          q: contactPersonSearch ? `eq(${contactPersonModelConfig.idField},${contactPersonSearch})` : '',
           depth: 1,
         },
       }
@@ -44,52 +50,60 @@ const EditComponent = ({
       }
       
   return (
-    <React.Fragment>
-      <TSelect
+    <div {...{className: classNames(style.root, modalsStyle.root)}}>
+<TSelect
         {...{
+          
+          
+        className: modalsStyle.control,
+        items: matterArray.map(item => ({ value: item[matterModelConfig.idField], label: item.name || item[matterModelConfig.idField] })),
+        values: model.matter ? [model.matter] : [],
+        onChange: vals => modelFormActions.changeField('matter',
+          vals[0],
+        ),
+        onSearch: (value) => matterSearchSet(value ? encodeURIComponent(value) : ''),
+        emptyItemsLabel: matterArrayIsLoading ? '' : undefined,
+        onScrollToEnd: matterNextPageAction,
+        isLoading: matterArrayIsLoading,
+        missingValueResolver: value => matterEntities.getById(value).name,
           label: 'matter',
-          items: matterArray.map(e => ({ value: e.id, label: e.name })),
-          type: SELECT_TYPES.filterDropdown,
-          placeholder: 'Not chosen',
-          values: model.matter && [model.matter],
-          onChange: values => modelFormActions.changeField('matter', values[0]),
-          onInvalid: errs => modelFormActions.setFieldError('matter', errs),
+          errors: modelErrors.matter,
           onValid: () => modelFormActions.resetFieldError('matter'),
-          errors: getNestedObjectField(modelErrors, 'matter'),
-          validate: {
-            required: true,
-            checkOnBlur: true,
-          },
-          onSearch: (value) => matterSearchSet(value ? encodeURIComponent(value) : ''),
-          emptyItemsLabel: matterArrayIsLoading ? '' : undefined,
-          onScrollToEnd: matterNextPageAction,
-          missingValueResolver: value => matterEntities.getById(value).name,
-          isLoading: matterArrayIsLoading,
-        }}
-      />
-      <TSelect
-        {...{
-          label: 'contactPerson',
-          items: contactPersonArray.map(e => ({ value: e.id, label: e.name })),
+          onInvalid: err => modelFormActions.setFieldError('matter', err),
           type: SELECT_TYPES.filterDropdown,
-          placeholder: 'Not chosen',
-          values: model.contactPerson && [model.contactPerson],
-          onChange: values => modelFormActions.changeField('contactPerson', values[0]),
-          onInvalid: errs => modelFormActions.setFieldError('contactPerson', errs),
-          onValid: () => modelFormActions.resetFieldError('contactPerson'),
-          errors: getNestedObjectField(modelErrors, 'contactPerson'),
-          validate: {
-            required: true,
-            checkOnBlur: true,
-          },
-          onSearch: (value) => contactPersonSearchSet(value ? encodeURIComponent(value) : ''),
-          emptyItemsLabel: contactPersonArrayIsLoading ? '' : undefined,
-          onScrollToEnd: contactPersonNextPageAction,
-          missingValueResolver: value => contactPersonEntities.getById(value).name,
-          isLoading: contactPersonArrayIsLoading,
+          multi: false,
+          clearable: true,
+          placeHolder: 'Not set',
+          
         }}
       />
-    </React.Fragment>
+<TSelect
+        {...{
+          
+          
+        className: modalsStyle.control,
+        items: contactPersonArray.map(item => ({ value: item[contactPersonModelConfig.idField], label: item.name || item[contactPersonModelConfig.idField] })),
+        values: model.contactPerson ? [model.contactPerson] : [],
+        onChange: vals => modelFormActions.changeField('contactPerson',
+          vals[0],
+        ),
+        onSearch: (value) => contactPersonSearchSet(value ? encodeURIComponent(value) : ''),
+        emptyItemsLabel: contactPersonArrayIsLoading ? '' : undefined,
+        onScrollToEnd: contactPersonNextPageAction,
+        isLoading: contactPersonArrayIsLoading,
+        missingValueResolver: value => contactPersonEntities.getById(value).name,
+          label: 'contactPerson',
+          errors: modelErrors.contactPerson,
+          onValid: () => modelFormActions.resetFieldError('contactPerson'),
+          onInvalid: err => modelFormActions.setFieldError('contactPerson', err),
+          type: SELECT_TYPES.filterDropdown,
+          multi: false,
+          clearable: true,
+          placeHolder: 'Not set',
+          
+        }}
+      />
+    </div>
   )
 }
 export default EditComponent

@@ -1,4 +1,8 @@
 import React from 'react'
+import style from './editComponent.css'
+import modalsStyle from '$trood/styles/modals.css'
+import classNames from 'classnames'
+
 import TInput, { INPUT_TYPES } from '$trood/components/TInput'
 
 const EditComponent = ({
@@ -8,12 +12,12 @@ const EditComponent = ({
 }) => {
 
   return (
-    <React.Fragment>
+    <div {...{className: classNames(style.root, modalsStyle.root)}}>
       <TInput
           {...{
           type: INPUT_TYPES.multi,
           label: 'name',
-          placeholder: 'Not chosen',
+          className: modalsStyle.control,
           value: model.name,
           errors: modelErrors.name,
           onChange: val => modelFormActions.changeField('name', val),
@@ -25,23 +29,7 @@ const EditComponent = ({
           },
         }}
       />
-      <TInput
-          {...{
-          type: INPUT_TYPES.multi,
-          label: 'documentSet',
-          placeholder: 'Not chosen',
-          value: model.documentSet,
-          errors: modelErrors.documentSet,
-          onChange: val => modelFormActions.changeField('documentSet', val),
-          onValid: () => modelFormActions.resetFieldError('documentSet'),
-          onInvalid: err => modelFormActions.setFieldError('documentSet', err),
-          validate: {
-            checkOnBlur: true,
-            required: false,
-          },
-        }}
-      />
-    </React.Fragment>
+    </div>
   )
 }
 export default EditComponent

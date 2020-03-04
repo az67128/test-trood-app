@@ -1,7 +1,12 @@
 import React from 'react'
+import style from './editComponent.css'
+import modalsStyle from '$trood/styles/modals.css'
+import classNames from 'classnames'
+
 import TInput, { INPUT_TYPES } from '$trood/components/TInput'
 import TSelect, { SELECT_TYPES } from '$trood/components/TSelect'
-import { getNestedObjectField } from '$trood/helpers/nestedObjects'
+import { RESTIFY_CONFIG } from 'redux-restify'
+import DateTimePicker, { PICKER_TYPES } from '$trood/components/DateTimePicker'
 import TCheckbox from '$trood/components/TCheckbox'
 
 const EditComponent = ({
@@ -14,9 +19,10 @@ const EditComponent = ({
   teamMemberApiActions, 
 }) => {
       const [employeeSearch, employeeSearchSet] = React.useState('')
+      const employeeModelConfig = RESTIFY_CONFIG.registeredModels['employee']
       const employeeApiConfig = {
         filter: {
-          q: employeeSearch ? 'like(name,*' + employeeSearch + ')' : '',
+          q: employeeSearch ? `eq(${employeeModelConfig.idField},${employeeSearch})` : '',
           depth: 1,
         },
       }
@@ -30,9 +36,10 @@ const EditComponent = ({
       }
       
       const [teamMemberSearch, teamMemberSearchSet] = React.useState('')
+      const teamMemberModelConfig = RESTIFY_CONFIG.registeredModels['teamMember']
       const teamMemberApiConfig = {
         filter: {
-          q: teamMemberSearch ? 'like(name,*' + teamMemberSearch + ')' : '',
+          q: teamMemberSearch ? `eq(${teamMemberModelConfig.idField},${teamMemberSearch})` : '',
           depth: 1,
         },
       }
@@ -46,12 +53,12 @@ const EditComponent = ({
       }
       
   return (
-    <React.Fragment>
+    <div {...{className: classNames(style.root, modalsStyle.root)}}>
       <TInput
           {...{
           type: INPUT_TYPES.float,
           label: 'rating',
-          placeholder: 'Not chosen',
+          className: modalsStyle.control,
           value: model.rating,
           errors: modelErrors.rating,
           onChange: val => modelFormActions.changeField('rating', val),
@@ -63,33 +70,37 @@ const EditComponent = ({
           },
         }}
       />
-      <TSelect
+<TSelect
         {...{
+          
+          
+        className: modalsStyle.control,
+        items: employeeArray.map(item => ({ value: item[employeeModelConfig.idField], label: item.name || item[employeeModelConfig.idField] })),
+        values: model.rewiewer ? [model.rewiewer] : [],
+        onChange: vals => modelFormActions.changeField('rewiewer',
+          vals[0],
+        ),
+        onSearch: (value) => employeeSearchSet(value ? encodeURIComponent(value) : ''),
+        emptyItemsLabel: employeeArrayIsLoading ? '' : undefined,
+        onScrollToEnd: employeeNextPageAction,
+        isLoading: employeeArrayIsLoading,
+        missingValueResolver: value => employeeEntities.getById(value).name,
           label: 'rewiewer',
-          items: employeeArray.map(e => ({ value: e.id, label: e.name })),
-          type: SELECT_TYPES.filterDropdown,
-          placeholder: 'Not chosen',
-          values: model.rewiewer && [model.rewiewer],
-          onChange: values => modelFormActions.changeField('rewiewer', values[0]),
-          onInvalid: errs => modelFormActions.setFieldError('rewiewer', errs),
+          errors: modelErrors.rewiewer,
           onValid: () => modelFormActions.resetFieldError('rewiewer'),
-          errors: getNestedObjectField(modelErrors, 'rewiewer'),
-          validate: {
-            required: true,
-            checkOnBlur: true,
-          },
-          onSearch: (value) => employeeSearchSet(value ? encodeURIComponent(value) : ''),
-          emptyItemsLabel: employeeArrayIsLoading ? '' : undefined,
-          onScrollToEnd: employeeNextPageAction,
-          missingValueResolver: value => employeeEntities.getById(value).name,
-          isLoading: employeeArrayIsLoading,
+          onInvalid: err => modelFormActions.setFieldError('rewiewer', err),
+          type: SELECT_TYPES.filterDropdown,
+          multi: false,
+          clearable: true,
+          placeHolder: 'Not set',
+          
         }}
       />
       <TInput
           {...{
           type: INPUT_TYPES.multi,
           label: 'details',
-          placeholder: 'Not chosen',
+          className: modalsStyle.control,
           value: model.details,
           errors: modelErrors.details,
           onChange: val => modelFormActions.changeField('details', val),
@@ -101,10 +112,28 @@ const EditComponent = ({
           },
         }}
       />
+      <DateTimePicker
+            {...{
+            label: 'created',
+          className: modalsStyle.control,
+          value: model.created,
+          errors: modelErrors.created,
+          onChange: val => modelFormActions.changeField('created', val),
+          onValid: () => modelFormActions.resetFieldError('created'),
+          onInvalid: err => modelFormActions.setFieldError('created', err),
+            type: PICKER_TYPES.dateTime,
+            validate: {
+              checkOnBlur: true,
+              requiredDate: false,
+              requiredTime: false,
+            },
+          }}
+        />
       <TCheckbox
             {...{
+            className: modalsStyle.control,
             label: 'isMin',
-          placeholder: 'Not chosen',
+          className: modalsStyle.control,
           value: model.isMin,
           errors: modelErrors.isMin,
           onChange: val => modelFormActions.changeField('isMin', val),
@@ -118,8 +147,9 @@ const EditComponent = ({
         />
       <TCheckbox
             {...{
+            className: modalsStyle.control,
             label: 'isMax',
-          placeholder: 'Not chosen',
+          className: modalsStyle.control,
           value: model.isMax,
           errors: modelErrors.isMax,
           onChange: val => modelFormActions.changeField('isMax', val),
@@ -131,29 +161,33 @@ const EditComponent = ({
             },
           }}
         />
-      <TSelect
+<TSelect
         {...{
+          
+          
+        className: modalsStyle.control,
+        items: teamMemberArray.map(item => ({ value: item[teamMemberModelConfig.idField], label: item.name || item[teamMemberModelConfig.idField] })),
+        values: model.teamMember ? [model.teamMember] : [],
+        onChange: vals => modelFormActions.changeField('teamMember',
+          vals[0],
+        ),
+        onSearch: (value) => teamMemberSearchSet(value ? encodeURIComponent(value) : ''),
+        emptyItemsLabel: teamMemberArrayIsLoading ? '' : undefined,
+        onScrollToEnd: teamMemberNextPageAction,
+        isLoading: teamMemberArrayIsLoading,
+        missingValueResolver: value => teamMemberEntities.getById(value).name,
           label: 'teamMember',
-          items: teamMemberArray.map(e => ({ value: e.id, label: e.name })),
-          type: SELECT_TYPES.filterDropdown,
-          placeholder: 'Not chosen',
-          values: model.teamMember && [model.teamMember],
-          onChange: values => modelFormActions.changeField('teamMember', values[0]),
-          onInvalid: errs => modelFormActions.setFieldError('teamMember', errs),
+          errors: modelErrors.teamMember,
           onValid: () => modelFormActions.resetFieldError('teamMember'),
-          errors: getNestedObjectField(modelErrors, 'teamMember'),
-          validate: {
-            required: true,
-            checkOnBlur: true,
-          },
-          onSearch: (value) => teamMemberSearchSet(value ? encodeURIComponent(value) : ''),
-          emptyItemsLabel: teamMemberArrayIsLoading ? '' : undefined,
-          onScrollToEnd: teamMemberNextPageAction,
-          missingValueResolver: value => teamMemberEntities.getById(value).name,
-          isLoading: teamMemberArrayIsLoading,
+          onInvalid: err => modelFormActions.setFieldError('teamMember', err),
+          type: SELECT_TYPES.filterDropdown,
+          multi: false,
+          clearable: true,
+          placeHolder: 'Not set',
+          
         }}
       />
-    </React.Fragment>
+    </div>
   )
 }
 export default EditComponent

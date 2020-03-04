@@ -1,6 +1,10 @@
 import React from 'react'
+import style from './editComponent.css'
+import modalsStyle from '$trood/styles/modals.css'
+import classNames from 'classnames'
+
 import TSelect, { SELECT_TYPES } from '$trood/components/TSelect'
-import { getNestedObjectField } from '$trood/helpers/nestedObjects'
+import { RESTIFY_CONFIG } from 'redux-restify'
 import TInput, { INPUT_TYPES } from '$trood/components/TInput'
 
 const EditComponent = ({
@@ -13,9 +17,10 @@ const EditComponent = ({
   ApiActions, 
 }) => {
       const [contactTypeSearch, contactTypeSearchSet] = React.useState('')
+      const contactTypeModelConfig = RESTIFY_CONFIG.registeredModels['contactType']
       const contactTypeApiConfig = {
         filter: {
-          q: contactTypeSearch ? 'like(name,*' + contactTypeSearch + ')' : '',
+          q: contactTypeSearch ? `eq(${contactTypeModelConfig.idField},${contactTypeSearch})` : '',
           depth: 1,
         },
       }
@@ -29,9 +34,10 @@ const EditComponent = ({
       }
       
       const [Search, SearchSet] = React.useState('')
+      const ModelConfig = RESTIFY_CONFIG.registeredModels[model.._object]
       const ApiConfig = {
         filter: {
-          q: Search ? 'like(name,*' + Search + ')' : '',
+          q: Search ? `eq(${ModelConfig.idField},${Search})` : '',
           depth: 1,
         },
       }
@@ -45,34 +51,38 @@ const EditComponent = ({
       }
       
   return (
-    <React.Fragment>
-      <TSelect
+    <div {...{className: classNames(style.root, modalsStyle.root)}}>
+<TSelect
         {...{
+          
+          
+        className: modalsStyle.control,
+        items: contactTypeArray.map(item => ({ value: item[contactTypeModelConfig.idField], label: item.name || item[contactTypeModelConfig.idField] })),
+        values: model.contactType ? [model.contactType] : [],
+        onChange: vals => modelFormActions.changeField('contactType',
+          vals[0],
+        ),
+        onSearch: (value) => contactTypeSearchSet(value ? encodeURIComponent(value) : ''),
+        emptyItemsLabel: contactTypeArrayIsLoading ? '' : undefined,
+        onScrollToEnd: contactTypeNextPageAction,
+        isLoading: contactTypeArrayIsLoading,
+        missingValueResolver: value => contactTypeEntities.getById(value).name,
           label: 'contactType',
-          items: contactTypeArray.map(e => ({ value: e.id, label: e.name })),
-          type: SELECT_TYPES.filterDropdown,
-          placeholder: 'Not chosen',
-          values: model.contactType && [model.contactType],
-          onChange: values => modelFormActions.changeField('contactType', values[0]),
-          onInvalid: errs => modelFormActions.setFieldError('contactType', errs),
+          errors: modelErrors.contactType,
           onValid: () => modelFormActions.resetFieldError('contactType'),
-          errors: getNestedObjectField(modelErrors, 'contactType'),
-          validate: {
-            required: true,
-            checkOnBlur: true,
-          },
-          onSearch: (value) => contactTypeSearchSet(value ? encodeURIComponent(value) : ''),
-          emptyItemsLabel: contactTypeArrayIsLoading ? '' : undefined,
-          onScrollToEnd: contactTypeNextPageAction,
-          missingValueResolver: value => contactTypeEntities.getById(value).name,
-          isLoading: contactTypeArrayIsLoading,
+          onInvalid: err => modelFormActions.setFieldError('contactType', err),
+          type: SELECT_TYPES.filterDropdown,
+          multi: false,
+          clearable: true,
+          placeHolder: 'Not set',
+          
         }}
       />
       <TInput
           {...{
           type: INPUT_TYPES.multi,
           label: 'value',
-          placeholder: 'Not chosen',
+          className: modalsStyle.control,
           value: model.value,
           errors: modelErrors.value,
           onChange: val => modelFormActions.changeField('value', val),
@@ -84,7 +94,35 @@ const EditComponent = ({
           },
         }}
       />
-    </React.Fragment>
+<div>
+          <TSelect
+            {...{
+              
+          
+        className: modalsStyle.control,
+        items: Array.map(item => ({ value: item[ModelConfig.idField], label: item.name || item[ModelConfig.idField] })),
+        values: model.targetObject[ModelConfig.idField]  ? [model.targetObject[ModelConfig.idField] ] : [],
+        onChange: vals => modelFormActions.changeField(['targetObject', ModelConfig.idField],
+          vals[0],
+        ),
+        onSearch: (value) => SearchSet(value ? encodeURIComponent(value) : ''),
+        emptyItemsLabel: ArrayIsLoading ? '' : undefined,
+        onScrollToEnd: NextPageAction,
+        isLoading: ArrayIsLoading,
+        missingValueResolver: value => Entities.getById(value).name,
+          label: 'targetObject',
+          errors: modelErrors.targetObject,
+          onValid: () => modelFormActions.resetFieldError('targetObject'),
+          onInvalid: err => modelFormActions.setFieldError('targetObject', err),
+          type: SELECT_TYPES.filterDropdown,
+          multi: false,
+          clearable: true,
+          placeHolder: 'Not set',
+          
+            }}
+          />
+        </div>
+    </div>
   )
 }
 export default EditComponent

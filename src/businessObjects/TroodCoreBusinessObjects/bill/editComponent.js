@@ -1,8 +1,12 @@
 import React from 'react'
+import style from './editComponent.css'
+import modalsStyle from '$trood/styles/modals.css'
+import classNames from 'classnames'
+
 import TInput, { INPUT_TYPES } from '$trood/components/TInput'
 import TSelect, { SELECT_TYPES } from '$trood/components/TSelect'
-import { getNestedObjectField } from '$trood/helpers/nestedObjects'
-import DateTimePicker from '$trood/components/DateTimePicker'
+import { RESTIFY_CONFIG } from 'redux-restify'
+import DateTimePicker, { PICKER_TYPES } from '$trood/components/DateTimePicker'
 import TCheckbox from '$trood/components/TCheckbox'
 
 const EditComponent = ({
@@ -14,14 +18,13 @@ const EditComponent = ({
   matterEntities,
   matterApiActions,
   billStatusEntities,
-  billStatusApiActions,
-  documentEntities,
-  documentApiActions, 
+  billStatusApiActions, 
 }) => {
       const [employeeSearch, employeeSearchSet] = React.useState('')
+      const employeeModelConfig = RESTIFY_CONFIG.registeredModels['employee']
       const employeeApiConfig = {
         filter: {
-          q: employeeSearch ? 'like(name,*' + employeeSearch + ')' : '',
+          q: employeeSearch ? `eq(${employeeModelConfig.idField},${employeeSearch})` : '',
           depth: 1,
         },
       }
@@ -35,9 +38,10 @@ const EditComponent = ({
       }
       
       const [matterSearch, matterSearchSet] = React.useState('')
+      const matterModelConfig = RESTIFY_CONFIG.registeredModels['matter']
       const matterApiConfig = {
         filter: {
-          q: matterSearch ? 'like(name,*' + matterSearch + ')' : '',
+          q: matterSearch ? `eq(${matterModelConfig.idField},${matterSearch})` : '',
           depth: 1,
         },
       }
@@ -51,9 +55,10 @@ const EditComponent = ({
       }
       
       const [billStatusSearch, billStatusSearchSet] = React.useState('')
+      const billStatusModelConfig = RESTIFY_CONFIG.registeredModels['billStatus']
       const billStatusApiConfig = {
         filter: {
-          q: billStatusSearch ? 'like(name,*' + billStatusSearch + ')' : '',
+          q: billStatusSearch ? `eq(${billStatusModelConfig.idField},${billStatusSearch})` : '',
           depth: 1,
         },
       }
@@ -66,29 +71,13 @@ const EditComponent = ({
         }
       }
       
-      const [documentSearch, documentSearchSet] = React.useState('')
-      const documentApiConfig = {
-        filter: {
-          q: documentSearch ? 'like(name,*' + documentSearch + ')' : '',
-          depth: 1,
-        },
-      }
-      const documentArray = documentEntities.getArray(documentApiConfig)
-      const documentArrayIsLoading = documentEntities.getIsLoadingArray(documentApiConfig)
-      const documentNextPage = documentEntities.getNextPage(documentApiConfig)
-      const documentNextPageAction = () => {
-        if (documentNextPage) {
-          documentApiActions.loadNextPage(documentApiConfig)
-        }
-      }
-      
   return (
-    <React.Fragment>
+    <div {...{className: classNames(style.root, modalsStyle.root)}}>
       <TInput
           {...{
           type: INPUT_TYPES.multi,
           label: 'number',
-          placeholder: 'Not chosen',
+          className: modalsStyle.control,
           value: model.number,
           errors: modelErrors.number,
           onChange: val => modelFormActions.changeField('number', val),
@@ -100,59 +89,68 @@ const EditComponent = ({
           },
         }}
       />
-      <TSelect
+<TSelect
         {...{
+          
+          
+        className: modalsStyle.control,
+        items: employeeArray.map(item => ({ value: item[employeeModelConfig.idField], label: item.name || item[employeeModelConfig.idField] })),
+        values: model.approver ? [model.approver] : [],
+        onChange: vals => modelFormActions.changeField('approver',
+          vals[0],
+        ),
+        onSearch: (value) => employeeSearchSet(value ? encodeURIComponent(value) : ''),
+        emptyItemsLabel: employeeArrayIsLoading ? '' : undefined,
+        onScrollToEnd: employeeNextPageAction,
+        isLoading: employeeArrayIsLoading,
+        missingValueResolver: value => employeeEntities.getById(value).name,
           label: 'approver',
-          items: employeeArray.map(e => ({ value: e.id, label: e.name })),
-          type: SELECT_TYPES.filterDropdown,
-          placeholder: 'Not chosen',
-          values: model.approver && [model.approver],
-          onChange: values => modelFormActions.changeField('approver', values[0]),
-          onInvalid: errs => modelFormActions.setFieldError('approver', errs),
+          errors: modelErrors.approver,
           onValid: () => modelFormActions.resetFieldError('approver'),
-          errors: getNestedObjectField(modelErrors, 'approver'),
-          validate: {
-            required: true,
-            checkOnBlur: true,
-          },
-          onSearch: (value) => employeeSearchSet(value ? encodeURIComponent(value) : ''),
-          emptyItemsLabel: employeeArrayIsLoading ? '' : undefined,
-          onScrollToEnd: employeeNextPageAction,
-          missingValueResolver: value => employeeEntities.getById(value).name,
-          isLoading: employeeArrayIsLoading,
+          onInvalid: err => modelFormActions.setFieldError('approver', err),
+          type: SELECT_TYPES.filterDropdown,
+          multi: false,
+          clearable: true,
+          placeHolder: 'Not set',
+          
         }}
       />
-      <TSelect
+<TSelect
         {...{
+          
+          
+        className: modalsStyle.control,
+        items: matterArray.map(item => ({ value: item[matterModelConfig.idField], label: item.name || item[matterModelConfig.idField] })),
+        values: model.matter ? [model.matter] : [],
+        onChange: vals => modelFormActions.changeField('matter',
+          vals[0],
+        ),
+        onSearch: (value) => matterSearchSet(value ? encodeURIComponent(value) : ''),
+        emptyItemsLabel: matterArrayIsLoading ? '' : undefined,
+        onScrollToEnd: matterNextPageAction,
+        isLoading: matterArrayIsLoading,
+        missingValueResolver: value => matterEntities.getById(value).name,
           label: 'matter',
-          items: matterArray.map(e => ({ value: e.id, label: e.name })),
-          type: SELECT_TYPES.filterDropdown,
-          placeholder: 'Not chosen',
-          values: model.matter && [model.matter],
-          onChange: values => modelFormActions.changeField('matter', values[0]),
-          onInvalid: errs => modelFormActions.setFieldError('matter', errs),
+          errors: modelErrors.matter,
           onValid: () => modelFormActions.resetFieldError('matter'),
-          errors: getNestedObjectField(modelErrors, 'matter'),
-          validate: {
-            required: true,
-            checkOnBlur: true,
-          },
-          onSearch: (value) => matterSearchSet(value ? encodeURIComponent(value) : ''),
-          emptyItemsLabel: matterArrayIsLoading ? '' : undefined,
-          onScrollToEnd: matterNextPageAction,
-          missingValueResolver: value => matterEntities.getById(value).name,
-          isLoading: matterArrayIsLoading,
+          onInvalid: err => modelFormActions.setFieldError('matter', err),
+          type: SELECT_TYPES.filterDropdown,
+          multi: false,
+          clearable: true,
+          placeHolder: 'Not set',
+          
         }}
       />
       <DateTimePicker
             {...{
-            label: 'approvedDate',
-          placeholder: 'Not chosen',
-          value: model.approvedDate,
-          errors: modelErrors.approvedDate,
-          onChange: val => modelFormActions.changeField('approvedDate', val),
-          onValid: () => modelFormActions.resetFieldError('approvedDate'),
-          onInvalid: err => modelFormActions.setFieldError('approvedDate', err),
+            label: 'created',
+          className: modalsStyle.control,
+          value: model.created,
+          errors: modelErrors.created,
+          onChange: val => modelFormActions.changeField('created', val),
+          onValid: () => modelFormActions.resetFieldError('created'),
+          onInvalid: err => modelFormActions.setFieldError('created', err),
+            type: PICKER_TYPES.dateTime,
             validate: {
               checkOnBlur: true,
               requiredDate: false,
@@ -160,37 +158,59 @@ const EditComponent = ({
             },
           }}
         />
-      <TSelect
+      <DateTimePicker
+            {...{
+            label: 'approvedDate',
+          className: modalsStyle.control,
+          value: model.approvedDate,
+          errors: modelErrors.approvedDate,
+          onChange: val => modelFormActions.changeField('approvedDate', val),
+          onValid: () => modelFormActions.resetFieldError('approvedDate'),
+          onInvalid: err => modelFormActions.setFieldError('approvedDate', err),
+            type: PICKER_TYPES.dateTime,
+            validate: {
+              checkOnBlur: true,
+              requiredDate: false,
+              requiredTime: false,
+            },
+          }}
+        />
+<TSelect
         {...{
+          
+          
+        className: modalsStyle.control,
+        items: billStatusArray.map(item => ({ value: item[billStatusModelConfig.idField], label: item.name || item[billStatusModelConfig.idField] })),
+        values: model.billStatus ? [model.billStatus] : [],
+        onChange: vals => modelFormActions.changeField('billStatus',
+          vals[0],
+        ),
+        onSearch: (value) => billStatusSearchSet(value ? encodeURIComponent(value) : ''),
+        emptyItemsLabel: billStatusArrayIsLoading ? '' : undefined,
+        onScrollToEnd: billStatusNextPageAction,
+        isLoading: billStatusArrayIsLoading,
+        missingValueResolver: value => billStatusEntities.getById(value).name,
           label: 'billStatus',
-          items: billStatusArray.map(e => ({ value: e.id, label: e.name })),
-          type: SELECT_TYPES.filterDropdown,
-          placeholder: 'Not chosen',
-          values: model.billStatus && [model.billStatus],
-          onChange: values => modelFormActions.changeField('billStatus', values[0]),
-          onInvalid: errs => modelFormActions.setFieldError('billStatus', errs),
+          errors: modelErrors.billStatus,
           onValid: () => modelFormActions.resetFieldError('billStatus'),
-          errors: getNestedObjectField(modelErrors, 'billStatus'),
-          validate: {
-            required: false,
-            checkOnBlur: true,
-          },
-          onSearch: (value) => billStatusSearchSet(value ? encodeURIComponent(value) : ''),
-          emptyItemsLabel: billStatusArrayIsLoading ? '' : undefined,
-          onScrollToEnd: billStatusNextPageAction,
-          missingValueResolver: value => billStatusEntities.getById(value).name,
-          isLoading: billStatusArrayIsLoading,
+          onInvalid: err => modelFormActions.setFieldError('billStatus', err),
+          type: SELECT_TYPES.filterDropdown,
+          multi: false,
+          clearable: false,
+          placeHolder: 'Not set',
+          
         }}
       />
       <DateTimePicker
             {...{
             label: 'dateInvoiceSent',
-          placeholder: 'Not chosen',
+          className: modalsStyle.control,
           value: model.dateInvoiceSent,
           errors: modelErrors.dateInvoiceSent,
           onChange: val => modelFormActions.changeField('dateInvoiceSent', val),
           onValid: () => modelFormActions.resetFieldError('dateInvoiceSent'),
           onInvalid: err => modelFormActions.setFieldError('dateInvoiceSent', err),
+            type: PICKER_TYPES.dateTime,
             validate: {
               checkOnBlur: true,
               requiredDate: false,
@@ -202,7 +222,7 @@ const EditComponent = ({
           {...{
           type: INPUT_TYPES.float,
           label: 'sumBill',
-          placeholder: 'Not chosen',
+          className: modalsStyle.control,
           value: model.sumBill,
           errors: modelErrors.sumBill,
           onChange: val => modelFormActions.changeField('sumBill', val),
@@ -218,7 +238,7 @@ const EditComponent = ({
           {...{
           type: INPUT_TYPES.float,
           label: 'totalSumPayment',
-          placeholder: 'Not chosen',
+          className: modalsStyle.control,
           value: model.totalSumPayment,
           errors: modelErrors.totalSumPayment,
           onChange: val => modelFormActions.changeField('totalSumPayment', val),
@@ -232,8 +252,9 @@ const EditComponent = ({
       />
       <TCheckbox
             {...{
+            className: modalsStyle.control,
             label: 'deleted',
-          placeholder: 'Not chosen',
+          className: modalsStyle.control,
           value: model.deleted,
           errors: modelErrors.deleted,
           onChange: val => modelFormActions.changeField('deleted', val),
@@ -245,101 +266,16 @@ const EditComponent = ({
             },
           }}
         />
-      <TInput
-          {...{
-          type: INPUT_TYPES.multi,
-          label: 'timeEntrySet',
-          placeholder: 'Not chosen',
-          value: model.timeEntrySet,
-          errors: modelErrors.timeEntrySet,
-          onChange: val => modelFormActions.changeField('timeEntrySet', val),
-          onValid: () => modelFormActions.resetFieldError('timeEntrySet'),
-          onInvalid: err => modelFormActions.setFieldError('timeEntrySet', err),
-          validate: {
-            checkOnBlur: true,
-            required: false,
-          },
-        }}
-      />
-      <TInput
-          {...{
-          type: INPUT_TYPES.multi,
-          label: 'expenseSet',
-          placeholder: 'Not chosen',
-          value: model.expenseSet,
-          errors: modelErrors.expenseSet,
-          onChange: val => modelFormActions.changeField('expenseSet', val),
-          onValid: () => modelFormActions.resetFieldError('expenseSet'),
-          onInvalid: err => modelFormActions.setFieldError('expenseSet', err),
-          validate: {
-            checkOnBlur: true,
-            required: false,
-          },
-        }}
-      />
-      <TInput
-          {...{
-          type: INPUT_TYPES.multi,
-          label: 'invoiceSet',
-          placeholder: 'Not chosen',
-          value: model.invoiceSet,
-          errors: modelErrors.invoiceSet,
-          onChange: val => modelFormActions.changeField('invoiceSet', val),
-          onValid: () => modelFormActions.resetFieldError('invoiceSet'),
-          onInvalid: err => modelFormActions.setFieldError('invoiceSet', err),
-          validate: {
-            checkOnBlur: true,
-            required: false,
-          },
-        }}
-      />
-      <TSelect
-        {...{
-          label: 'documentSet',
-          items: documentArray.map(e => ({ value: e.id, label: e.name })),
-          type: SELECT_TYPES.filterDropdown,
-          placeholder: 'Not chosen',
-          values: model.documentSet && [model.documentSet],
-          onChange: values => modelFormActions.changeField('documentSet', values[0]),
-          onInvalid: errs => modelFormActions.setFieldError('documentSet', errs),
-          onValid: () => modelFormActions.resetFieldError('documentSet'),
-          errors: getNestedObjectField(modelErrors, 'documentSet'),
-          validate: {
-            required: false,
-            checkOnBlur: true,
-          },
-          onSearch: (value) => documentSearchSet(value ? encodeURIComponent(value) : ''),
-          emptyItemsLabel: documentArrayIsLoading ? '' : undefined,
-          onScrollToEnd: documentNextPageAction,
-          missingValueResolver: value => documentEntities.getById(value).name,
-          isLoading: documentArrayIsLoading,
-        }}
-      />
-      <TInput
-          {...{
-          type: INPUT_TYPES.multi,
-          label: 'paymentSet',
-          placeholder: 'Not chosen',
-          value: model.paymentSet,
-          errors: modelErrors.paymentSet,
-          onChange: val => modelFormActions.changeField('paymentSet', val),
-          onValid: () => modelFormActions.resetFieldError('paymentSet'),
-          onInvalid: err => modelFormActions.setFieldError('paymentSet', err),
-          validate: {
-            checkOnBlur: true,
-            required: false,
-          },
-        }}
-      />
       <DateTimePicker
             {...{
             label: 'dateFullPaid',
-          placeholder: 'Not chosen',
+          className: modalsStyle.control,
           value: model.dateFullPaid,
           errors: modelErrors.dateFullPaid,
           onChange: val => modelFormActions.changeField('dateFullPaid', val),
           onValid: () => modelFormActions.resetFieldError('dateFullPaid'),
           onInvalid: err => modelFormActions.setFieldError('dateFullPaid', err),
+            type: PICKER_TYPES.dateTime,
             validate: {
               checkOnBlur: true,
               requiredDate: false,
@@ -347,7 +283,7 @@ const EditComponent = ({
             },
           }}
         />
-    </React.Fragment>
+    </div>
   )
 }
 export default EditComponent

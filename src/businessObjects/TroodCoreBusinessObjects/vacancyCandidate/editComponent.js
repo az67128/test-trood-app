@@ -1,7 +1,11 @@
 import React from 'react'
+import style from './editComponent.css'
+import modalsStyle from '$trood/styles/modals.css'
+import classNames from 'classnames'
+
 import TSelect, { SELECT_TYPES } from '$trood/components/TSelect'
-import { getNestedObjectField } from '$trood/helpers/nestedObjects'
-import DateTimePicker from '$trood/components/DateTimePicker'
+import { RESTIFY_CONFIG } from 'redux-restify'
+import DateTimePicker, { PICKER_TYPES } from '$trood/components/DateTimePicker'
 
 const EditComponent = ({
   model,
@@ -16,14 +20,13 @@ const EditComponent = ({
   candidateEntities,
   candidateApiActions,
   vacancyEntities,
-  vacancyApiActions,
-  commentEntities,
-  commentApiActions, 
+  vacancyApiActions, 
 }) => {
       const [employeeSearch, employeeSearchSet] = React.useState('')
+      const employeeModelConfig = RESTIFY_CONFIG.registeredModels['employee']
       const employeeApiConfig = {
         filter: {
-          q: employeeSearch ? 'like(name,*' + employeeSearch + ')' : '',
+          q: employeeSearch ? `eq(${employeeModelConfig.idField},${employeeSearch})` : '',
           depth: 1,
         },
       }
@@ -37,9 +40,10 @@ const EditComponent = ({
       }
       
       const [candidateStatusSearch, candidateStatusSearchSet] = React.useState('')
+      const candidateStatusModelConfig = RESTIFY_CONFIG.registeredModels['candidateStatus']
       const candidateStatusApiConfig = {
         filter: {
-          q: candidateStatusSearch ? 'like(name,*' + candidateStatusSearch + ')' : '',
+          q: candidateStatusSearch ? `eq(${candidateStatusModelConfig.idField},${candidateStatusSearch})` : '',
           depth: 1,
         },
       }
@@ -53,9 +57,10 @@ const EditComponent = ({
       }
       
       const [resolveCandidateSearch, resolveCandidateSearchSet] = React.useState('')
+      const resolveCandidateModelConfig = RESTIFY_CONFIG.registeredModels['resolveCandidate']
       const resolveCandidateApiConfig = {
         filter: {
-          q: resolveCandidateSearch ? 'like(name,*' + resolveCandidateSearch + ')' : '',
+          q: resolveCandidateSearch ? `eq(${resolveCandidateModelConfig.idField},${resolveCandidateSearch})` : '',
           depth: 1,
         },
       }
@@ -69,9 +74,10 @@ const EditComponent = ({
       }
       
       const [candidateSearch, candidateSearchSet] = React.useState('')
+      const candidateModelConfig = RESTIFY_CONFIG.registeredModels['candidate']
       const candidateApiConfig = {
         filter: {
-          q: candidateSearch ? 'like(name,*' + candidateSearch + ')' : '',
+          q: candidateSearch ? `eq(${candidateModelConfig.idField},${candidateSearch})` : '',
           depth: 1,
         },
       }
@@ -85,9 +91,10 @@ const EditComponent = ({
       }
       
       const [vacancySearch, vacancySearchSet] = React.useState('')
+      const vacancyModelConfig = RESTIFY_CONFIG.registeredModels['vacancy']
       const vacancyApiConfig = {
         filter: {
-          q: vacancySearch ? 'like(name,*' + vacancySearch + ')' : '',
+          q: vacancySearch ? `eq(${vacancyModelConfig.idField},${vacancySearch})` : '',
           depth: 1,
         },
       }
@@ -100,143 +107,165 @@ const EditComponent = ({
         }
       }
       
-      const [commentSearch, commentSearchSet] = React.useState('')
-      const commentApiConfig = {
-        filter: {
-          q: commentSearch ? 'like(name,*' + commentSearch + ')' : '',
-          depth: 1,
-        },
-      }
-      const commentArray = commentEntities.getArray(commentApiConfig)
-      const commentArrayIsLoading = commentEntities.getIsLoadingArray(commentApiConfig)
-      const commentNextPage = commentEntities.getNextPage(commentApiConfig)
-      const commentNextPageAction = () => {
-        if (commentNextPage) {
-          commentApiActions.loadNextPage(commentApiConfig)
-        }
-      }
-      
   return (
-    <React.Fragment>
-      <TSelect
+    <div {...{className: classNames(style.root, modalsStyle.root)}}>
+<TSelect
         {...{
+          
+          
+        className: modalsStyle.control,
+        items: employeeArray.map(item => ({ value: item[employeeModelConfig.idField], label: item.name || item[employeeModelConfig.idField] })),
+        values: model.recruiter ? [model.recruiter] : [],
+        onChange: vals => modelFormActions.changeField('recruiter',
+          vals[0],
+        ),
+        onSearch: (value) => employeeSearchSet(value ? encodeURIComponent(value) : ''),
+        emptyItemsLabel: employeeArrayIsLoading ? '' : undefined,
+        onScrollToEnd: employeeNextPageAction,
+        isLoading: employeeArrayIsLoading,
+        missingValueResolver: value => employeeEntities.getById(value).name,
           label: 'recruiter',
-          items: employeeArray.map(e => ({ value: e.id, label: e.name })),
-          type: SELECT_TYPES.filterDropdown,
-          placeholder: 'Not chosen',
-          values: model.recruiter && [model.recruiter],
-          onChange: values => modelFormActions.changeField('recruiter', values[0]),
-          onInvalid: errs => modelFormActions.setFieldError('recruiter', errs),
+          errors: modelErrors.recruiter,
           onValid: () => modelFormActions.resetFieldError('recruiter'),
-          errors: getNestedObjectField(modelErrors, 'recruiter'),
-          validate: {
-            required: true,
-            checkOnBlur: true,
-          },
-          onSearch: (value) => employeeSearchSet(value ? encodeURIComponent(value) : ''),
-          emptyItemsLabel: employeeArrayIsLoading ? '' : undefined,
-          onScrollToEnd: employeeNextPageAction,
-          missingValueResolver: value => employeeEntities.getById(value).name,
-          isLoading: employeeArrayIsLoading,
+          onInvalid: err => modelFormActions.setFieldError('recruiter', err),
+          type: SELECT_TYPES.filterDropdown,
+          multi: false,
+          clearable: true,
+          placeHolder: 'Not set',
+          
         }}
       />
-      <TSelect
+<TSelect
         {...{
+          
+          
+        className: modalsStyle.control,
+        items: candidateStatusArray.map(item => ({ value: item[candidateStatusModelConfig.idField], label: item.name || item[candidateStatusModelConfig.idField] })),
+        values: model.candidateStatus ? [model.candidateStatus] : [],
+        onChange: vals => modelFormActions.changeField('candidateStatus',
+          vals[0],
+        ),
+        onSearch: (value) => candidateStatusSearchSet(value ? encodeURIComponent(value) : ''),
+        emptyItemsLabel: candidateStatusArrayIsLoading ? '' : undefined,
+        onScrollToEnd: candidateStatusNextPageAction,
+        isLoading: candidateStatusArrayIsLoading,
+        missingValueResolver: value => candidateStatusEntities.getById(value).name,
           label: 'candidateStatus',
-          items: candidateStatusArray.map(e => ({ value: e.id, label: e.name })),
-          type: SELECT_TYPES.filterDropdown,
-          placeholder: 'Not chosen',
-          values: model.candidateStatus && [model.candidateStatus],
-          onChange: values => modelFormActions.changeField('candidateStatus', values[0]),
-          onInvalid: errs => modelFormActions.setFieldError('candidateStatus', errs),
+          errors: modelErrors.candidateStatus,
           onValid: () => modelFormActions.resetFieldError('candidateStatus'),
-          errors: getNestedObjectField(modelErrors, 'candidateStatus'),
-          validate: {
-            required: true,
-            checkOnBlur: true,
-          },
-          onSearch: (value) => candidateStatusSearchSet(value ? encodeURIComponent(value) : ''),
-          emptyItemsLabel: candidateStatusArrayIsLoading ? '' : undefined,
-          onScrollToEnd: candidateStatusNextPageAction,
-          missingValueResolver: value => candidateStatusEntities.getById(value).name,
-          isLoading: candidateStatusArrayIsLoading,
+          onInvalid: err => modelFormActions.setFieldError('candidateStatus', err),
+          type: SELECT_TYPES.filterDropdown,
+          multi: false,
+          clearable: true,
+          placeHolder: 'Not set',
+          
         }}
       />
-      <TSelect
+<TSelect
         {...{
+          
+          
+        className: modalsStyle.control,
+        items: resolveCandidateArray.map(item => ({ value: item[resolveCandidateModelConfig.idField], label: item.name || item[resolveCandidateModelConfig.idField] })),
+        values: model.resolveCandidate ? [model.resolveCandidate] : [],
+        onChange: vals => modelFormActions.changeField('resolveCandidate',
+          vals[0],
+        ),
+        onSearch: (value) => resolveCandidateSearchSet(value ? encodeURIComponent(value) : ''),
+        emptyItemsLabel: resolveCandidateArrayIsLoading ? '' : undefined,
+        onScrollToEnd: resolveCandidateNextPageAction,
+        isLoading: resolveCandidateArrayIsLoading,
+        missingValueResolver: value => resolveCandidateEntities.getById(value).name,
           label: 'resolveCandidate',
-          items: resolveCandidateArray.map(e => ({ value: e.id, label: e.name })),
-          type: SELECT_TYPES.filterDropdown,
-          placeholder: 'Not chosen',
-          values: model.resolveCandidate && [model.resolveCandidate],
-          onChange: values => modelFormActions.changeField('resolveCandidate', values[0]),
-          onInvalid: errs => modelFormActions.setFieldError('resolveCandidate', errs),
+          errors: modelErrors.resolveCandidate,
           onValid: () => modelFormActions.resetFieldError('resolveCandidate'),
-          errors: getNestedObjectField(modelErrors, 'resolveCandidate'),
-          validate: {
-            required: true,
-            checkOnBlur: true,
-          },
-          onSearch: (value) => resolveCandidateSearchSet(value ? encodeURIComponent(value) : ''),
-          emptyItemsLabel: resolveCandidateArrayIsLoading ? '' : undefined,
-          onScrollToEnd: resolveCandidateNextPageAction,
-          missingValueResolver: value => resolveCandidateEntities.getById(value).name,
-          isLoading: resolveCandidateArrayIsLoading,
+          onInvalid: err => modelFormActions.setFieldError('resolveCandidate', err),
+          type: SELECT_TYPES.filterDropdown,
+          multi: false,
+          clearable: true,
+          placeHolder: 'Not set',
+          
         }}
       />
-      <TSelect
+<TSelect
         {...{
+          
+          
+        className: modalsStyle.control,
+        items: candidateArray.map(item => ({ value: item[candidateModelConfig.idField], label: item.name || item[candidateModelConfig.idField] })),
+        values: model.candidate ? [model.candidate] : [],
+        onChange: vals => modelFormActions.changeField('candidate',
+          vals[0],
+        ),
+        onSearch: (value) => candidateSearchSet(value ? encodeURIComponent(value) : ''),
+        emptyItemsLabel: candidateArrayIsLoading ? '' : undefined,
+        onScrollToEnd: candidateNextPageAction,
+        isLoading: candidateArrayIsLoading,
+        missingValueResolver: value => candidateEntities.getById(value).name,
           label: 'candidate',
-          items: candidateArray.map(e => ({ value: e.id, label: e.name })),
-          type: SELECT_TYPES.filterDropdown,
-          placeholder: 'Not chosen',
-          values: model.candidate && [model.candidate],
-          onChange: values => modelFormActions.changeField('candidate', values[0]),
-          onInvalid: errs => modelFormActions.setFieldError('candidate', errs),
+          errors: modelErrors.candidate,
           onValid: () => modelFormActions.resetFieldError('candidate'),
-          errors: getNestedObjectField(modelErrors, 'candidate'),
-          validate: {
-            required: true,
-            checkOnBlur: true,
-          },
-          onSearch: (value) => candidateSearchSet(value ? encodeURIComponent(value) : ''),
-          emptyItemsLabel: candidateArrayIsLoading ? '' : undefined,
-          onScrollToEnd: candidateNextPageAction,
-          missingValueResolver: value => candidateEntities.getById(value).name,
-          isLoading: candidateArrayIsLoading,
+          onInvalid: err => modelFormActions.setFieldError('candidate', err),
+          type: SELECT_TYPES.filterDropdown,
+          multi: false,
+          clearable: true,
+          placeHolder: 'Not set',
+          
         }}
       />
-      <TSelect
+<TSelect
         {...{
+          
+          
+        className: modalsStyle.control,
+        items: vacancyArray.map(item => ({ value: item[vacancyModelConfig.idField], label: item.name || item[vacancyModelConfig.idField] })),
+        values: model.vacancy ? [model.vacancy] : [],
+        onChange: vals => modelFormActions.changeField('vacancy',
+          vals[0],
+        ),
+        onSearch: (value) => vacancySearchSet(value ? encodeURIComponent(value) : ''),
+        emptyItemsLabel: vacancyArrayIsLoading ? '' : undefined,
+        onScrollToEnd: vacancyNextPageAction,
+        isLoading: vacancyArrayIsLoading,
+        missingValueResolver: value => vacancyEntities.getById(value).name,
           label: 'vacancy',
-          items: vacancyArray.map(e => ({ value: e.id, label: e.name })),
-          type: SELECT_TYPES.filterDropdown,
-          placeholder: 'Not chosen',
-          values: model.vacancy && [model.vacancy],
-          onChange: values => modelFormActions.changeField('vacancy', values[0]),
-          onInvalid: errs => modelFormActions.setFieldError('vacancy', errs),
+          errors: modelErrors.vacancy,
           onValid: () => modelFormActions.resetFieldError('vacancy'),
-          errors: getNestedObjectField(modelErrors, 'vacancy'),
-          validate: {
-            required: true,
-            checkOnBlur: true,
-          },
-          onSearch: (value) => vacancySearchSet(value ? encodeURIComponent(value) : ''),
-          emptyItemsLabel: vacancyArrayIsLoading ? '' : undefined,
-          onScrollToEnd: vacancyNextPageAction,
-          missingValueResolver: value => vacancyEntities.getById(value).name,
-          isLoading: vacancyArrayIsLoading,
+          onInvalid: err => modelFormActions.setFieldError('vacancy', err),
+          type: SELECT_TYPES.filterDropdown,
+          multi: false,
+          clearable: true,
+          placeHolder: 'Not set',
+          
         }}
       />
       <DateTimePicker
             {...{
+            label: 'created',
+          className: modalsStyle.control,
+          value: model.created,
+          errors: modelErrors.created,
+          onChange: val => modelFormActions.changeField('created', val),
+          onValid: () => modelFormActions.resetFieldError('created'),
+          onInvalid: err => modelFormActions.setFieldError('created', err),
+            type: PICKER_TYPES.dateTime,
+            validate: {
+              checkOnBlur: true,
+              requiredDate: false,
+              requiredTime: false,
+            },
+          }}
+        />
+      <DateTimePicker
+            {...{
             label: 'statusDate',
-          placeholder: 'Not chosen',
+          className: modalsStyle.control,
           value: model.statusDate,
           errors: modelErrors.statusDate,
           onChange: val => modelFormActions.changeField('statusDate', val),
           onValid: () => modelFormActions.resetFieldError('statusDate'),
           onInvalid: err => modelFormActions.setFieldError('statusDate', err),
+            type: PICKER_TYPES.dateTime,
             validate: {
               checkOnBlur: true,
               requiredDate: false,
@@ -247,12 +276,13 @@ const EditComponent = ({
       <DateTimePicker
             {...{
             label: 'resolveDate',
-          placeholder: 'Not chosen',
+          className: modalsStyle.control,
           value: model.resolveDate,
           errors: modelErrors.resolveDate,
           onChange: val => modelFormActions.changeField('resolveDate', val),
           onValid: () => modelFormActions.resetFieldError('resolveDate'),
           onInvalid: err => modelFormActions.setFieldError('resolveDate', err),
+            type: PICKER_TYPES.dateTime,
             validate: {
               checkOnBlur: true,
               requiredDate: false,
@@ -260,29 +290,7 @@ const EditComponent = ({
             },
           }}
         />
-      <TSelect
-        {...{
-          label: 'commentSet',
-          items: commentArray.map(e => ({ value: e.id, label: e.name })),
-          type: SELECT_TYPES.filterDropdown,
-          placeholder: 'Not chosen',
-          values: model.commentSet && [model.commentSet],
-          onChange: values => modelFormActions.changeField('commentSet', values[0]),
-          onInvalid: errs => modelFormActions.setFieldError('commentSet', errs),
-          onValid: () => modelFormActions.resetFieldError('commentSet'),
-          errors: getNestedObjectField(modelErrors, 'commentSet'),
-          validate: {
-            required: false,
-            checkOnBlur: true,
-          },
-          onSearch: (value) => commentSearchSet(value ? encodeURIComponent(value) : ''),
-          emptyItemsLabel: commentArrayIsLoading ? '' : undefined,
-          onScrollToEnd: commentNextPageAction,
-          missingValueResolver: value => commentEntities.getById(value).name,
-          isLoading: commentArrayIsLoading,
-        }}
-      />
-    </React.Fragment>
+    </div>
   )
 }
 export default EditComponent

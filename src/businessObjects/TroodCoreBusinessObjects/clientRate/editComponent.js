@@ -1,6 +1,10 @@
 import React from 'react'
+import style from './editComponent.css'
+import modalsStyle from '$trood/styles/modals.css'
+import classNames from 'classnames'
+
 import TSelect, { SELECT_TYPES } from '$trood/components/TSelect'
-import { getNestedObjectField } from '$trood/helpers/nestedObjects'
+import { RESTIFY_CONFIG } from 'redux-restify'
 import TInput, { INPUT_TYPES } from '$trood/components/TInput'
 
 const EditComponent = ({
@@ -13,9 +17,10 @@ const EditComponent = ({
   employeePositionApiActions, 
 }) => {
       const [clientSearch, clientSearchSet] = React.useState('')
+      const clientModelConfig = RESTIFY_CONFIG.registeredModels['client']
       const clientApiConfig = {
         filter: {
-          q: clientSearch ? 'like(name,*' + clientSearch + ')' : '',
+          q: clientSearch ? `eq(${clientModelConfig.idField},${clientSearch})` : '',
           depth: 1,
         },
       }
@@ -29,9 +34,10 @@ const EditComponent = ({
       }
       
       const [employeePositionSearch, employeePositionSearchSet] = React.useState('')
+      const employeePositionModelConfig = RESTIFY_CONFIG.registeredModels['employeePosition']
       const employeePositionApiConfig = {
         filter: {
-          q: employeePositionSearch ? 'like(name,*' + employeePositionSearch + ')' : '',
+          q: employeePositionSearch ? `eq(${employeePositionModelConfig.idField},${employeePositionSearch})` : '',
           depth: 1,
         },
       }
@@ -45,56 +51,64 @@ const EditComponent = ({
       }
       
   return (
-    <React.Fragment>
-      <TSelect
+    <div {...{className: classNames(style.root, modalsStyle.root)}}>
+<TSelect
         {...{
+          
+          
+        className: modalsStyle.control,
+        items: clientArray.map(item => ({ value: item[clientModelConfig.idField], label: item.name || item[clientModelConfig.idField] })),
+        values: model.client ? [model.client] : [],
+        onChange: vals => modelFormActions.changeField('client',
+          vals[0],
+        ),
+        onSearch: (value) => clientSearchSet(value ? encodeURIComponent(value) : ''),
+        emptyItemsLabel: clientArrayIsLoading ? '' : undefined,
+        onScrollToEnd: clientNextPageAction,
+        isLoading: clientArrayIsLoading,
+        missingValueResolver: value => clientEntities.getById(value).name,
           label: 'client',
-          items: clientArray.map(e => ({ value: e.id, label: e.name })),
-          type: SELECT_TYPES.filterDropdown,
-          placeholder: 'Not chosen',
-          values: model.client && [model.client],
-          onChange: values => modelFormActions.changeField('client', values[0]),
-          onInvalid: errs => modelFormActions.setFieldError('client', errs),
+          errors: modelErrors.client,
           onValid: () => modelFormActions.resetFieldError('client'),
-          errors: getNestedObjectField(modelErrors, 'client'),
-          validate: {
-            required: true,
-            checkOnBlur: true,
-          },
-          onSearch: (value) => clientSearchSet(value ? encodeURIComponent(value) : ''),
-          emptyItemsLabel: clientArrayIsLoading ? '' : undefined,
-          onScrollToEnd: clientNextPageAction,
-          missingValueResolver: value => clientEntities.getById(value).name,
-          isLoading: clientArrayIsLoading,
+          onInvalid: err => modelFormActions.setFieldError('client', err),
+          type: SELECT_TYPES.filterDropdown,
+          multi: false,
+          clearable: true,
+          placeHolder: 'Not set',
+          
         }}
       />
-      <TSelect
+<TSelect
         {...{
+          
+          
+        className: modalsStyle.control,
+        items: employeePositionArray.map(item => ({ value: item[employeePositionModelConfig.idField], label: item.name || item[employeePositionModelConfig.idField] })),
+        values: model.employeePosition ? [model.employeePosition] : [],
+        onChange: vals => modelFormActions.changeField('employeePosition',
+          vals[0],
+        ),
+        onSearch: (value) => employeePositionSearchSet(value ? encodeURIComponent(value) : ''),
+        emptyItemsLabel: employeePositionArrayIsLoading ? '' : undefined,
+        onScrollToEnd: employeePositionNextPageAction,
+        isLoading: employeePositionArrayIsLoading,
+        missingValueResolver: value => employeePositionEntities.getById(value).name,
           label: 'employeePosition',
-          items: employeePositionArray.map(e => ({ value: e.id, label: e.name })),
-          type: SELECT_TYPES.filterDropdown,
-          placeholder: 'Not chosen',
-          values: model.employeePosition && [model.employeePosition],
-          onChange: values => modelFormActions.changeField('employeePosition', values[0]),
-          onInvalid: errs => modelFormActions.setFieldError('employeePosition', errs),
+          errors: modelErrors.employeePosition,
           onValid: () => modelFormActions.resetFieldError('employeePosition'),
-          errors: getNestedObjectField(modelErrors, 'employeePosition'),
-          validate: {
-            required: true,
-            checkOnBlur: true,
-          },
-          onSearch: (value) => employeePositionSearchSet(value ? encodeURIComponent(value) : ''),
-          emptyItemsLabel: employeePositionArrayIsLoading ? '' : undefined,
-          onScrollToEnd: employeePositionNextPageAction,
-          missingValueResolver: value => employeePositionEntities.getById(value).name,
-          isLoading: employeePositionArrayIsLoading,
+          onInvalid: err => modelFormActions.setFieldError('employeePosition', err),
+          type: SELECT_TYPES.filterDropdown,
+          multi: false,
+          clearable: true,
+          placeHolder: 'Not set',
+          
         }}
       />
       <TInput
           {...{
           type: INPUT_TYPES.float,
           label: 'rate',
-          placeholder: 'Not chosen',
+          className: modalsStyle.control,
           value: model.rate,
           errors: modelErrors.rate,
           onChange: val => modelFormActions.changeField('rate', val),
@@ -106,7 +120,7 @@ const EditComponent = ({
           },
         }}
       />
-    </React.Fragment>
+    </div>
   )
 }
 export default EditComponent

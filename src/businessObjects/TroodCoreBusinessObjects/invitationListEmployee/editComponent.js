@@ -1,6 +1,10 @@
 import React from 'react'
+import style from './editComponent.css'
+import modalsStyle from '$trood/styles/modals.css'
+import classNames from 'classnames'
+
 import TSelect, { SELECT_TYPES } from '$trood/components/TSelect'
-import { getNestedObjectField } from '$trood/helpers/nestedObjects'
+import { RESTIFY_CONFIG } from 'redux-restify'
 
 const EditComponent = ({
   model,
@@ -12,9 +16,10 @@ const EditComponent = ({
   invitationListApiActions, 
 }) => {
       const [employeeSearch, employeeSearchSet] = React.useState('')
+      const employeeModelConfig = RESTIFY_CONFIG.registeredModels['employee']
       const employeeApiConfig = {
         filter: {
-          q: employeeSearch ? 'like(name,*' + employeeSearch + ')' : '',
+          q: employeeSearch ? `eq(${employeeModelConfig.idField},${employeeSearch})` : '',
           depth: 1,
         },
       }
@@ -28,9 +33,10 @@ const EditComponent = ({
       }
       
       const [invitationListSearch, invitationListSearchSet] = React.useState('')
+      const invitationListModelConfig = RESTIFY_CONFIG.registeredModels['invitationList']
       const invitationListApiConfig = {
         filter: {
-          q: invitationListSearch ? 'like(name,*' + invitationListSearch + ')' : '',
+          q: invitationListSearch ? `eq(${invitationListModelConfig.idField},${invitationListSearch})` : '',
           depth: 1,
         },
       }
@@ -44,52 +50,60 @@ const EditComponent = ({
       }
       
   return (
-    <React.Fragment>
-      <TSelect
+    <div {...{className: classNames(style.root, modalsStyle.root)}}>
+<TSelect
         {...{
+          
+          
+        className: modalsStyle.control,
+        items: employeeArray.map(item => ({ value: item[employeeModelConfig.idField], label: item.name || item[employeeModelConfig.idField] })),
+        values: model.employee ? [model.employee] : [],
+        onChange: vals => modelFormActions.changeField('employee',
+          vals[0],
+        ),
+        onSearch: (value) => employeeSearchSet(value ? encodeURIComponent(value) : ''),
+        emptyItemsLabel: employeeArrayIsLoading ? '' : undefined,
+        onScrollToEnd: employeeNextPageAction,
+        isLoading: employeeArrayIsLoading,
+        missingValueResolver: value => employeeEntities.getById(value).name,
           label: 'employee',
-          items: employeeArray.map(e => ({ value: e.id, label: e.name })),
-          type: SELECT_TYPES.filterDropdown,
-          placeholder: 'Not chosen',
-          values: model.employee && [model.employee],
-          onChange: values => modelFormActions.changeField('employee', values[0]),
-          onInvalid: errs => modelFormActions.setFieldError('employee', errs),
+          errors: modelErrors.employee,
           onValid: () => modelFormActions.resetFieldError('employee'),
-          errors: getNestedObjectField(modelErrors, 'employee'),
-          validate: {
-            required: true,
-            checkOnBlur: true,
-          },
-          onSearch: (value) => employeeSearchSet(value ? encodeURIComponent(value) : ''),
-          emptyItemsLabel: employeeArrayIsLoading ? '' : undefined,
-          onScrollToEnd: employeeNextPageAction,
-          missingValueResolver: value => employeeEntities.getById(value).name,
-          isLoading: employeeArrayIsLoading,
-        }}
-      />
-      <TSelect
-        {...{
-          label: 'invitationList',
-          items: invitationListArray.map(e => ({ value: e.id, label: e.name })),
+          onInvalid: err => modelFormActions.setFieldError('employee', err),
           type: SELECT_TYPES.filterDropdown,
-          placeholder: 'Not chosen',
-          values: model.invitationList && [model.invitationList],
-          onChange: values => modelFormActions.changeField('invitationList', values[0]),
-          onInvalid: errs => modelFormActions.setFieldError('invitationList', errs),
-          onValid: () => modelFormActions.resetFieldError('invitationList'),
-          errors: getNestedObjectField(modelErrors, 'invitationList'),
-          validate: {
-            required: false,
-            checkOnBlur: true,
-          },
-          onSearch: (value) => invitationListSearchSet(value ? encodeURIComponent(value) : ''),
-          emptyItemsLabel: invitationListArrayIsLoading ? '' : undefined,
-          onScrollToEnd: invitationListNextPageAction,
-          missingValueResolver: value => invitationListEntities.getById(value).name,
-          isLoading: invitationListArrayIsLoading,
+          multi: false,
+          clearable: true,
+          placeHolder: 'Not set',
+          
         }}
       />
-    </React.Fragment>
+<TSelect
+        {...{
+          
+          
+        className: modalsStyle.control,
+        items: invitationListArray.map(item => ({ value: item[invitationListModelConfig.idField], label: item.name || item[invitationListModelConfig.idField] })),
+        values: model.invitationList ? [model.invitationList] : [],
+        onChange: vals => modelFormActions.changeField('invitationList',
+          vals[0],
+        ),
+        onSearch: (value) => invitationListSearchSet(value ? encodeURIComponent(value) : ''),
+        emptyItemsLabel: invitationListArrayIsLoading ? '' : undefined,
+        onScrollToEnd: invitationListNextPageAction,
+        isLoading: invitationListArrayIsLoading,
+        missingValueResolver: value => invitationListEntities.getById(value).name,
+          label: 'invitationList',
+          errors: modelErrors.invitationList,
+          onValid: () => modelFormActions.resetFieldError('invitationList'),
+          onInvalid: err => modelFormActions.setFieldError('invitationList', err),
+          type: SELECT_TYPES.filterDropdown,
+          multi: false,
+          clearable: false,
+          placeHolder: 'Not set',
+          
+        }}
+      />
+    </div>
   )
 }
 export default EditComponent

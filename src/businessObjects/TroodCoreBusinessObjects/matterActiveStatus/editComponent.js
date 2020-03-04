@@ -1,4 +1,8 @@
 import React from 'react'
+import style from './editComponent.css'
+import modalsStyle from '$trood/styles/modals.css'
+import classNames from 'classnames'
+
 import TInput, { INPUT_TYPES } from '$trood/components/TInput'
 
 const EditComponent = ({
@@ -8,12 +12,12 @@ const EditComponent = ({
 }) => {
 
   return (
-    <React.Fragment>
+    <div {...{className: classNames(style.root, modalsStyle.root)}}>
       <TInput
           {...{
           type: INPUT_TYPES.multi,
           label: 'code',
-          placeholder: 'Not chosen',
+          className: modalsStyle.control,
           value: model.code,
           errors: modelErrors.code,
           onChange: val => modelFormActions.changeField('code', val),
@@ -29,7 +33,7 @@ const EditComponent = ({
           {...{
           type: INPUT_TYPES.multi,
           label: 'name',
-          placeholder: 'Not chosen',
+          className: modalsStyle.control,
           value: model.name,
           errors: modelErrors.name,
           onChange: val => modelFormActions.changeField('name', val),
@@ -45,7 +49,7 @@ const EditComponent = ({
           {...{
           type: INPUT_TYPES.float,
           label: 'order',
-          placeholder: 'Not chosen',
+          className: modalsStyle.control,
           value: model.order,
           errors: modelErrors.order,
           onChange: val => modelFormActions.changeField('order', val),
@@ -57,23 +61,7 @@ const EditComponent = ({
           },
         }}
       />
-      <TInput
-          {...{
-          type: INPUT_TYPES.multi,
-          label: 'matterSet',
-          placeholder: 'Not chosen',
-          value: model.matterSet,
-          errors: modelErrors.matterSet,
-          onChange: val => modelFormActions.changeField('matterSet', val),
-          onValid: () => modelFormActions.resetFieldError('matterSet'),
-          onInvalid: err => modelFormActions.setFieldError('matterSet', err),
-          validate: {
-            checkOnBlur: true,
-            required: false,
-          },
-        }}
-      />
-    </React.Fragment>
+    </div>
   )
 }
 export default EditComponent

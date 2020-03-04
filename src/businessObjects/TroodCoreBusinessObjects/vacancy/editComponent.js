@@ -1,7 +1,12 @@
 import React from 'react'
+import style from './editComponent.css'
+import modalsStyle from '$trood/styles/modals.css'
+import classNames from 'classnames'
+
 import TSelect, { SELECT_TYPES } from '$trood/components/TSelect'
-import { getNestedObjectField } from '$trood/helpers/nestedObjects'
+import { RESTIFY_CONFIG } from 'redux-restify'
 import TInput, { INPUT_TYPES } from '$trood/components/TInput'
+import DateTimePicker, { PICKER_TYPES } from '$trood/components/DateTimePicker'
 
 const EditComponent = ({
   model,
@@ -13,9 +18,10 @@ const EditComponent = ({
   vacancyStatusApiActions, 
 }) => {
       const [employeeSearch, employeeSearchSet] = React.useState('')
+      const employeeModelConfig = RESTIFY_CONFIG.registeredModels['employee']
       const employeeApiConfig = {
         filter: {
-          q: employeeSearch ? 'like(name,*' + employeeSearch + ')' : '',
+          q: employeeSearch ? `eq(${employeeModelConfig.idField},${employeeSearch})` : '',
           depth: 1,
         },
       }
@@ -29,9 +35,10 @@ const EditComponent = ({
       }
       
       const [vacancyStatusSearch, vacancyStatusSearchSet] = React.useState('')
+      const vacancyStatusModelConfig = RESTIFY_CONFIG.registeredModels['vacancyStatus']
       const vacancyStatusApiConfig = {
         filter: {
-          q: vacancyStatusSearch ? 'like(name,*' + vacancyStatusSearch + ')' : '',
+          q: vacancyStatusSearch ? `eq(${vacancyStatusModelConfig.idField},${vacancyStatusSearch})` : '',
           depth: 1,
         },
       }
@@ -45,34 +52,38 @@ const EditComponent = ({
       }
       
   return (
-    <React.Fragment>
-      <TSelect
+    <div {...{className: classNames(style.root, modalsStyle.root)}}>
+<TSelect
         {...{
+          
+          
+        className: modalsStyle.control,
+        items: employeeArray.map(item => ({ value: item[employeeModelConfig.idField], label: item.name || item[employeeModelConfig.idField] })),
+        values: model.recruiter ? [model.recruiter] : [],
+        onChange: vals => modelFormActions.changeField('recruiter',
+          vals[0],
+        ),
+        onSearch: (value) => employeeSearchSet(value ? encodeURIComponent(value) : ''),
+        emptyItemsLabel: employeeArrayIsLoading ? '' : undefined,
+        onScrollToEnd: employeeNextPageAction,
+        isLoading: employeeArrayIsLoading,
+        missingValueResolver: value => employeeEntities.getById(value).name,
           label: 'recruiter',
-          items: employeeArray.map(e => ({ value: e.id, label: e.name })),
-          type: SELECT_TYPES.filterDropdown,
-          placeholder: 'Not chosen',
-          values: model.recruiter && [model.recruiter],
-          onChange: values => modelFormActions.changeField('recruiter', values[0]),
-          onInvalid: errs => modelFormActions.setFieldError('recruiter', errs),
+          errors: modelErrors.recruiter,
           onValid: () => modelFormActions.resetFieldError('recruiter'),
-          errors: getNestedObjectField(modelErrors, 'recruiter'),
-          validate: {
-            required: true,
-            checkOnBlur: true,
-          },
-          onSearch: (value) => employeeSearchSet(value ? encodeURIComponent(value) : ''),
-          emptyItemsLabel: employeeArrayIsLoading ? '' : undefined,
-          onScrollToEnd: employeeNextPageAction,
-          missingValueResolver: value => employeeEntities.getById(value).name,
-          isLoading: employeeArrayIsLoading,
+          onInvalid: err => modelFormActions.setFieldError('recruiter', err),
+          type: SELECT_TYPES.filterDropdown,
+          multi: false,
+          clearable: true,
+          placeHolder: 'Not set',
+          
         }}
       />
       <TInput
           {...{
           type: INPUT_TYPES.multi,
           label: 'name',
-          placeholder: 'Not chosen',
+          className: modalsStyle.control,
           value: model.name,
           errors: modelErrors.name,
           onChange: val => modelFormActions.changeField('name', val),
@@ -84,33 +95,37 @@ const EditComponent = ({
           },
         }}
       />
-      <TSelect
+<TSelect
         {...{
+          
+          
+        className: modalsStyle.control,
+        items: vacancyStatusArray.map(item => ({ value: item[vacancyStatusModelConfig.idField], label: item.name || item[vacancyStatusModelConfig.idField] })),
+        values: model.vacancyStatus ? [model.vacancyStatus] : [],
+        onChange: vals => modelFormActions.changeField('vacancyStatus',
+          vals[0],
+        ),
+        onSearch: (value) => vacancyStatusSearchSet(value ? encodeURIComponent(value) : ''),
+        emptyItemsLabel: vacancyStatusArrayIsLoading ? '' : undefined,
+        onScrollToEnd: vacancyStatusNextPageAction,
+        isLoading: vacancyStatusArrayIsLoading,
+        missingValueResolver: value => vacancyStatusEntities.getById(value).name,
           label: 'vacancyStatus',
-          items: vacancyStatusArray.map(e => ({ value: e.id, label: e.name })),
-          type: SELECT_TYPES.filterDropdown,
-          placeholder: 'Not chosen',
-          values: model.vacancyStatus && [model.vacancyStatus],
-          onChange: values => modelFormActions.changeField('vacancyStatus', values[0]),
-          onInvalid: errs => modelFormActions.setFieldError('vacancyStatus', errs),
+          errors: modelErrors.vacancyStatus,
           onValid: () => modelFormActions.resetFieldError('vacancyStatus'),
-          errors: getNestedObjectField(modelErrors, 'vacancyStatus'),
-          validate: {
-            required: true,
-            checkOnBlur: true,
-          },
-          onSearch: (value) => vacancyStatusSearchSet(value ? encodeURIComponent(value) : ''),
-          emptyItemsLabel: vacancyStatusArrayIsLoading ? '' : undefined,
-          onScrollToEnd: vacancyStatusNextPageAction,
-          missingValueResolver: value => vacancyStatusEntities.getById(value).name,
-          isLoading: vacancyStatusArrayIsLoading,
+          onInvalid: err => modelFormActions.setFieldError('vacancyStatus', err),
+          type: SELECT_TYPES.filterDropdown,
+          multi: false,
+          clearable: true,
+          placeHolder: 'Not set',
+          
         }}
       />
       <TInput
           {...{
           type: INPUT_TYPES.multi,
           label: 'details',
-          placeholder: 'Not chosen',
+          className: modalsStyle.control,
           value: model.details,
           errors: modelErrors.details,
           onChange: val => modelFormActions.changeField('details', val),
@@ -122,23 +137,24 @@ const EditComponent = ({
           },
         }}
       />
-      <TInput
-          {...{
-          type: INPUT_TYPES.multi,
-          label: 'vacancyCandidateSet',
-          placeholder: 'Not chosen',
-          value: model.vacancyCandidateSet,
-          errors: modelErrors.vacancyCandidateSet,
-          onChange: val => modelFormActions.changeField('vacancyCandidateSet', val),
-          onValid: () => modelFormActions.resetFieldError('vacancyCandidateSet'),
-          onInvalid: err => modelFormActions.setFieldError('vacancyCandidateSet', err),
-          validate: {
-            checkOnBlur: true,
-            required: false,
-          },
-        }}
-      />
-    </React.Fragment>
+      <DateTimePicker
+            {...{
+            label: 'created',
+          className: modalsStyle.control,
+          value: model.created,
+          errors: modelErrors.created,
+          onChange: val => modelFormActions.changeField('created', val),
+          onValid: () => modelFormActions.resetFieldError('created'),
+          onInvalid: err => modelFormActions.setFieldError('created', err),
+            type: PICKER_TYPES.dateTime,
+            validate: {
+              checkOnBlur: true,
+              requiredDate: false,
+              requiredTime: false,
+            },
+          }}
+        />
+    </div>
   )
 }
 export default EditComponent

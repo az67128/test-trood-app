@@ -1,7 +1,11 @@
 import React from 'react'
+import style from './editComponent.css'
+import modalsStyle from '$trood/styles/modals.css'
+import classNames from 'classnames'
+
 import TSelect, { SELECT_TYPES } from '$trood/components/TSelect'
-import { getNestedObjectField } from '$trood/helpers/nestedObjects'
-import DateTimePicker from '$trood/components/DateTimePicker'
+import { RESTIFY_CONFIG } from 'redux-restify'
+import DateTimePicker, { PICKER_TYPES } from '$trood/components/DateTimePicker'
 import TInput, { INPUT_TYPES } from '$trood/components/TInput'
 
 const EditComponent = ({
@@ -16,9 +20,10 @@ const EditComponent = ({
   activityApiActions, 
 }) => {
       const [timerStatusSearch, timerStatusSearchSet] = React.useState('')
+      const timerStatusModelConfig = RESTIFY_CONFIG.registeredModels['timerStatus']
       const timerStatusApiConfig = {
         filter: {
-          q: timerStatusSearch ? 'like(name,*' + timerStatusSearch + ')' : '',
+          q: timerStatusSearch ? `eq(${timerStatusModelConfig.idField},${timerStatusSearch})` : '',
           depth: 1,
         },
       }
@@ -32,9 +37,10 @@ const EditComponent = ({
       }
       
       const [employeeSearch, employeeSearchSet] = React.useState('')
+      const employeeModelConfig = RESTIFY_CONFIG.registeredModels['employee']
       const employeeApiConfig = {
         filter: {
-          q: employeeSearch ? 'like(name,*' + employeeSearch + ')' : '',
+          q: employeeSearch ? `eq(${employeeModelConfig.idField},${employeeSearch})` : '',
           depth: 1,
         },
       }
@@ -48,9 +54,10 @@ const EditComponent = ({
       }
       
       const [activitySearch, activitySearchSet] = React.useState('')
+      const activityModelConfig = RESTIFY_CONFIG.registeredModels['activity']
       const activityApiConfig = {
         filter: {
-          q: activitySearch ? 'like(name,*' + activitySearch + ')' : '',
+          q: activitySearch ? `eq(${activityModelConfig.idField},${activitySearch})` : '',
           depth: 1,
         },
       }
@@ -64,82 +71,95 @@ const EditComponent = ({
       }
       
   return (
-    <React.Fragment>
-      <TSelect
+    <div {...{className: classNames(style.root, modalsStyle.root)}}>
+<TSelect
         {...{
+          
+          
+        className: modalsStyle.control,
+        items: timerStatusArray.map(item => ({ value: item[timerStatusModelConfig.idField], label: item.name || item[timerStatusModelConfig.idField] })),
+        values: model.timerStatus ? [model.timerStatus] : [],
+        onChange: vals => modelFormActions.changeField('timerStatus',
+          vals[0],
+        ),
+        onSearch: (value) => timerStatusSearchSet(value ? encodeURIComponent(value) : ''),
+        emptyItemsLabel: timerStatusArrayIsLoading ? '' : undefined,
+        onScrollToEnd: timerStatusNextPageAction,
+        isLoading: timerStatusArrayIsLoading,
+        missingValueResolver: value => timerStatusEntities.getById(value).name,
           label: 'timerStatus',
-          items: timerStatusArray.map(e => ({ value: e.id, label: e.name })),
-          type: SELECT_TYPES.filterDropdown,
-          placeholder: 'Not chosen',
-          values: model.timerStatus && [model.timerStatus],
-          onChange: values => modelFormActions.changeField('timerStatus', values[0]),
-          onInvalid: errs => modelFormActions.setFieldError('timerStatus', errs),
+          errors: modelErrors.timerStatus,
           onValid: () => modelFormActions.resetFieldError('timerStatus'),
-          errors: getNestedObjectField(modelErrors, 'timerStatus'),
-          validate: {
-            required: true,
-            checkOnBlur: true,
-          },
-          onSearch: (value) => timerStatusSearchSet(value ? encodeURIComponent(value) : ''),
-          emptyItemsLabel: timerStatusArrayIsLoading ? '' : undefined,
-          onScrollToEnd: timerStatusNextPageAction,
-          missingValueResolver: value => timerStatusEntities.getById(value).name,
-          isLoading: timerStatusArrayIsLoading,
+          onInvalid: err => modelFormActions.setFieldError('timerStatus', err),
+          type: SELECT_TYPES.filterDropdown,
+          multi: false,
+          clearable: true,
+          placeHolder: 'Not set',
+          
         }}
       />
-      <TSelect
+<TSelect
         {...{
+          
+          
+        className: modalsStyle.control,
+        items: employeeArray.map(item => ({ value: item[employeeModelConfig.idField], label: item.name || item[employeeModelConfig.idField] })),
+        values: model.employee ? [model.employee] : [],
+        onChange: vals => modelFormActions.changeField('employee',
+          vals[0],
+        ),
+        onSearch: (value) => employeeSearchSet(value ? encodeURIComponent(value) : ''),
+        emptyItemsLabel: employeeArrayIsLoading ? '' : undefined,
+        onScrollToEnd: employeeNextPageAction,
+        isLoading: employeeArrayIsLoading,
+        missingValueResolver: value => employeeEntities.getById(value).name,
           label: 'employee',
-          items: employeeArray.map(e => ({ value: e.id, label: e.name })),
-          type: SELECT_TYPES.filterDropdown,
-          placeholder: 'Not chosen',
-          values: model.employee && [model.employee],
-          onChange: values => modelFormActions.changeField('employee', values[0]),
-          onInvalid: errs => modelFormActions.setFieldError('employee', errs),
+          errors: modelErrors.employee,
           onValid: () => modelFormActions.resetFieldError('employee'),
-          errors: getNestedObjectField(modelErrors, 'employee'),
-          validate: {
-            required: true,
-            checkOnBlur: true,
-          },
-          onSearch: (value) => employeeSearchSet(value ? encodeURIComponent(value) : ''),
-          emptyItemsLabel: employeeArrayIsLoading ? '' : undefined,
-          onScrollToEnd: employeeNextPageAction,
-          missingValueResolver: value => employeeEntities.getById(value).name,
-          isLoading: employeeArrayIsLoading,
+          onInvalid: err => modelFormActions.setFieldError('employee', err),
+          type: SELECT_TYPES.filterDropdown,
+          multi: false,
+          clearable: true,
+          placeHolder: 'Not set',
+          
         }}
       />
-      <TSelect
+<TSelect
         {...{
+          
+          
+        className: modalsStyle.control,
+        items: activityArray.map(item => ({ value: item[activityModelConfig.idField], label: item.name || item[activityModelConfig.idField] })),
+        values: model.activity ? [model.activity] : [],
+        onChange: vals => modelFormActions.changeField('activity',
+          vals[0],
+        ),
+        onSearch: (value) => activitySearchSet(value ? encodeURIComponent(value) : ''),
+        emptyItemsLabel: activityArrayIsLoading ? '' : undefined,
+        onScrollToEnd: activityNextPageAction,
+        isLoading: activityArrayIsLoading,
+        missingValueResolver: value => activityEntities.getById(value).name,
           label: 'activity',
-          items: activityArray.map(e => ({ value: e.id, label: e.name })),
-          type: SELECT_TYPES.filterDropdown,
-          placeholder: 'Not chosen',
-          values: model.activity && [model.activity],
-          onChange: values => modelFormActions.changeField('activity', values[0]),
-          onInvalid: errs => modelFormActions.setFieldError('activity', errs),
+          errors: modelErrors.activity,
           onValid: () => modelFormActions.resetFieldError('activity'),
-          errors: getNestedObjectField(modelErrors, 'activity'),
-          validate: {
-            required: false,
-            checkOnBlur: true,
-          },
-          onSearch: (value) => activitySearchSet(value ? encodeURIComponent(value) : ''),
-          emptyItemsLabel: activityArrayIsLoading ? '' : undefined,
-          onScrollToEnd: activityNextPageAction,
-          missingValueResolver: value => activityEntities.getById(value).name,
-          isLoading: activityArrayIsLoading,
+          onInvalid: err => modelFormActions.setFieldError('activity', err),
+          type: SELECT_TYPES.filterDropdown,
+          multi: false,
+          clearable: false,
+          placeHolder: 'Not set',
+          
         }}
       />
       <DateTimePicker
             {...{
             label: 'start',
-          placeholder: 'Not chosen',
+          className: modalsStyle.control,
           value: model.start,
           errors: modelErrors.start,
           onChange: val => modelFormActions.changeField('start', val),
           onValid: () => modelFormActions.resetFieldError('start'),
           onInvalid: err => modelFormActions.setFieldError('start', err),
+            type: PICKER_TYPES.dateTime,
             validate: {
               checkOnBlur: true,
               requiredDate: false,
@@ -151,7 +171,7 @@ const EditComponent = ({
           {...{
           type: INPUT_TYPES.float,
           label: 'duration',
-          placeholder: 'Not chosen',
+          className: modalsStyle.control,
           value: model.duration,
           errors: modelErrors.duration,
           onChange: val => modelFormActions.changeField('duration', val),
@@ -163,7 +183,7 @@ const EditComponent = ({
           },
         }}
       />
-    </React.Fragment>
+    </div>
   )
 }
 export default EditComponent

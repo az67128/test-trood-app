@@ -1,6 +1,10 @@
 import React from 'react'
+import style from './editComponent.css'
+import modalsStyle from '$trood/styles/modals.css'
+import classNames from 'classnames'
+
 import TSelect, { SELECT_TYPES } from '$trood/components/TSelect'
-import { getNestedObjectField } from '$trood/helpers/nestedObjects'
+import { RESTIFY_CONFIG } from 'redux-restify'
 import TInput, { INPUT_TYPES } from '$trood/components/TInput'
 
 const EditComponent = ({
@@ -15,9 +19,10 @@ const EditComponent = ({
   rateTypeApiActions, 
 }) => {
       const [employeeSearch, employeeSearchSet] = React.useState('')
+      const employeeModelConfig = RESTIFY_CONFIG.registeredModels['employee']
       const employeeApiConfig = {
         filter: {
-          q: employeeSearch ? 'like(name,*' + employeeSearch + ')' : '',
+          q: employeeSearch ? `eq(${employeeModelConfig.idField},${employeeSearch})` : '',
           depth: 1,
         },
       }
@@ -31,9 +36,10 @@ const EditComponent = ({
       }
       
       const [matterSearch, matterSearchSet] = React.useState('')
+      const matterModelConfig = RESTIFY_CONFIG.registeredModels['matter']
       const matterApiConfig = {
         filter: {
-          q: matterSearch ? 'like(name,*' + matterSearch + ')' : '',
+          q: matterSearch ? `eq(${matterModelConfig.idField},${matterSearch})` : '',
           depth: 1,
         },
       }
@@ -47,9 +53,10 @@ const EditComponent = ({
       }
       
       const [rateTypeSearch, rateTypeSearchSet] = React.useState('')
+      const rateTypeModelConfig = RESTIFY_CONFIG.registeredModels['rateType']
       const rateTypeApiConfig = {
         filter: {
-          q: rateTypeSearch ? 'like(name,*' + rateTypeSearch + ')' : '',
+          q: rateTypeSearch ? `eq(${rateTypeModelConfig.idField},${rateTypeSearch})` : '',
           depth: 1,
         },
       }
@@ -63,78 +70,90 @@ const EditComponent = ({
       }
       
   return (
-    <React.Fragment>
-      <TSelect
+    <div {...{className: classNames(style.root, modalsStyle.root)}}>
+<TSelect
         {...{
+          
+          
+        className: modalsStyle.control,
+        items: employeeArray.map(item => ({ value: item[employeeModelConfig.idField], label: item.name || item[employeeModelConfig.idField] })),
+        values: model.employee ? [model.employee] : [],
+        onChange: vals => modelFormActions.changeField('employee',
+          vals[0],
+        ),
+        onSearch: (value) => employeeSearchSet(value ? encodeURIComponent(value) : ''),
+        emptyItemsLabel: employeeArrayIsLoading ? '' : undefined,
+        onScrollToEnd: employeeNextPageAction,
+        isLoading: employeeArrayIsLoading,
+        missingValueResolver: value => employeeEntities.getById(value).name,
           label: 'employee',
-          items: employeeArray.map(e => ({ value: e.id, label: e.name })),
-          type: SELECT_TYPES.filterDropdown,
-          placeholder: 'Not chosen',
-          values: model.employee && [model.employee],
-          onChange: values => modelFormActions.changeField('employee', values[0]),
-          onInvalid: errs => modelFormActions.setFieldError('employee', errs),
+          errors: modelErrors.employee,
           onValid: () => modelFormActions.resetFieldError('employee'),
-          errors: getNestedObjectField(modelErrors, 'employee'),
-          validate: {
-            required: true,
-            checkOnBlur: true,
-          },
-          onSearch: (value) => employeeSearchSet(value ? encodeURIComponent(value) : ''),
-          emptyItemsLabel: employeeArrayIsLoading ? '' : undefined,
-          onScrollToEnd: employeeNextPageAction,
-          missingValueResolver: value => employeeEntities.getById(value).name,
-          isLoading: employeeArrayIsLoading,
+          onInvalid: err => modelFormActions.setFieldError('employee', err),
+          type: SELECT_TYPES.filterDropdown,
+          multi: false,
+          clearable: true,
+          placeHolder: 'Not set',
+          
         }}
       />
-      <TSelect
+<TSelect
         {...{
+          
+          
+        className: modalsStyle.control,
+        items: matterArray.map(item => ({ value: item[matterModelConfig.idField], label: item.name || item[matterModelConfig.idField] })),
+        values: model.matter ? [model.matter] : [],
+        onChange: vals => modelFormActions.changeField('matter',
+          vals[0],
+        ),
+        onSearch: (value) => matterSearchSet(value ? encodeURIComponent(value) : ''),
+        emptyItemsLabel: matterArrayIsLoading ? '' : undefined,
+        onScrollToEnd: matterNextPageAction,
+        isLoading: matterArrayIsLoading,
+        missingValueResolver: value => matterEntities.getById(value).name,
           label: 'matter',
-          items: matterArray.map(e => ({ value: e.id, label: e.name })),
-          type: SELECT_TYPES.filterDropdown,
-          placeholder: 'Not chosen',
-          values: model.matter && [model.matter],
-          onChange: values => modelFormActions.changeField('matter', values[0]),
-          onInvalid: errs => modelFormActions.setFieldError('matter', errs),
+          errors: modelErrors.matter,
           onValid: () => modelFormActions.resetFieldError('matter'),
-          errors: getNestedObjectField(modelErrors, 'matter'),
-          validate: {
-            required: true,
-            checkOnBlur: true,
-          },
-          onSearch: (value) => matterSearchSet(value ? encodeURIComponent(value) : ''),
-          emptyItemsLabel: matterArrayIsLoading ? '' : undefined,
-          onScrollToEnd: matterNextPageAction,
-          missingValueResolver: value => matterEntities.getById(value).name,
-          isLoading: matterArrayIsLoading,
+          onInvalid: err => modelFormActions.setFieldError('matter', err),
+          type: SELECT_TYPES.filterDropdown,
+          multi: false,
+          clearable: true,
+          placeHolder: 'Not set',
+          
         }}
       />
-      <TSelect
+<TSelect
         {...{
+          
+          
+        className: modalsStyle.control,
+        items: rateTypeArray.map(item => ({ value: item[rateTypeModelConfig.idField], label: item.name || item[rateTypeModelConfig.idField] })),
+        values: model.rateType ? [model.rateType] : [],
+        onChange: vals => modelFormActions.changeField('rateType',
+          vals[0],
+        ),
+        onSearch: (value) => rateTypeSearchSet(value ? encodeURIComponent(value) : ''),
+        emptyItemsLabel: rateTypeArrayIsLoading ? '' : undefined,
+        onScrollToEnd: rateTypeNextPageAction,
+        isLoading: rateTypeArrayIsLoading,
+        missingValueResolver: value => rateTypeEntities.getById(value).name,
           label: 'rateType',
-          items: rateTypeArray.map(e => ({ value: e.id, label: e.name })),
-          type: SELECT_TYPES.filterDropdown,
-          placeholder: 'Not chosen',
-          values: model.rateType && [model.rateType],
-          onChange: values => modelFormActions.changeField('rateType', values[0]),
-          onInvalid: errs => modelFormActions.setFieldError('rateType', errs),
+          errors: modelErrors.rateType,
           onValid: () => modelFormActions.resetFieldError('rateType'),
-          errors: getNestedObjectField(modelErrors, 'rateType'),
-          validate: {
-            required: true,
-            checkOnBlur: true,
-          },
-          onSearch: (value) => rateTypeSearchSet(value ? encodeURIComponent(value) : ''),
-          emptyItemsLabel: rateTypeArrayIsLoading ? '' : undefined,
-          onScrollToEnd: rateTypeNextPageAction,
-          missingValueResolver: value => rateTypeEntities.getById(value).name,
-          isLoading: rateTypeArrayIsLoading,
+          onInvalid: err => modelFormActions.setFieldError('rateType', err),
+          type: SELECT_TYPES.filterDropdown,
+          multi: false,
+          clearable: true,
+          placeHolder: 'Not set',
+          
         }}
       />
       <TInput
           {...{
           type: INPUT_TYPES.float,
           label: 'rate',
-          placeholder: 'Not chosen',
+          className: modalsStyle.control,
           value: model.rate,
           errors: modelErrors.rate,
           onChange: val => modelFormActions.changeField('rate', val),
@@ -146,23 +165,7 @@ const EditComponent = ({
           },
         }}
       />
-      <TInput
-          {...{
-          type: INPUT_TYPES.multi,
-          label: 'assessmentSet',
-          placeholder: 'Not chosen',
-          value: model.assessmentSet,
-          errors: modelErrors.assessmentSet,
-          onChange: val => modelFormActions.changeField('assessmentSet', val),
-          onValid: () => modelFormActions.resetFieldError('assessmentSet'),
-          onInvalid: err => modelFormActions.setFieldError('assessmentSet', err),
-          validate: {
-            checkOnBlur: true,
-            required: false,
-          },
-        }}
-      />
-    </React.Fragment>
+    </div>
   )
 }
 export default EditComponent

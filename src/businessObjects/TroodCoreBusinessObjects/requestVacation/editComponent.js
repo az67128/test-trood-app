@@ -1,7 +1,11 @@
 import React from 'react'
+import style from './editComponent.css'
+import modalsStyle from '$trood/styles/modals.css'
+import classNames from 'classnames'
+
 import TSelect, { SELECT_TYPES } from '$trood/components/TSelect'
-import { getNestedObjectField } from '$trood/helpers/nestedObjects'
-import DateTimePicker from '$trood/components/DateTimePicker'
+import { RESTIFY_CONFIG } from 'redux-restify'
+import DateTimePicker, { PICKER_TYPES } from '$trood/components/DateTimePicker'
 import TInput, { INPUT_TYPES } from '$trood/components/TInput'
 
 const EditComponent = ({
@@ -14,9 +18,10 @@ const EditComponent = ({
   statusRequestVacationApiActions, 
 }) => {
       const [employeeSearch, employeeSearchSet] = React.useState('')
+      const employeeModelConfig = RESTIFY_CONFIG.registeredModels['employee']
       const employeeApiConfig = {
         filter: {
-          q: employeeSearch ? 'like(name,*' + employeeSearch + ')' : '',
+          q: employeeSearch ? `eq(${employeeModelConfig.idField},${employeeSearch})` : '',
           depth: 1,
         },
       }
@@ -30,9 +35,10 @@ const EditComponent = ({
       }
       
       const [statusRequestVacationSearch, statusRequestVacationSearchSet] = React.useState('')
+      const statusRequestVacationModelConfig = RESTIFY_CONFIG.registeredModels['statusRequestVacation']
       const statusRequestVacationApiConfig = {
         filter: {
-          q: statusRequestVacationSearch ? 'like(name,*' + statusRequestVacationSearch + ')' : '',
+          q: statusRequestVacationSearch ? `eq(${statusRequestVacationModelConfig.idField},${statusRequestVacationSearch})` : '',
           depth: 1,
         },
       }
@@ -46,60 +52,86 @@ const EditComponent = ({
       }
       
   return (
-    <React.Fragment>
-      <TSelect
+    <div {...{className: classNames(style.root, modalsStyle.root)}}>
+<TSelect
         {...{
+          
+          
+        className: modalsStyle.control,
+        items: employeeArray.map(item => ({ value: item[employeeModelConfig.idField], label: item.name || item[employeeModelConfig.idField] })),
+        values: model.author ? [model.author] : [],
+        onChange: vals => modelFormActions.changeField('author',
+          vals[0],
+        ),
+        onSearch: (value) => employeeSearchSet(value ? encodeURIComponent(value) : ''),
+        emptyItemsLabel: employeeArrayIsLoading ? '' : undefined,
+        onScrollToEnd: employeeNextPageAction,
+        isLoading: employeeArrayIsLoading,
+        missingValueResolver: value => employeeEntities.getById(value).name,
           label: 'author',
-          items: employeeArray.map(e => ({ value: e.id, label: e.name })),
-          type: SELECT_TYPES.filterDropdown,
-          placeholder: 'Not chosen',
-          values: model.author && [model.author],
-          onChange: values => modelFormActions.changeField('author', values[0]),
-          onInvalid: errs => modelFormActions.setFieldError('author', errs),
+          errors: modelErrors.author,
           onValid: () => modelFormActions.resetFieldError('author'),
-          errors: getNestedObjectField(modelErrors, 'author'),
-          validate: {
-            required: true,
-            checkOnBlur: true,
-          },
-          onSearch: (value) => employeeSearchSet(value ? encodeURIComponent(value) : ''),
-          emptyItemsLabel: employeeArrayIsLoading ? '' : undefined,
-          onScrollToEnd: employeeNextPageAction,
-          missingValueResolver: value => employeeEntities.getById(value).name,
-          isLoading: employeeArrayIsLoading,
+          onInvalid: err => modelFormActions.setFieldError('author', err),
+          type: SELECT_TYPES.filterDropdown,
+          multi: false,
+          clearable: true,
+          placeHolder: 'Not set',
+          
         }}
       />
-      <TSelect
+<TSelect
         {...{
+          
+          
+        className: modalsStyle.control,
+        items: statusRequestVacationArray.map(item => ({ value: item[statusRequestVacationModelConfig.idField], label: item.name || item[statusRequestVacationModelConfig.idField] })),
+        values: model.statusRequestVacation ? [model.statusRequestVacation] : [],
+        onChange: vals => modelFormActions.changeField('statusRequestVacation',
+          vals[0],
+        ),
+        onSearch: (value) => statusRequestVacationSearchSet(value ? encodeURIComponent(value) : ''),
+        emptyItemsLabel: statusRequestVacationArrayIsLoading ? '' : undefined,
+        onScrollToEnd: statusRequestVacationNextPageAction,
+        isLoading: statusRequestVacationArrayIsLoading,
+        missingValueResolver: value => statusRequestVacationEntities.getById(value).name,
           label: 'statusRequestVacation',
-          items: statusRequestVacationArray.map(e => ({ value: e.id, label: e.name })),
-          type: SELECT_TYPES.filterDropdown,
-          placeholder: 'Not chosen',
-          values: model.statusRequestVacation && [model.statusRequestVacation],
-          onChange: values => modelFormActions.changeField('statusRequestVacation', values[0]),
-          onInvalid: errs => modelFormActions.setFieldError('statusRequestVacation', errs),
+          errors: modelErrors.statusRequestVacation,
           onValid: () => modelFormActions.resetFieldError('statusRequestVacation'),
-          errors: getNestedObjectField(modelErrors, 'statusRequestVacation'),
-          validate: {
-            required: false,
-            checkOnBlur: true,
-          },
-          onSearch: (value) => statusRequestVacationSearchSet(value ? encodeURIComponent(value) : ''),
-          emptyItemsLabel: statusRequestVacationArrayIsLoading ? '' : undefined,
-          onScrollToEnd: statusRequestVacationNextPageAction,
-          missingValueResolver: value => statusRequestVacationEntities.getById(value).name,
-          isLoading: statusRequestVacationArrayIsLoading,
+          onInvalid: err => modelFormActions.setFieldError('statusRequestVacation', err),
+          type: SELECT_TYPES.filterDropdown,
+          multi: false,
+          clearable: false,
+          placeHolder: 'Not set',
+          
         }}
       />
       <DateTimePicker
             {...{
+            label: 'created',
+          className: modalsStyle.control,
+          value: model.created,
+          errors: modelErrors.created,
+          onChange: val => modelFormActions.changeField('created', val),
+          onValid: () => modelFormActions.resetFieldError('created'),
+          onInvalid: err => modelFormActions.setFieldError('created', err),
+            type: PICKER_TYPES.dateTime,
+            validate: {
+              checkOnBlur: true,
+              requiredDate: false,
+              requiredTime: false,
+            },
+          }}
+        />
+      <DateTimePicker
+            {...{
             label: 'statusDate',
-          placeholder: 'Not chosen',
+          className: modalsStyle.control,
           value: model.statusDate,
           errors: modelErrors.statusDate,
           onChange: val => modelFormActions.changeField('statusDate', val),
           onValid: () => modelFormActions.resetFieldError('statusDate'),
           onInvalid: err => modelFormActions.setFieldError('statusDate', err),
+            type: PICKER_TYPES.dateTime,
             validate: {
               checkOnBlur: true,
               requiredDate: false,
@@ -111,7 +143,7 @@ const EditComponent = ({
           {...{
           type: INPUT_TYPES.multi,
           label: 'number',
-          placeholder: 'Not chosen',
+          className: modalsStyle.control,
           value: model.number,
           errors: modelErrors.number,
           onChange: val => modelFormActions.changeField('number', val),
@@ -123,39 +155,7 @@ const EditComponent = ({
           },
         }}
       />
-      <TInput
-          {...{
-          type: INPUT_TYPES.multi,
-          label: 'vacationPeriodSet',
-          placeholder: 'Not chosen',
-          value: model.vacationPeriodSet,
-          errors: modelErrors.vacationPeriodSet,
-          onChange: val => modelFormActions.changeField('vacationPeriodSet', val),
-          onValid: () => modelFormActions.resetFieldError('vacationPeriodSet'),
-          onInvalid: err => modelFormActions.setFieldError('vacationPeriodSet', err),
-          validate: {
-            checkOnBlur: true,
-            required: false,
-          },
-        }}
-      />
-      <TInput
-          {...{
-          type: INPUT_TYPES.multi,
-          label: 'approverSet',
-          placeholder: 'Not chosen',
-          value: model.approverSet,
-          errors: modelErrors.approverSet,
-          onChange: val => modelFormActions.changeField('approverSet', val),
-          onValid: () => modelFormActions.resetFieldError('approverSet'),
-          onInvalid: err => modelFormActions.setFieldError('approverSet', err),
-          validate: {
-            checkOnBlur: true,
-            required: false,
-          },
-        }}
-      />
-    </React.Fragment>
+    </div>
   )
 }
 export default EditComponent

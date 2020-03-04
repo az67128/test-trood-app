@@ -1,7 +1,12 @@
 import React from 'react'
+import style from './editComponent.css'
+import modalsStyle from '$trood/styles/modals.css'
+import classNames from 'classnames'
+
 import TSelect, { SELECT_TYPES } from '$trood/components/TSelect'
-import { getNestedObjectField } from '$trood/helpers/nestedObjects'
+import { RESTIFY_CONFIG } from 'redux-restify'
 import TInput, { INPUT_TYPES } from '$trood/components/TInput'
+import DateTimePicker, { PICKER_TYPES } from '$trood/components/DateTimePicker'
 
 const EditComponent = ({
   model,
@@ -15,9 +20,10 @@ const EditComponent = ({
   docCustomTypeApiActions, 
 }) => {
       const [employeeSearch, employeeSearchSet] = React.useState('')
+      const employeeModelConfig = RESTIFY_CONFIG.registeredModels['employee']
       const employeeApiConfig = {
         filter: {
-          q: employeeSearch ? 'like(name,*' + employeeSearch + ')' : '',
+          q: employeeSearch ? `eq(${employeeModelConfig.idField},${employeeSearch})` : '',
           depth: 1,
         },
       }
@@ -31,9 +37,10 @@ const EditComponent = ({
       }
       
       const [Search, SearchSet] = React.useState('')
+      const ModelConfig = RESTIFY_CONFIG.registeredModels[model.._object]
       const ApiConfig = {
         filter: {
-          q: Search ? 'like(name,*' + Search + ')' : '',
+          q: Search ? `eq(${ModelConfig.idField},${Search})` : '',
           depth: 1,
         },
       }
@@ -47,9 +54,10 @@ const EditComponent = ({
       }
       
       const [docCustomTypeSearch, docCustomTypeSearchSet] = React.useState('')
+      const docCustomTypeModelConfig = RESTIFY_CONFIG.registeredModels['docCustomType']
       const docCustomTypeApiConfig = {
         filter: {
-          q: docCustomTypeSearch ? 'like(name,*' + docCustomTypeSearch + ')' : '',
+          q: docCustomTypeSearch ? `eq(${docCustomTypeModelConfig.idField},${docCustomTypeSearch})` : '',
           depth: 1,
         },
       }
@@ -63,34 +71,38 @@ const EditComponent = ({
       }
       
   return (
-    <React.Fragment>
-      <TSelect
+    <div {...{className: classNames(style.root, modalsStyle.root)}}>
+<TSelect
         {...{
+          
+          
+        className: modalsStyle.control,
+        items: employeeArray.map(item => ({ value: item[employeeModelConfig.idField], label: item.name || item[employeeModelConfig.idField] })),
+        values: model.author ? [model.author] : [],
+        onChange: vals => modelFormActions.changeField('author',
+          vals[0],
+        ),
+        onSearch: (value) => employeeSearchSet(value ? encodeURIComponent(value) : ''),
+        emptyItemsLabel: employeeArrayIsLoading ? '' : undefined,
+        onScrollToEnd: employeeNextPageAction,
+        isLoading: employeeArrayIsLoading,
+        missingValueResolver: value => employeeEntities.getById(value).name,
           label: 'author',
-          items: employeeArray.map(e => ({ value: e.id, label: e.name })),
-          type: SELECT_TYPES.filterDropdown,
-          placeholder: 'Not chosen',
-          values: model.author && [model.author],
-          onChange: values => modelFormActions.changeField('author', values[0]),
-          onInvalid: errs => modelFormActions.setFieldError('author', errs),
+          errors: modelErrors.author,
           onValid: () => modelFormActions.resetFieldError('author'),
-          errors: getNestedObjectField(modelErrors, 'author'),
-          validate: {
-            required: true,
-            checkOnBlur: true,
-          },
-          onSearch: (value) => employeeSearchSet(value ? encodeURIComponent(value) : ''),
-          emptyItemsLabel: employeeArrayIsLoading ? '' : undefined,
-          onScrollToEnd: employeeNextPageAction,
-          missingValueResolver: value => employeeEntities.getById(value).name,
-          isLoading: employeeArrayIsLoading,
+          onInvalid: err => modelFormActions.setFieldError('author', err),
+          type: SELECT_TYPES.filterDropdown,
+          multi: false,
+          clearable: true,
+          placeHolder: 'Not set',
+          
         }}
       />
       <TInput
           {...{
           type: INPUT_TYPES.multi,
           label: 'file',
-          placeholder: 'Not chosen',
+          className: modalsStyle.control,
           value: model.file,
           errors: modelErrors.file,
           onChange: val => modelFormActions.changeField('file', val),
@@ -102,11 +114,39 @@ const EditComponent = ({
           },
         }}
       />
+<div>
+          <TSelect
+            {...{
+              
+          
+        className: modalsStyle.control,
+        items: Array.map(item => ({ value: item[ModelConfig.idField], label: item.name || item[ModelConfig.idField] })),
+        values: model.targetObject[ModelConfig.idField]  ? [model.targetObject[ModelConfig.idField] ] : [],
+        onChange: vals => modelFormActions.changeField(['targetObject', ModelConfig.idField],
+          vals[0],
+        ),
+        onSearch: (value) => SearchSet(value ? encodeURIComponent(value) : ''),
+        emptyItemsLabel: ArrayIsLoading ? '' : undefined,
+        onScrollToEnd: NextPageAction,
+        isLoading: ArrayIsLoading,
+        missingValueResolver: value => Entities.getById(value).name,
+          label: 'targetObject',
+          errors: modelErrors.targetObject,
+          onValid: () => modelFormActions.resetFieldError('targetObject'),
+          onInvalid: err => modelFormActions.setFieldError('targetObject', err),
+          type: SELECT_TYPES.filterDropdown,
+          multi: false,
+          clearable: true,
+          placeHolder: 'Not set',
+          
+            }}
+          />
+        </div>
       <TInput
           {...{
           type: INPUT_TYPES.multi,
           label: 'documentType',
-          placeholder: 'Not chosen',
+          className: modalsStyle.control,
           value: model.documentType,
           errors: modelErrors.documentType,
           onChange: val => modelFormActions.changeField('documentType', val),
@@ -118,33 +158,54 @@ const EditComponent = ({
           },
         }}
       />
-      <TSelect
+      <DateTimePicker
+            {...{
+            label: 'created',
+          className: modalsStyle.control,
+          value: model.created,
+          errors: modelErrors.created,
+          onChange: val => modelFormActions.changeField('created', val),
+          onValid: () => modelFormActions.resetFieldError('created'),
+          onInvalid: err => modelFormActions.setFieldError('created', err),
+            type: PICKER_TYPES.dateTime,
+            validate: {
+              checkOnBlur: true,
+              requiredDate: false,
+              requiredTime: false,
+            },
+          }}
+        />
+<TSelect
         {...{
+          
+          
+        className: modalsStyle.control,
+        items: docCustomTypeArray.map(item => ({ value: item[docCustomTypeModelConfig.idField], label: item.name || item[docCustomTypeModelConfig.idField] })),
+        values: model.docCustomType ? [model.docCustomType] : [],
+        onChange: vals => modelFormActions.changeField('docCustomType',
+          vals[0],
+        ),
+        onSearch: (value) => docCustomTypeSearchSet(value ? encodeURIComponent(value) : ''),
+        emptyItemsLabel: docCustomTypeArrayIsLoading ? '' : undefined,
+        onScrollToEnd: docCustomTypeNextPageAction,
+        isLoading: docCustomTypeArrayIsLoading,
+        missingValueResolver: value => docCustomTypeEntities.getById(value).name,
           label: 'docCustomType',
-          items: docCustomTypeArray.map(e => ({ value: e.id, label: e.name })),
-          type: SELECT_TYPES.filterDropdown,
-          placeholder: 'Not chosen',
-          values: model.docCustomType && [model.docCustomType],
-          onChange: values => modelFormActions.changeField('docCustomType', values[0]),
-          onInvalid: errs => modelFormActions.setFieldError('docCustomType', errs),
+          errors: modelErrors.docCustomType,
           onValid: () => modelFormActions.resetFieldError('docCustomType'),
-          errors: getNestedObjectField(modelErrors, 'docCustomType'),
-          validate: {
-            required: false,
-            checkOnBlur: true,
-          },
-          onSearch: (value) => docCustomTypeSearchSet(value ? encodeURIComponent(value) : ''),
-          emptyItemsLabel: docCustomTypeArrayIsLoading ? '' : undefined,
-          onScrollToEnd: docCustomTypeNextPageAction,
-          missingValueResolver: value => docCustomTypeEntities.getById(value).name,
-          isLoading: docCustomTypeArrayIsLoading,
+          onInvalid: err => modelFormActions.setFieldError('docCustomType', err),
+          type: SELECT_TYPES.filterDropdown,
+          multi: false,
+          clearable: false,
+          placeHolder: 'Not set',
+          
         }}
       />
       <TInput
           {...{
           type: INPUT_TYPES.multi,
           label: 'description',
-          placeholder: 'Not chosen',
+          className: modalsStyle.control,
           value: model.description,
           errors: modelErrors.description,
           onChange: val => modelFormActions.changeField('description', val),
@@ -160,7 +221,7 @@ const EditComponent = ({
           {...{
           type: INPUT_TYPES.multi,
           label: 'filename',
-          placeholder: 'Not chosen',
+          className: modalsStyle.control,
           value: model.filename,
           errors: modelErrors.filename,
           onChange: val => modelFormActions.changeField('filename', val),
@@ -172,7 +233,7 @@ const EditComponent = ({
           },
         }}
       />
-    </React.Fragment>
+    </div>
   )
 }
 export default EditComponent

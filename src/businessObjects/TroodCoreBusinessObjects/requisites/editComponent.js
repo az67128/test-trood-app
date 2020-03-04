@@ -1,7 +1,11 @@
 import React from 'react'
+import style from './editComponent.css'
+import modalsStyle from '$trood/styles/modals.css'
+import classNames from 'classnames'
+
 import TInput, { INPUT_TYPES } from '$trood/components/TInput'
 import TSelect, { SELECT_TYPES } from '$trood/components/TSelect'
-import { getNestedObjectField } from '$trood/helpers/nestedObjects'
+import { RESTIFY_CONFIG } from 'redux-restify'
 
 const EditComponent = ({
   model,
@@ -11,9 +15,10 @@ const EditComponent = ({
   clientApiActions, 
 }) => {
       const [clientSearch, clientSearchSet] = React.useState('')
+      const clientModelConfig = RESTIFY_CONFIG.registeredModels['client']
       const clientApiConfig = {
         filter: {
-          q: clientSearch ? 'like(name,*' + clientSearch + ')' : '',
+          q: clientSearch ? `eq(${clientModelConfig.idField},${clientSearch})` : '',
           depth: 1,
         },
       }
@@ -27,12 +32,12 @@ const EditComponent = ({
       }
       
   return (
-    <React.Fragment>
+    <div {...{className: classNames(style.root, modalsStyle.root)}}>
       <TInput
           {...{
           type: INPUT_TYPES.multi,
           label: 'legalName',
-          placeholder: 'Not chosen',
+          className: modalsStyle.control,
           value: model.legalName,
           errors: modelErrors.legalName,
           onChange: val => modelFormActions.changeField('legalName', val),
@@ -48,7 +53,7 @@ const EditComponent = ({
           {...{
           type: INPUT_TYPES.multi,
           label: 'inn',
-          placeholder: 'Not chosen',
+          className: modalsStyle.control,
           value: model.inn,
           errors: modelErrors.inn,
           onChange: val => modelFormActions.changeField('inn', val),
@@ -64,7 +69,7 @@ const EditComponent = ({
           {...{
           type: INPUT_TYPES.multi,
           label: 'legalAddress',
-          placeholder: 'Not chosen',
+          className: modalsStyle.control,
           value: model.legalAddress,
           errors: modelErrors.legalAddress,
           onChange: val => modelFormActions.changeField('legalAddress', val),
@@ -80,7 +85,7 @@ const EditComponent = ({
           {...{
           type: INPUT_TYPES.multi,
           label: 'ogrn',
-          placeholder: 'Not chosen',
+          className: modalsStyle.control,
           value: model.ogrn,
           errors: modelErrors.ogrn,
           onChange: val => modelFormActions.changeField('ogrn', val),
@@ -96,7 +101,7 @@ const EditComponent = ({
           {...{
           type: INPUT_TYPES.multi,
           label: 'kpp',
-          placeholder: 'Not chosen',
+          className: modalsStyle.control,
           value: model.kpp,
           errors: modelErrors.kpp,
           onChange: val => modelFormActions.changeField('kpp', val),
@@ -112,7 +117,7 @@ const EditComponent = ({
           {...{
           type: INPUT_TYPES.multi,
           label: 'director',
-          placeholder: 'Not chosen',
+          className: modalsStyle.control,
           value: model.director,
           errors: modelErrors.director,
           onChange: val => modelFormActions.changeField('director', val),
@@ -128,7 +133,7 @@ const EditComponent = ({
           {...{
           type: INPUT_TYPES.multi,
           label: 'accaunter',
-          placeholder: 'Not chosen',
+          className: modalsStyle.control,
           value: model.accaunter,
           errors: modelErrors.accaunter,
           onChange: val => modelFormActions.changeField('accaunter', val),
@@ -140,45 +145,33 @@ const EditComponent = ({
           },
         }}
       />
-      <TSelect
+<TSelect
         {...{
+          
+          
+        className: modalsStyle.control,
+        items: clientArray.map(item => ({ value: item[clientModelConfig.idField], label: item.name || item[clientModelConfig.idField] })),
+        values: model.client ? [model.client] : [],
+        onChange: vals => modelFormActions.changeField('client',
+          vals[0],
+        ),
+        onSearch: (value) => clientSearchSet(value ? encodeURIComponent(value) : ''),
+        emptyItemsLabel: clientArrayIsLoading ? '' : undefined,
+        onScrollToEnd: clientNextPageAction,
+        isLoading: clientArrayIsLoading,
+        missingValueResolver: value => clientEntities.getById(value).name,
           label: 'client',
-          items: clientArray.map(e => ({ value: e.id, label: e.name })),
-          type: SELECT_TYPES.filterDropdown,
-          placeholder: 'Not chosen',
-          values: model.client && [model.client],
-          onChange: values => modelFormActions.changeField('client', values[0]),
-          onInvalid: errs => modelFormActions.setFieldError('client', errs),
+          errors: modelErrors.client,
           onValid: () => modelFormActions.resetFieldError('client'),
-          errors: getNestedObjectField(modelErrors, 'client'),
-          validate: {
-            required: false,
-            checkOnBlur: true,
-          },
-          onSearch: (value) => clientSearchSet(value ? encodeURIComponent(value) : ''),
-          emptyItemsLabel: clientArrayIsLoading ? '' : undefined,
-          onScrollToEnd: clientNextPageAction,
-          missingValueResolver: value => clientEntities.getById(value).name,
-          isLoading: clientArrayIsLoading,
+          onInvalid: err => modelFormActions.setFieldError('client', err),
+          type: SELECT_TYPES.filterDropdown,
+          multi: false,
+          clearable: false,
+          placeHolder: 'Not set',
+          
         }}
       />
-      <TInput
-          {...{
-          type: INPUT_TYPES.multi,
-          label: 'bankDetailsSet',
-          placeholder: 'Not chosen',
-          value: model.bankDetailsSet,
-          errors: modelErrors.bankDetailsSet,
-          onChange: val => modelFormActions.changeField('bankDetailsSet', val),
-          onValid: () => modelFormActions.resetFieldError('bankDetailsSet'),
-          onInvalid: err => modelFormActions.setFieldError('bankDetailsSet', err),
-          validate: {
-            checkOnBlur: true,
-            required: false,
-          },
-        }}
-      />
-    </React.Fragment>
+    </div>
   )
 }
 export default EditComponent

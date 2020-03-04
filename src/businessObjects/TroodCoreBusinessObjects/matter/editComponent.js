@@ -1,8 +1,12 @@
 import React from 'react'
+import style from './editComponent.css'
+import modalsStyle from '$trood/styles/modals.css'
+import classNames from 'classnames'
+
 import TInput, { INPUT_TYPES } from '$trood/components/TInput'
 import TSelect, { SELECT_TYPES } from '$trood/components/TSelect'
-import { getNestedObjectField } from '$trood/helpers/nestedObjects'
-import DateTimePicker from '$trood/components/DateTimePicker'
+import { RESTIFY_CONFIG } from 'redux-restify'
+import DateTimePicker, { PICKER_TYPES } from '$trood/components/DateTimePicker'
 
 const EditComponent = ({
   model,
@@ -20,15 +24,14 @@ const EditComponent = ({
   matterActiveStatusApiActions,
   budgetTypeEntities,
   budgetTypeApiActions,
-  documentEntities,
-  documentApiActions,
-  commentEntities,
-  commentApiActions, 
+  contactPersonEntities,
+  contactPersonApiActions, 
 }) => {
       const [employeeSearch, employeeSearchSet] = React.useState('')
+      const employeeModelConfig = RESTIFY_CONFIG.registeredModels['employee']
       const employeeApiConfig = {
         filter: {
-          q: employeeSearch ? 'like(name,*' + employeeSearch + ')' : '',
+          q: employeeSearch ? `eq(${employeeModelConfig.idField},${employeeSearch})` : '',
           depth: 1,
         },
       }
@@ -42,9 +45,10 @@ const EditComponent = ({
       }
       
       const [clientSearch, clientSearchSet] = React.useState('')
+      const clientModelConfig = RESTIFY_CONFIG.registeredModels['client']
       const clientApiConfig = {
         filter: {
-          q: clientSearch ? 'like(name,*' + clientSearch + ')' : '',
+          q: clientSearch ? `eq(${clientModelConfig.idField},${clientSearch})` : '',
           depth: 1,
         },
       }
@@ -58,9 +62,10 @@ const EditComponent = ({
       }
       
       const [matterTypeSearch, matterTypeSearchSet] = React.useState('')
+      const matterTypeModelConfig = RESTIFY_CONFIG.registeredModels['matterType']
       const matterTypeApiConfig = {
         filter: {
-          q: matterTypeSearch ? 'like(name,*' + matterTypeSearch + ')' : '',
+          q: matterTypeSearch ? `eq(${matterTypeModelConfig.idField},${matterTypeSearch})` : '',
           depth: 1,
         },
       }
@@ -74,9 +79,10 @@ const EditComponent = ({
       }
       
       const [matterStatusSearch, matterStatusSearchSet] = React.useState('')
+      const matterStatusModelConfig = RESTIFY_CONFIG.registeredModels['matterStatus']
       const matterStatusApiConfig = {
         filter: {
-          q: matterStatusSearch ? 'like(name,*' + matterStatusSearch + ')' : '',
+          q: matterStatusSearch ? `eq(${matterStatusModelConfig.idField},${matterStatusSearch})` : '',
           depth: 1,
         },
       }
@@ -90,9 +96,10 @@ const EditComponent = ({
       }
       
       const [matterActiveStatusSearch, matterActiveStatusSearchSet] = React.useState('')
+      const matterActiveStatusModelConfig = RESTIFY_CONFIG.registeredModels['matterActiveStatus']
       const matterActiveStatusApiConfig = {
         filter: {
-          q: matterActiveStatusSearch ? 'like(name,*' + matterActiveStatusSearch + ')' : '',
+          q: matterActiveStatusSearch ? `eq(${matterActiveStatusModelConfig.idField},${matterActiveStatusSearch})` : '',
           depth: 1,
         },
       }
@@ -106,9 +113,10 @@ const EditComponent = ({
       }
       
       const [budgetTypeSearch, budgetTypeSearchSet] = React.useState('')
+      const budgetTypeModelConfig = RESTIFY_CONFIG.registeredModels['budgetType']
       const budgetTypeApiConfig = {
         filter: {
-          q: budgetTypeSearch ? 'like(name,*' + budgetTypeSearch + ')' : '',
+          q: budgetTypeSearch ? `eq(${budgetTypeModelConfig.idField},${budgetTypeSearch})` : '',
           depth: 1,
         },
       }
@@ -121,45 +129,30 @@ const EditComponent = ({
         }
       }
       
-      const [documentSearch, documentSearchSet] = React.useState('')
-      const documentApiConfig = {
+      const [contactPersonSearch, contactPersonSearchSet] = React.useState('')
+      const contactPersonModelConfig = RESTIFY_CONFIG.registeredModels['contactPerson']
+      const contactPersonApiConfig = {
         filter: {
-          q: documentSearch ? 'like(name,*' + documentSearch + ')' : '',
+          q: contactPersonSearch ? `eq(${contactPersonModelConfig.idField},${contactPersonSearch})` : '',
           depth: 1,
         },
       }
-      const documentArray = documentEntities.getArray(documentApiConfig)
-      const documentArrayIsLoading = documentEntities.getIsLoadingArray(documentApiConfig)
-      const documentNextPage = documentEntities.getNextPage(documentApiConfig)
-      const documentNextPageAction = () => {
-        if (documentNextPage) {
-          documentApiActions.loadNextPage(documentApiConfig)
-        }
-      }
-      
-      const [commentSearch, commentSearchSet] = React.useState('')
-      const commentApiConfig = {
-        filter: {
-          q: commentSearch ? 'like(name,*' + commentSearch + ')' : '',
-          depth: 1,
-        },
-      }
-      const commentArray = commentEntities.getArray(commentApiConfig)
-      const commentArrayIsLoading = commentEntities.getIsLoadingArray(commentApiConfig)
-      const commentNextPage = commentEntities.getNextPage(commentApiConfig)
-      const commentNextPageAction = () => {
-        if (commentNextPage) {
-          commentApiActions.loadNextPage(commentApiConfig)
+      const contactPersonArray = contactPersonEntities.getArray(contactPersonApiConfig)
+      const contactPersonArrayIsLoading = contactPersonEntities.getIsLoadingArray(contactPersonApiConfig)
+      const contactPersonNextPage = contactPersonEntities.getNextPage(contactPersonApiConfig)
+      const contactPersonNextPageAction = () => {
+        if (contactPersonNextPage) {
+          contactPersonApiActions.loadNextPage(contactPersonApiConfig)
         }
       }
       
   return (
-    <React.Fragment>
+    <div {...{className: classNames(style.root, modalsStyle.root)}}>
       <TInput
           {...{
           type: INPUT_TYPES.multi,
           label: 'code',
-          placeholder: 'Not chosen',
+          className: modalsStyle.control,
           value: model.code,
           errors: modelErrors.code,
           onChange: val => modelFormActions.changeField('code', val),
@@ -175,7 +168,7 @@ const EditComponent = ({
           {...{
           type: INPUT_TYPES.multi,
           label: 'name',
-          placeholder: 'Not chosen',
+          className: modalsStyle.control,
           value: model.name,
           errors: modelErrors.name,
           onChange: val => modelFormActions.changeField('name', val),
@@ -187,159 +180,193 @@ const EditComponent = ({
           },
         }}
       />
-      <TSelect
+<TSelect
         {...{
+          
+          
+        className: modalsStyle.control,
+        items: employeeArray.map(item => ({ value: item[employeeModelConfig.idField], label: item.name || item[employeeModelConfig.idField] })),
+        values: model.responsible ? [model.responsible] : [],
+        onChange: vals => modelFormActions.changeField('responsible',
+          vals[0],
+        ),
+        onSearch: (value) => employeeSearchSet(value ? encodeURIComponent(value) : ''),
+        emptyItemsLabel: employeeArrayIsLoading ? '' : undefined,
+        onScrollToEnd: employeeNextPageAction,
+        isLoading: employeeArrayIsLoading,
+        missingValueResolver: value => employeeEntities.getById(value).name,
           label: 'responsible',
-          items: employeeArray.map(e => ({ value: e.id, label: e.name })),
-          type: SELECT_TYPES.filterDropdown,
-          placeholder: 'Not chosen',
-          values: model.responsible && [model.responsible],
-          onChange: values => modelFormActions.changeField('responsible', values[0]),
-          onInvalid: errs => modelFormActions.setFieldError('responsible', errs),
+          errors: modelErrors.responsible,
           onValid: () => modelFormActions.resetFieldError('responsible'),
-          errors: getNestedObjectField(modelErrors, 'responsible'),
-          validate: {
-            required: true,
-            checkOnBlur: true,
-          },
-          onSearch: (value) => employeeSearchSet(value ? encodeURIComponent(value) : ''),
-          emptyItemsLabel: employeeArrayIsLoading ? '' : undefined,
-          onScrollToEnd: employeeNextPageAction,
-          missingValueResolver: value => employeeEntities.getById(value).name,
-          isLoading: employeeArrayIsLoading,
+          onInvalid: err => modelFormActions.setFieldError('responsible', err),
+          type: SELECT_TYPES.filterDropdown,
+          multi: false,
+          clearable: true,
+          placeHolder: 'Not set',
+          
         }}
       />
-      <TSelect
+<TSelect
         {...{
+          
+          
+        className: modalsStyle.control,
+        items: clientArray.map(item => ({ value: item[clientModelConfig.idField], label: item.name || item[clientModelConfig.idField] })),
+        values: model.client ? [model.client] : [],
+        onChange: vals => modelFormActions.changeField('client',
+          vals[0],
+        ),
+        onSearch: (value) => clientSearchSet(value ? encodeURIComponent(value) : ''),
+        emptyItemsLabel: clientArrayIsLoading ? '' : undefined,
+        onScrollToEnd: clientNextPageAction,
+        isLoading: clientArrayIsLoading,
+        missingValueResolver: value => clientEntities.getById(value).name,
           label: 'client',
-          items: clientArray.map(e => ({ value: e.id, label: e.name })),
-          type: SELECT_TYPES.filterDropdown,
-          placeholder: 'Not chosen',
-          values: model.client && [model.client],
-          onChange: values => modelFormActions.changeField('client', values[0]),
-          onInvalid: errs => modelFormActions.setFieldError('client', errs),
+          errors: modelErrors.client,
           onValid: () => modelFormActions.resetFieldError('client'),
-          errors: getNestedObjectField(modelErrors, 'client'),
-          validate: {
-            required: true,
-            checkOnBlur: true,
-          },
-          onSearch: (value) => clientSearchSet(value ? encodeURIComponent(value) : ''),
-          emptyItemsLabel: clientArrayIsLoading ? '' : undefined,
-          onScrollToEnd: clientNextPageAction,
-          missingValueResolver: value => clientEntities.getById(value).name,
-          isLoading: clientArrayIsLoading,
+          onInvalid: err => modelFormActions.setFieldError('client', err),
+          type: SELECT_TYPES.filterDropdown,
+          multi: false,
+          clearable: true,
+          placeHolder: 'Not set',
+          
         }}
       />
-      <TSelect
+<TSelect
         {...{
+          
+          
+        className: modalsStyle.control,
+        items: matterTypeArray.map(item => ({ value: item[matterTypeModelConfig.idField], label: item.name || item[matterTypeModelConfig.idField] })),
+        values: model.matterType ? [model.matterType] : [],
+        onChange: vals => modelFormActions.changeField('matterType',
+          vals[0],
+        ),
+        onSearch: (value) => matterTypeSearchSet(value ? encodeURIComponent(value) : ''),
+        emptyItemsLabel: matterTypeArrayIsLoading ? '' : undefined,
+        onScrollToEnd: matterTypeNextPageAction,
+        isLoading: matterTypeArrayIsLoading,
+        missingValueResolver: value => matterTypeEntities.getById(value).name,
           label: 'matterType',
-          items: matterTypeArray.map(e => ({ value: e.id, label: e.name })),
-          type: SELECT_TYPES.filterDropdown,
-          placeholder: 'Not chosen',
-          values: model.matterType && [model.matterType],
-          onChange: values => modelFormActions.changeField('matterType', values[0]),
-          onInvalid: errs => modelFormActions.setFieldError('matterType', errs),
+          errors: modelErrors.matterType,
           onValid: () => modelFormActions.resetFieldError('matterType'),
-          errors: getNestedObjectField(modelErrors, 'matterType'),
-          validate: {
-            required: true,
-            checkOnBlur: true,
-          },
-          onSearch: (value) => matterTypeSearchSet(value ? encodeURIComponent(value) : ''),
-          emptyItemsLabel: matterTypeArrayIsLoading ? '' : undefined,
-          onScrollToEnd: matterTypeNextPageAction,
-          missingValueResolver: value => matterTypeEntities.getById(value).name,
-          isLoading: matterTypeArrayIsLoading,
+          onInvalid: err => modelFormActions.setFieldError('matterType', err),
+          type: SELECT_TYPES.filterDropdown,
+          multi: false,
+          clearable: true,
+          placeHolder: 'Not set',
+          
         }}
       />
-      <TSelect
+<TSelect
         {...{
+          
+          
+        className: modalsStyle.control,
+        items: matterStatusArray.map(item => ({ value: item[matterStatusModelConfig.idField], label: item.name || item[matterStatusModelConfig.idField] })),
+        values: model.matterStatus ? [model.matterStatus] : [],
+        onChange: vals => modelFormActions.changeField('matterStatus',
+          vals[0],
+        ),
+        onSearch: (value) => matterStatusSearchSet(value ? encodeURIComponent(value) : ''),
+        emptyItemsLabel: matterStatusArrayIsLoading ? '' : undefined,
+        onScrollToEnd: matterStatusNextPageAction,
+        isLoading: matterStatusArrayIsLoading,
+        missingValueResolver: value => matterStatusEntities.getById(value).name,
           label: 'matterStatus',
-          items: matterStatusArray.map(e => ({ value: e.id, label: e.name })),
-          type: SELECT_TYPES.filterDropdown,
-          placeholder: 'Not chosen',
-          values: model.matterStatus && [model.matterStatus],
-          onChange: values => modelFormActions.changeField('matterStatus', values[0]),
-          onInvalid: errs => modelFormActions.setFieldError('matterStatus', errs),
+          errors: modelErrors.matterStatus,
           onValid: () => modelFormActions.resetFieldError('matterStatus'),
-          errors: getNestedObjectField(modelErrors, 'matterStatus'),
-          validate: {
-            required: true,
-            checkOnBlur: true,
-          },
-          onSearch: (value) => matterStatusSearchSet(value ? encodeURIComponent(value) : ''),
-          emptyItemsLabel: matterStatusArrayIsLoading ? '' : undefined,
-          onScrollToEnd: matterStatusNextPageAction,
-          missingValueResolver: value => matterStatusEntities.getById(value).name,
-          isLoading: matterStatusArrayIsLoading,
+          onInvalid: err => modelFormActions.setFieldError('matterStatus', err),
+          type: SELECT_TYPES.filterDropdown,
+          multi: false,
+          clearable: true,
+          placeHolder: 'Not set',
+          
         }}
       />
-      <TSelect
+<TSelect
         {...{
+          
+          
+        className: modalsStyle.control,
+        items: matterActiveStatusArray.map(item => ({ value: item[matterActiveStatusModelConfig.idField], label: item.name || item[matterActiveStatusModelConfig.idField] })),
+        values: model.matterActiveStatus ? [model.matterActiveStatus] : [],
+        onChange: vals => modelFormActions.changeField('matterActiveStatus',
+          vals[0],
+        ),
+        onSearch: (value) => matterActiveStatusSearchSet(value ? encodeURIComponent(value) : ''),
+        emptyItemsLabel: matterActiveStatusArrayIsLoading ? '' : undefined,
+        onScrollToEnd: matterActiveStatusNextPageAction,
+        isLoading: matterActiveStatusArrayIsLoading,
+        missingValueResolver: value => matterActiveStatusEntities.getById(value).name,
           label: 'matterActiveStatus',
-          items: matterActiveStatusArray.map(e => ({ value: e.id, label: e.name })),
-          type: SELECT_TYPES.filterDropdown,
-          placeholder: 'Not chosen',
-          values: model.matterActiveStatus && [model.matterActiveStatus],
-          onChange: values => modelFormActions.changeField('matterActiveStatus', values[0]),
-          onInvalid: errs => modelFormActions.setFieldError('matterActiveStatus', errs),
+          errors: modelErrors.matterActiveStatus,
           onValid: () => modelFormActions.resetFieldError('matterActiveStatus'),
-          errors: getNestedObjectField(modelErrors, 'matterActiveStatus'),
-          validate: {
-            required: true,
-            checkOnBlur: true,
-          },
-          onSearch: (value) => matterActiveStatusSearchSet(value ? encodeURIComponent(value) : ''),
-          emptyItemsLabel: matterActiveStatusArrayIsLoading ? '' : undefined,
-          onScrollToEnd: matterActiveStatusNextPageAction,
-          missingValueResolver: value => matterActiveStatusEntities.getById(value).name,
-          isLoading: matterActiveStatusArrayIsLoading,
-        }}
-      />
-      <TSelect
-        {...{
-          label: 'budgetType',
-          items: budgetTypeArray.map(e => ({ value: e.id, label: e.name })),
+          onInvalid: err => modelFormActions.setFieldError('matterActiveStatus', err),
           type: SELECT_TYPES.filterDropdown,
-          placeholder: 'Not chosen',
-          values: model.budgetType && [model.budgetType],
-          onChange: values => modelFormActions.changeField('budgetType', values[0]),
-          onInvalid: errs => modelFormActions.setFieldError('budgetType', errs),
-          onValid: () => modelFormActions.resetFieldError('budgetType'),
-          errors: getNestedObjectField(modelErrors, 'budgetType'),
-          validate: {
-            required: true,
-            checkOnBlur: true,
-          },
-          onSearch: (value) => budgetTypeSearchSet(value ? encodeURIComponent(value) : ''),
-          emptyItemsLabel: budgetTypeArrayIsLoading ? '' : undefined,
-          onScrollToEnd: budgetTypeNextPageAction,
-          missingValueResolver: value => budgetTypeEntities.getById(value).name,
-          isLoading: budgetTypeArrayIsLoading,
+          multi: false,
+          clearable: true,
+          placeHolder: 'Not set',
+          
         }}
       />
-      <TInput
-          {...{
-          type: INPUT_TYPES.multi,
+<TSelect
+        {...{
+          
+          
+        className: modalsStyle.control,
+        items: budgetTypeArray.map(item => ({ value: item[budgetTypeModelConfig.idField], label: item.name || item[budgetTypeModelConfig.idField] })),
+        values: model.budgetType ? [model.budgetType] : [],
+        onChange: vals => modelFormActions.changeField('budgetType',
+          vals[0],
+        ),
+        onSearch: (value) => budgetTypeSearchSet(value ? encodeURIComponent(value) : ''),
+        emptyItemsLabel: budgetTypeArrayIsLoading ? '' : undefined,
+        onScrollToEnd: budgetTypeNextPageAction,
+        isLoading: budgetTypeArrayIsLoading,
+        missingValueResolver: value => budgetTypeEntities.getById(value).name,
+          label: 'budgetType',
+          errors: modelErrors.budgetType,
+          onValid: () => modelFormActions.resetFieldError('budgetType'),
+          onInvalid: err => modelFormActions.setFieldError('budgetType', err),
+          type: SELECT_TYPES.filterDropdown,
+          multi: false,
+          clearable: true,
+          placeHolder: 'Not set',
+          
+        }}
+      />
+<TSelect
+        {...{
+          
+          
+        className: modalsStyle.control,
+        items: contactPersonArray.map(item => ({ value: item[contactPersonModelConfig.idField], label: item.name || item[contactPersonModelConfig.idField] })),
+        values: model.contactPersons,
+        onChange: vals => modelFormActions.changeField('contactPersons',
+          vals,
+        ),
+        onSearch: (value) => contactPersonSearchSet(value ? encodeURIComponent(value) : ''),
+        emptyItemsLabel: contactPersonArrayIsLoading ? '' : undefined,
+        onScrollToEnd: contactPersonNextPageAction,
+        isLoading: contactPersonArrayIsLoading,
+        missingValueResolver: value => contactPersonEntities.getById(value).name,
           label: 'contactPersons',
-          placeholder: 'Not chosen',
-          value: model.contactPersons,
           errors: modelErrors.contactPersons,
-          onChange: val => modelFormActions.changeField('contactPersons', val),
           onValid: () => modelFormActions.resetFieldError('contactPersons'),
           onInvalid: err => modelFormActions.setFieldError('contactPersons', err),
-          validate: {
-            checkOnBlur: true,
-            required: false,
-          },
+          type: SELECT_TYPES.filterDropdown,
+          multi: true,
+          clearable: false,
+          placeHolder: 'Not set',
+          
         }}
       />
       <TInput
           {...{
           type: INPUT_TYPES.multi,
           label: 'description',
-          placeholder: 'Not chosen',
+          className: modalsStyle.control,
           value: model.description,
           errors: modelErrors.description,
           onChange: val => modelFormActions.changeField('description', val),
@@ -355,7 +382,7 @@ const EditComponent = ({
           {...{
           type: INPUT_TYPES.float,
           label: 'amount',
-          placeholder: 'Not chosen',
+          className: modalsStyle.control,
           value: model.amount,
           errors: modelErrors.amount,
           onChange: val => modelFormActions.changeField('amount', val),
@@ -367,11 +394,28 @@ const EditComponent = ({
           },
         }}
       />
+      <DateTimePicker
+            {...{
+            label: 'created',
+          className: modalsStyle.control,
+          value: model.created,
+          errors: modelErrors.created,
+          onChange: val => modelFormActions.changeField('created', val),
+          onValid: () => modelFormActions.resetFieldError('created'),
+          onInvalid: err => modelFormActions.setFieldError('created', err),
+            type: PICKER_TYPES.dateTime,
+            validate: {
+              checkOnBlur: true,
+              requiredDate: false,
+              requiredTime: false,
+            },
+          }}
+        />
       <TInput
           {...{
           type: INPUT_TYPES.float,
           label: 'totalBillAmount',
-          placeholder: 'Not chosen',
+          className: modalsStyle.control,
           value: model.totalBillAmount,
           errors: modelErrors.totalBillAmount,
           onChange: val => modelFormActions.changeField('totalBillAmount', val),
@@ -386,12 +430,13 @@ const EditComponent = ({
       <DateTimePicker
             {...{
             label: 'startDate',
-          placeholder: 'Not chosen',
+          className: modalsStyle.control,
           value: model.startDate,
           errors: modelErrors.startDate,
           onChange: val => modelFormActions.changeField('startDate', val),
           onValid: () => modelFormActions.resetFieldError('startDate'),
           onInvalid: err => modelFormActions.setFieldError('startDate', err),
+            type: PICKER_TYPES.dateTime,
             validate: {
               checkOnBlur: true,
               requiredDate: false,
@@ -402,12 +447,13 @@ const EditComponent = ({
       <DateTimePicker
             {...{
             label: 'endDate',
-          placeholder: 'Not chosen',
+          className: modalsStyle.control,
           value: model.endDate,
           errors: modelErrors.endDate,
           onChange: val => modelFormActions.changeField('endDate', val),
           onValid: () => modelFormActions.resetFieldError('endDate'),
           onInvalid: err => modelFormActions.setFieldError('endDate', err),
+            type: PICKER_TYPES.dateTime,
             validate: {
               checkOnBlur: true,
               requiredDate: false,
@@ -415,195 +461,7 @@ const EditComponent = ({
             },
           }}
         />
-      <TInput
-          {...{
-          type: INPUT_TYPES.multi,
-          label: 'activitySet',
-          placeholder: 'Not chosen',
-          value: model.activitySet,
-          errors: modelErrors.activitySet,
-          onChange: val => modelFormActions.changeField('activitySet', val),
-          onValid: () => modelFormActions.resetFieldError('activitySet'),
-          onInvalid: err => modelFormActions.setFieldError('activitySet', err),
-          validate: {
-            checkOnBlur: true,
-            required: false,
-          },
-        }}
-      />
-      <TInput
-          {...{
-          type: INPUT_TYPES.multi,
-          label: 'billSet',
-          placeholder: 'Not chosen',
-          value: model.billSet,
-          errors: modelErrors.billSet,
-          onChange: val => modelFormActions.changeField('billSet', val),
-          onValid: () => modelFormActions.resetFieldError('billSet'),
-          onInvalid: err => modelFormActions.setFieldError('billSet', err),
-          validate: {
-            checkOnBlur: true,
-            required: false,
-          },
-        }}
-      />
-      <TInput
-          {...{
-          type: INPUT_TYPES.multi,
-          label: 'paymentSet',
-          placeholder: 'Not chosen',
-          value: model.paymentSet,
-          errors: modelErrors.paymentSet,
-          onChange: val => modelFormActions.changeField('paymentSet', val),
-          onValid: () => modelFormActions.resetFieldError('paymentSet'),
-          onInvalid: err => modelFormActions.setFieldError('paymentSet', err),
-          validate: {
-            checkOnBlur: true,
-            required: false,
-          },
-        }}
-      />
-      <TInput
-          {...{
-          type: INPUT_TYPES.multi,
-          label: 'timeEntrySet',
-          placeholder: 'Not chosen',
-          value: model.timeEntrySet,
-          errors: modelErrors.timeEntrySet,
-          onChange: val => modelFormActions.changeField('timeEntrySet', val),
-          onValid: () => modelFormActions.resetFieldError('timeEntrySet'),
-          onInvalid: err => modelFormActions.setFieldError('timeEntrySet', err),
-          validate: {
-            checkOnBlur: true,
-            required: false,
-          },
-        }}
-      />
-      <TInput
-          {...{
-          type: INPUT_TYPES.multi,
-          label: 'expenseSet',
-          placeholder: 'Not chosen',
-          value: model.expenseSet,
-          errors: modelErrors.expenseSet,
-          onChange: val => modelFormActions.changeField('expenseSet', val),
-          onValid: () => modelFormActions.resetFieldError('expenseSet'),
-          onInvalid: err => modelFormActions.setFieldError('expenseSet', err),
-          validate: {
-            checkOnBlur: true,
-            required: false,
-          },
-        }}
-      />
-      <TInput
-          {...{
-          type: INPUT_TYPES.multi,
-          label: 'billPriceListSet',
-          placeholder: 'Not chosen',
-          value: model.billPriceListSet,
-          errors: modelErrors.billPriceListSet,
-          onChange: val => modelFormActions.changeField('billPriceListSet', val),
-          onValid: () => modelFormActions.resetFieldError('billPriceListSet'),
-          onInvalid: err => modelFormActions.setFieldError('billPriceListSet', err),
-          validate: {
-            checkOnBlur: true,
-            required: false,
-          },
-        }}
-      />
-      <TSelect
-        {...{
-          label: 'documentSet',
-          items: documentArray.map(e => ({ value: e.id, label: e.name })),
-          type: SELECT_TYPES.filterDropdown,
-          placeholder: 'Not chosen',
-          values: model.documentSet && [model.documentSet],
-          onChange: values => modelFormActions.changeField('documentSet', values[0]),
-          onInvalid: errs => modelFormActions.setFieldError('documentSet', errs),
-          onValid: () => modelFormActions.resetFieldError('documentSet'),
-          errors: getNestedObjectField(modelErrors, 'documentSet'),
-          validate: {
-            required: false,
-            checkOnBlur: true,
-          },
-          onSearch: (value) => documentSearchSet(value ? encodeURIComponent(value) : ''),
-          emptyItemsLabel: documentArrayIsLoading ? '' : undefined,
-          onScrollToEnd: documentNextPageAction,
-          missingValueResolver: value => documentEntities.getById(value).name,
-          isLoading: documentArrayIsLoading,
-        }}
-      />
-      <TInput
-          {...{
-          type: INPUT_TYPES.multi,
-          label: 'matterContactPersonSet',
-          placeholder: 'Not chosen',
-          value: model.matterContactPersonSet,
-          errors: modelErrors.matterContactPersonSet,
-          onChange: val => modelFormActions.changeField('matterContactPersonSet', val),
-          onValid: () => modelFormActions.resetFieldError('matterContactPersonSet'),
-          onInvalid: err => modelFormActions.setFieldError('matterContactPersonSet', err),
-          validate: {
-            checkOnBlur: true,
-            required: false,
-          },
-        }}
-      />
-      <TSelect
-        {...{
-          label: 'commentSet',
-          items: commentArray.map(e => ({ value: e.id, label: e.name })),
-          type: SELECT_TYPES.filterDropdown,
-          placeholder: 'Not chosen',
-          values: model.commentSet && [model.commentSet],
-          onChange: values => modelFormActions.changeField('commentSet', values[0]),
-          onInvalid: errs => modelFormActions.setFieldError('commentSet', errs),
-          onValid: () => modelFormActions.resetFieldError('commentSet'),
-          errors: getNestedObjectField(modelErrors, 'commentSet'),
-          validate: {
-            required: false,
-            checkOnBlur: true,
-          },
-          onSearch: (value) => commentSearchSet(value ? encodeURIComponent(value) : ''),
-          emptyItemsLabel: commentArrayIsLoading ? '' : undefined,
-          onScrollToEnd: commentNextPageAction,
-          missingValueResolver: value => commentEntities.getById(value).name,
-          isLoading: commentArrayIsLoading,
-        }}
-      />
-      <TInput
-          {...{
-          type: INPUT_TYPES.multi,
-          label: 'matterInfoSet',
-          placeholder: 'Not chosen',
-          value: model.matterInfoSet,
-          errors: modelErrors.matterInfoSet,
-          onChange: val => modelFormActions.changeField('matterInfoSet', val),
-          onValid: () => modelFormActions.resetFieldError('matterInfoSet'),
-          onInvalid: err => modelFormActions.setFieldError('matterInfoSet', err),
-          validate: {
-            checkOnBlur: true,
-            required: false,
-          },
-        }}
-      />
-      <TInput
-          {...{
-          type: INPUT_TYPES.multi,
-          label: 'teamMemberSet',
-          placeholder: 'Not chosen',
-          value: model.teamMemberSet,
-          errors: modelErrors.teamMemberSet,
-          onChange: val => modelFormActions.changeField('teamMemberSet', val),
-          onValid: () => modelFormActions.resetFieldError('teamMemberSet'),
-          onInvalid: err => modelFormActions.setFieldError('teamMemberSet', err),
-          validate: {
-            checkOnBlur: true,
-            required: false,
-          },
-        }}
-      />
-    </React.Fragment>
+    </div>
   )
 }
 export default EditComponent

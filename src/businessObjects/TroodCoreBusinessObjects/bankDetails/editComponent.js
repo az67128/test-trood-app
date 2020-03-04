@@ -1,7 +1,11 @@
 import React from 'react'
+import style from './editComponent.css'
+import modalsStyle from '$trood/styles/modals.css'
+import classNames from 'classnames'
+
 import TInput, { INPUT_TYPES } from '$trood/components/TInput'
 import TSelect, { SELECT_TYPES } from '$trood/components/TSelect'
-import { getNestedObjectField } from '$trood/helpers/nestedObjects'
+import { RESTIFY_CONFIG } from 'redux-restify'
 
 const EditComponent = ({
   model,
@@ -11,9 +15,10 @@ const EditComponent = ({
   requisitesApiActions, 
 }) => {
       const [requisitesSearch, requisitesSearchSet] = React.useState('')
+      const requisitesModelConfig = RESTIFY_CONFIG.registeredModels['requisites']
       const requisitesApiConfig = {
         filter: {
-          q: requisitesSearch ? 'like(name,*' + requisitesSearch + ')' : '',
+          q: requisitesSearch ? `eq(${requisitesModelConfig.idField},${requisitesSearch})` : '',
           depth: 1,
         },
       }
@@ -27,12 +32,12 @@ const EditComponent = ({
       }
       
   return (
-    <React.Fragment>
+    <div {...{className: classNames(style.root, modalsStyle.root)}}>
       <TInput
           {...{
           type: INPUT_TYPES.multi,
           label: 'bankName',
-          placeholder: 'Not chosen',
+          className: modalsStyle.control,
           value: model.bankName,
           errors: modelErrors.bankName,
           onChange: val => modelFormActions.changeField('bankName', val),
@@ -48,7 +53,7 @@ const EditComponent = ({
           {...{
           type: INPUT_TYPES.multi,
           label: 'bankAddress',
-          placeholder: 'Not chosen',
+          className: modalsStyle.control,
           value: model.bankAddress,
           errors: modelErrors.bankAddress,
           onChange: val => modelFormActions.changeField('bankAddress', val),
@@ -64,7 +69,7 @@ const EditComponent = ({
           {...{
           type: INPUT_TYPES.multi,
           label: 'bik',
-          placeholder: 'Not chosen',
+          className: modalsStyle.control,
           value: model.bik,
           errors: modelErrors.bik,
           onChange: val => modelFormActions.changeField('bik', val),
@@ -80,7 +85,7 @@ const EditComponent = ({
           {...{
           type: INPUT_TYPES.multi,
           label: 'ks',
-          placeholder: 'Not chosen',
+          className: modalsStyle.control,
           value: model.ks,
           errors: modelErrors.ks,
           onChange: val => modelFormActions.changeField('ks', val),
@@ -96,7 +101,7 @@ const EditComponent = ({
           {...{
           type: INPUT_TYPES.multi,
           label: 'rs',
-          placeholder: 'Not chosen',
+          className: modalsStyle.control,
           value: model.rs,
           errors: modelErrors.rs,
           onChange: val => modelFormActions.changeField('rs', val),
@@ -108,33 +113,37 @@ const EditComponent = ({
           },
         }}
       />
-      <TSelect
+<TSelect
         {...{
+          
+          
+        className: modalsStyle.control,
+        items: requisitesArray.map(item => ({ value: item[requisitesModelConfig.idField], label: item.name || item[requisitesModelConfig.idField] })),
+        values: model.requisites ? [model.requisites] : [],
+        onChange: vals => modelFormActions.changeField('requisites',
+          vals[0],
+        ),
+        onSearch: (value) => requisitesSearchSet(value ? encodeURIComponent(value) : ''),
+        emptyItemsLabel: requisitesArrayIsLoading ? '' : undefined,
+        onScrollToEnd: requisitesNextPageAction,
+        isLoading: requisitesArrayIsLoading,
+        missingValueResolver: value => requisitesEntities.getById(value).name,
           label: 'requisites',
-          items: requisitesArray.map(e => ({ value: e.id, label: e.name })),
-          type: SELECT_TYPES.filterDropdown,
-          placeholder: 'Not chosen',
-          values: model.requisites && [model.requisites],
-          onChange: values => modelFormActions.changeField('requisites', values[0]),
-          onInvalid: errs => modelFormActions.setFieldError('requisites', errs),
+          errors: modelErrors.requisites,
           onValid: () => modelFormActions.resetFieldError('requisites'),
-          errors: getNestedObjectField(modelErrors, 'requisites'),
-          validate: {
-            required: false,
-            checkOnBlur: true,
-          },
-          onSearch: (value) => requisitesSearchSet(value ? encodeURIComponent(value) : ''),
-          emptyItemsLabel: requisitesArrayIsLoading ? '' : undefined,
-          onScrollToEnd: requisitesNextPageAction,
-          missingValueResolver: value => requisitesEntities.getById(value).name,
-          isLoading: requisitesArrayIsLoading,
+          onInvalid: err => modelFormActions.setFieldError('requisites', err),
+          type: SELECT_TYPES.filterDropdown,
+          multi: false,
+          clearable: false,
+          placeHolder: 'Not set',
+          
         }}
       />
       <TInput
           {...{
           type: INPUT_TYPES.multi,
           label: 'inn',
-          placeholder: 'Not chosen',
+          className: modalsStyle.control,
           value: model.inn,
           errors: modelErrors.inn,
           onChange: val => modelFormActions.changeField('inn', val),
@@ -150,7 +159,7 @@ const EditComponent = ({
           {...{
           type: INPUT_TYPES.multi,
           label: 'kpp',
-          placeholder: 'Not chosen',
+          className: modalsStyle.control,
           value: model.kpp,
           errors: modelErrors.kpp,
           onChange: val => modelFormActions.changeField('kpp', val),
@@ -166,7 +175,7 @@ const EditComponent = ({
           {...{
           type: INPUT_TYPES.multi,
           label: 'swift',
-          placeholder: 'Not chosen',
+          className: modalsStyle.control,
           value: model.swift,
           errors: modelErrors.swift,
           onChange: val => modelFormActions.changeField('swift', val),
@@ -182,7 +191,7 @@ const EditComponent = ({
           {...{
           type: INPUT_TYPES.multi,
           label: 'iban',
-          placeholder: 'Not chosen',
+          className: modalsStyle.control,
           value: model.iban,
           errors: modelErrors.iban,
           onChange: val => modelFormActions.changeField('iban', val),
@@ -194,7 +203,7 @@ const EditComponent = ({
           },
         }}
       />
-    </React.Fragment>
+    </div>
   )
 }
 export default EditComponent

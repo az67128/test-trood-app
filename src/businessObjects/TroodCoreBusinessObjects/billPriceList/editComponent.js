@@ -1,19 +1,25 @@
 import React from 'react'
+import style from './editComponent.css'
+import modalsStyle from '$trood/styles/modals.css'
+import classNames from 'classnames'
+
 import TSelect, { SELECT_TYPES } from '$trood/components/TSelect'
-import { getNestedObjectField } from '$trood/helpers/nestedObjects'
-import TInput, { INPUT_TYPES } from '$trood/components/TInput'
+import { RESTIFY_CONFIG } from 'redux-restify'
 
 const EditComponent = ({
   model,
   modelErrors,
   modelFormActions,
   matterEntities,
-  matterApiActions, 
+  matterApiActions,
+  employeeEntities,
+  employeeApiActions, 
 }) => {
       const [matterSearch, matterSearchSet] = React.useState('')
+      const matterModelConfig = RESTIFY_CONFIG.registeredModels['matter']
       const matterApiConfig = {
         filter: {
-          q: matterSearch ? 'like(name,*' + matterSearch + ')' : '',
+          q: matterSearch ? `eq(${matterModelConfig.idField},${matterSearch})` : '',
           depth: 1,
         },
       }
@@ -26,63 +32,78 @@ const EditComponent = ({
         }
       }
       
+      const [employeeSearch, employeeSearchSet] = React.useState('')
+      const employeeModelConfig = RESTIFY_CONFIG.registeredModels['employee']
+      const employeeApiConfig = {
+        filter: {
+          q: employeeSearch ? `eq(${employeeModelConfig.idField},${employeeSearch})` : '',
+          depth: 1,
+        },
+      }
+      const employeeArray = employeeEntities.getArray(employeeApiConfig)
+      const employeeArrayIsLoading = employeeEntities.getIsLoadingArray(employeeApiConfig)
+      const employeeNextPage = employeeEntities.getNextPage(employeeApiConfig)
+      const employeeNextPageAction = () => {
+        if (employeeNextPage) {
+          employeeApiActions.loadNextPage(employeeApiConfig)
+        }
+      }
+      
   return (
-    <React.Fragment>
-      <TSelect
+    <div {...{className: classNames(style.root, modalsStyle.root)}}>
+<TSelect
         {...{
+          
+          
+        className: modalsStyle.control,
+        items: matterArray.map(item => ({ value: item[matterModelConfig.idField], label: item.name || item[matterModelConfig.idField] })),
+        values: model.matter ? [model.matter] : [],
+        onChange: vals => modelFormActions.changeField('matter',
+          vals[0],
+        ),
+        onSearch: (value) => matterSearchSet(value ? encodeURIComponent(value) : ''),
+        emptyItemsLabel: matterArrayIsLoading ? '' : undefined,
+        onScrollToEnd: matterNextPageAction,
+        isLoading: matterArrayIsLoading,
+        missingValueResolver: value => matterEntities.getById(value).name,
           label: 'matter',
-          items: matterArray.map(e => ({ value: e.id, label: e.name })),
-          type: SELECT_TYPES.filterDropdown,
-          placeholder: 'Not chosen',
-          values: model.matter && [model.matter],
-          onChange: values => modelFormActions.changeField('matter', values[0]),
-          onInvalid: errs => modelFormActions.setFieldError('matter', errs),
+          errors: modelErrors.matter,
           onValid: () => modelFormActions.resetFieldError('matter'),
-          errors: getNestedObjectField(modelErrors, 'matter'),
-          validate: {
-            required: true,
-            checkOnBlur: true,
-          },
-          onSearch: (value) => matterSearchSet(value ? encodeURIComponent(value) : ''),
-          emptyItemsLabel: matterArrayIsLoading ? '' : undefined,
-          onScrollToEnd: matterNextPageAction,
-          missingValueResolver: value => matterEntities.getById(value).name,
-          isLoading: matterArrayIsLoading,
+          onInvalid: err => modelFormActions.setFieldError('matter', err),
+          type: SELECT_TYPES.filterDropdown,
+          multi: false,
+          clearable: true,
+          placeHolder: 'Not set',
+          
         }}
       />
-      <TInput
-          {...{
-          type: INPUT_TYPES.multi,
+<TSelect
+        {...{
+          
+          
+        className: modalsStyle.control,
+        items: employeeArray.map(item => ({ value: item[employeeModelConfig.idField], label: item.name || item[employeeModelConfig.idField] })),
+        values: model.employee,
+        onChange: vals => modelFormActions.changeField('employee',
+          vals,
+        ),
+        onSearch: (value) => employeeSearchSet(value ? encodeURIComponent(value) : ''),
+        emptyItemsLabel: employeeArrayIsLoading ? '' : undefined,
+        onScrollToEnd: employeeNextPageAction,
+        isLoading: employeeArrayIsLoading,
+        missingValueResolver: value => employeeEntities.getById(value).name,
           label: 'employee',
-          placeholder: 'Not chosen',
-          value: model.employee,
           errors: modelErrors.employee,
-          onChange: val => modelFormActions.changeField('employee', val),
           onValid: () => modelFormActions.resetFieldError('employee'),
           onInvalid: err => modelFormActions.setFieldError('employee', err),
-          validate: {
-            checkOnBlur: true,
-            required: true,
-          },
+          type: SELECT_TYPES.filterDropdown,
+          multi: true,
+          clearable: true,
+          placeHolder: 'Not set',
+          
         }}
       />
-      <TInput
-          {...{
-          type: INPUT_TYPES.multi,
-          label: 'billPriceListEmployeeSet',
-          placeholder: 'Not chosen',
-          value: model.billPriceListEmployeeSet,
-          errors: modelErrors.billPriceListEmployeeSet,
-          onChange: val => modelFormActions.changeField('billPriceListEmployeeSet', val),
-          onValid: () => modelFormActions.resetFieldError('billPriceListEmployeeSet'),
-          onInvalid: err => modelFormActions.setFieldError('billPriceListEmployeeSet', err),
-          validate: {
-            checkOnBlur: true,
-            required: false,
-          },
-        }}
-      />
-    </React.Fragment>
+    </div>
   )
 }
 export default EditComponent
