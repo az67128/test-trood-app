@@ -262,6 +262,62 @@ export default {
         },
       ],
     },
+    {
+      title: 'contact person',
+      url: 'contatpersons',
+      type: 'grid',
+      components: [
+        {
+          id: 'contatpersons-table',
+          type: 'LegalCoreComponents/ContactPersons',
+          span: 3,
+          withMargin: true,
+          models: {
+            contactPerson: 'contactPerson',
+            contact: 'contact',
+            contactType: 'contactType',
+          },
+        },
+      ],
+    },
+    {
+      title: 'comments',
+      url: 'comments',
+      type: 'grid',
+      components: [
+        {
+          id: 'comments-table',
+          type: 'LegalCoreComponents/Comments',
+          span: 3,
+          withMargin: true,
+          models: {
+            employee: 'employee',
+            contact: 'contact',
+            comment: 'comment',
+          },
+        },
+      ],
+    },
+    {
+      title: 'contacts',
+      url: 'contacts',
+      type: 'grid',
+      components: [
+        {
+          id: 'contacts-table',
+          type: 'LegalCoreComponents/Contacts',
+          span: 3,
+          withMargin: true,
+          models: {
+            contact: 'contact',
+            contactType: 'contactType',
+            employee: 'employee', 
+            contactPerson: 'contactPerson', client:'client', candidate:'candidate',
+          },
+        },
+      ],
+    },
+    
   ],
   entityPages: {},
 }

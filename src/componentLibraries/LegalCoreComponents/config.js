@@ -25,6 +25,23 @@ export default {
       models: [
        
       ],
+    }
+    ,{
+      title: 'ContactPersons',
+      models: [
+       
+      ],
+    },{
+      title: 'Comments',
+      models: [
+       
+      ],
+    },
+    {
+      title: 'Contacts',
+      models: [
+       
+      ],
     },
   ],
 }
