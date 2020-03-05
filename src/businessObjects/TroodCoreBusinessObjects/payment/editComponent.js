@@ -196,39 +196,41 @@ const EditComponent = ({
           }}
       />
       <DateTimePicker
-            {...{
-              label: 'created',
+          {...{
+            label: 'created',
             className: modalsStyle.control,
             value: model.created,
             errors: modelErrors.created,
             onChange: val => modelFormActions.changeField('created', val),
             onValid: () => modelFormActions.resetFieldError('created'),
             onInvalid: err => modelFormActions.setFieldError('created', err),
-              type: PICKER_TYPES.dateTime,
-              validate: {
-                checkOnBlur: true,
-                requiredDate: false,
-                requiredTime: false,
-            },
-          }}
-        />
+            type: PICKER_TYPES.dateTime,
+            validate: {
+              checkOnBlur: true,
+              requiredDate: false,
+              requiredTime: false,
+
+          },
+        }}
+      />
       <DateTimePicker
-            {...{
-              label: 'paymentDate',
+          {...{
+            label: 'paymentDate',
             className: modalsStyle.control,
             value: model.paymentDate,
             errors: modelErrors.paymentDate,
             onChange: val => modelFormActions.changeField('paymentDate', val),
             onValid: () => modelFormActions.resetFieldError('paymentDate'),
             onInvalid: err => modelFormActions.setFieldError('paymentDate', err),
-              type: PICKER_TYPES.dateTime,
-              validate: {
-                checkOnBlur: true,
-                requiredDate: false,
-                requiredTime: false,
-            },
-          }}
-        />
+            type: PICKER_TYPES.dateTime,
+            validate: {
+              checkOnBlur: true,
+              requiredDate: false,
+              requiredTime: false,
+
+          },
+        }}
+      />
       <TSelect
         {...{
           className: modalsStyle.control,

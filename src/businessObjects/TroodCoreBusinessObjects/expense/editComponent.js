@@ -169,22 +169,23 @@ const EditComponent = ({
           }}
       />
       <DateTimePicker
-            {...{
-              label: 'created',
+          {...{
+            label: 'created',
             className: modalsStyle.control,
             value: model.created,
             errors: modelErrors.created,
             onChange: val => modelFormActions.changeField('created', val),
             onValid: () => modelFormActions.resetFieldError('created'),
             onInvalid: err => modelFormActions.setFieldError('created', err),
-              type: PICKER_TYPES.dateTime,
-              validate: {
-                checkOnBlur: true,
-                requiredDate: false,
-                requiredTime: false,
-            },
-          }}
-        />
+            type: PICKER_TYPES.dateTime,
+            validate: {
+              checkOnBlur: true,
+              requiredDate: false,
+              requiredTime: false,
+
+          },
+        }}
+      />
       <TSelect
         {...{
           className: modalsStyle.control,
@@ -301,22 +302,23 @@ const EditComponent = ({
         }}
       />
       <DateTimePicker
-            {...{
-              label: 'expenseDate',
+          {...{
+            label: 'expenseDate',
             className: modalsStyle.control,
             value: model.expenseDate,
             errors: modelErrors.expenseDate,
             onChange: val => modelFormActions.changeField('expenseDate', val),
             onValid: () => modelFormActions.resetFieldError('expenseDate'),
             onInvalid: err => modelFormActions.setFieldError('expenseDate', err),
-              type: PICKER_TYPES.dateTime,
-              validate: {
-                checkOnBlur: true,
-                requiredDate: false,
-                requiredTime: false,
-            },
-          }}
-        />
+            type: PICKER_TYPES.dateTime,
+            validate: {
+              checkOnBlur: true,
+              requiredDate: false,
+              requiredTime: false,
+
+          },
+        }}
+      />
     </div>
   )
 }

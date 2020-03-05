@@ -294,39 +294,41 @@ const EditComponent = ({
         }}
       />
       <DateTimePicker
-            {...{
-              label: 'timeEntryDate',
+          {...{
+            label: 'timeEntryDate',
             className: modalsStyle.control,
             value: model.timeEntryDate,
             errors: modelErrors.timeEntryDate,
             onChange: val => modelFormActions.changeField('timeEntryDate', val),
             onValid: () => modelFormActions.resetFieldError('timeEntryDate'),
             onInvalid: err => modelFormActions.setFieldError('timeEntryDate', err),
-              type: PICKER_TYPES.dateTime,
-              validate: {
-                checkOnBlur: true,
-                requiredDate: false,
-                requiredTime: false,
-            },
-          }}
-        />
+            type: PICKER_TYPES.dateTime,
+            validate: {
+              checkOnBlur: true,
+              requiredDate: false,
+              requiredTime: false,
+
+          },
+        }}
+      />
       <DateTimePicker
-            {...{
-              label: 'created',
+          {...{
+            label: 'created',
             className: modalsStyle.control,
             value: model.created,
             errors: modelErrors.created,
             onChange: val => modelFormActions.changeField('created', val),
             onValid: () => modelFormActions.resetFieldError('created'),
             onInvalid: err => modelFormActions.setFieldError('created', err),
-              type: PICKER_TYPES.dateTime,
-              validate: {
-                checkOnBlur: true,
-                requiredDate: false,
-                requiredTime: false,
-            },
-          }}
-        />
+            type: PICKER_TYPES.dateTime,
+            validate: {
+              checkOnBlur: true,
+              requiredDate: false,
+              requiredTime: false,
+
+          },
+        }}
+      />
       <TInput
           {...{
             type: INPUT_TYPES.multi,
@@ -416,22 +418,23 @@ const EditComponent = ({
           }}
       />
       <DateTimePicker
-            {...{
-              label: 'approvedDate',
+          {...{
+            label: 'approvedDate',
             className: modalsStyle.control,
             value: model.approvedDate,
             errors: modelErrors.approvedDate,
             onChange: val => modelFormActions.changeField('approvedDate', val),
             onValid: () => modelFormActions.resetFieldError('approvedDate'),
             onInvalid: err => modelFormActions.setFieldError('approvedDate', err),
-              type: PICKER_TYPES.dateTime,
-              validate: {
-                checkOnBlur: true,
-                requiredDate: false,
-                requiredTime: false,
-            },
-          }}
-        />
+            type: PICKER_TYPES.dateTime,
+            validate: {
+              checkOnBlur: true,
+              requiredDate: false,
+              requiredTime: false,
+
+          },
+        }}
+      />
       <TSelect
         {...{
           className: modalsStyle.control,
@@ -583,22 +586,23 @@ const EditComponent = ({
           }}
         />
       <DateTimePicker
-            {...{
-              label: 'timeEntryEndDate',
+          {...{
+            label: 'timeEntryEndDate',
             className: modalsStyle.control,
             value: model.timeEntryEndDate,
             errors: modelErrors.timeEntryEndDate,
             onChange: val => modelFormActions.changeField('timeEntryEndDate', val),
             onValid: () => modelFormActions.resetFieldError('timeEntryEndDate'),
             onInvalid: err => modelFormActions.setFieldError('timeEntryEndDate', err),
-              type: PICKER_TYPES.dateTime,
-              validate: {
-                checkOnBlur: true,
-                requiredDate: false,
-                requiredTime: false,
-            },
-          }}
-        />
+            type: PICKER_TYPES.dateTime,
+            validate: {
+              checkOnBlur: true,
+              requiredDate: false,
+              requiredTime: false,
+
+          },
+        }}
+      />
     </div>
   )
 }

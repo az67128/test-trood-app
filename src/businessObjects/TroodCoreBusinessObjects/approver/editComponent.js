@@ -166,22 +166,23 @@ const EditComponent = ({
           }}
       />
       <DateTimePicker
-            {...{
-              label: 'approveDate',
+          {...{
+            label: 'approveDate',
             className: modalsStyle.control,
             value: model.approveDate,
             errors: modelErrors.approveDate,
             onChange: val => modelFormActions.changeField('approveDate', val),
             onValid: () => modelFormActions.resetFieldError('approveDate'),
             onInvalid: err => modelFormActions.setFieldError('approveDate', err),
-              type: PICKER_TYPES.dateTime,
-              validate: {
-                checkOnBlur: true,
-                requiredDate: false,
-                requiredTime: false,
-            },
-          }}
-        />
+            type: PICKER_TYPES.dateTime,
+            validate: {
+              checkOnBlur: true,
+              requiredDate: false,
+              requiredTime: false,
+
+          },
+        }}
+      />
     </div>
   )
 }

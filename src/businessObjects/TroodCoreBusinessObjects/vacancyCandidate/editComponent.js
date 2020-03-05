@@ -270,56 +270,59 @@ const EditComponent = ({
         }}
       />
       <DateTimePicker
-            {...{
-              label: 'created',
+          {...{
+            label: 'created',
             className: modalsStyle.control,
             value: model.created,
             errors: modelErrors.created,
             onChange: val => modelFormActions.changeField('created', val),
             onValid: () => modelFormActions.resetFieldError('created'),
             onInvalid: err => modelFormActions.setFieldError('created', err),
-              type: PICKER_TYPES.dateTime,
-              validate: {
-                checkOnBlur: true,
-                requiredDate: false,
-                requiredTime: false,
-            },
-          }}
-        />
+            type: PICKER_TYPES.dateTime,
+            validate: {
+              checkOnBlur: true,
+              requiredDate: false,
+              requiredTime: false,
+
+          },
+        }}
+      />
       <DateTimePicker
-            {...{
-              label: 'statusDate',
+          {...{
+            label: 'statusDate',
             className: modalsStyle.control,
             value: model.statusDate,
             errors: modelErrors.statusDate,
             onChange: val => modelFormActions.changeField('statusDate', val),
             onValid: () => modelFormActions.resetFieldError('statusDate'),
             onInvalid: err => modelFormActions.setFieldError('statusDate', err),
-              type: PICKER_TYPES.dateTime,
-              validate: {
-                checkOnBlur: true,
-                requiredDate: false,
-                requiredTime: false,
-            },
-          }}
-        />
+            type: PICKER_TYPES.dateTime,
+            validate: {
+              checkOnBlur: true,
+              requiredDate: false,
+              requiredTime: false,
+
+          },
+        }}
+      />
       <DateTimePicker
-            {...{
-              label: 'resolveDate',
+          {...{
+            label: 'resolveDate',
             className: modalsStyle.control,
             value: model.resolveDate,
             errors: modelErrors.resolveDate,
             onChange: val => modelFormActions.changeField('resolveDate', val),
             onValid: () => modelFormActions.resetFieldError('resolveDate'),
             onInvalid: err => modelFormActions.setFieldError('resolveDate', err),
-              type: PICKER_TYPES.dateTime,
-              validate: {
-                checkOnBlur: true,
-                requiredDate: false,
-                requiredTime: false,
-            },
-          }}
-        />
+            type: PICKER_TYPES.dateTime,
+            validate: {
+              checkOnBlur: true,
+              requiredDate: false,
+              requiredTime: false,
+
+          },
+        }}
+      />
     </div>
   )
 }

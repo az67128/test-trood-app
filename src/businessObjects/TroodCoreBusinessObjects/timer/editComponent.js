@@ -169,22 +169,23 @@ const EditComponent = ({
         }}
       />
       <DateTimePicker
-            {...{
-              label: 'start',
+          {...{
+            label: 'start',
             className: modalsStyle.control,
             value: model.start,
             errors: modelErrors.start,
             onChange: val => modelFormActions.changeField('start', val),
             onValid: () => modelFormActions.resetFieldError('start'),
             onInvalid: err => modelFormActions.setFieldError('start', err),
-              type: PICKER_TYPES.dateTime,
-              validate: {
-                checkOnBlur: true,
-                requiredDate: false,
-                requiredTime: false,
-            },
-          }}
-        />
+            type: PICKER_TYPES.dateTime,
+            validate: {
+              checkOnBlur: true,
+              requiredDate: false,
+              requiredTime: false,
+
+          },
+        }}
+      />
       <TInput
           {...{
             type: INPUT_TYPES.float,

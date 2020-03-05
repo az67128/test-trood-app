@@ -298,22 +298,23 @@ const EditComponent = ({
           }}
         />
       <DateTimePicker
-            {...{
-              label: 'created',
+          {...{
+            label: 'created',
             className: modalsStyle.control,
             value: model.created,
             errors: modelErrors.created,
             onChange: val => modelFormActions.changeField('created', val),
             onValid: () => modelFormActions.resetFieldError('created'),
             onInvalid: err => modelFormActions.setFieldError('created', err),
-              type: PICKER_TYPES.dateTime,
-              validate: {
-                checkOnBlur: true,
-                requiredDate: false,
-                requiredTime: false,
-            },
-          }}
-        />
+            type: PICKER_TYPES.dateTime,
+            validate: {
+              checkOnBlur: true,
+              requiredDate: false,
+              requiredTime: false,
+
+          },
+        }}
+      />
       <TInput
           {...{
             type: INPUT_TYPES.multi,
@@ -331,39 +332,41 @@ const EditComponent = ({
           }}
       />
       <DateTimePicker
-            {...{
-              label: 'start',
+          {...{
+            label: 'start',
             className: modalsStyle.control,
             value: model.start,
             errors: modelErrors.start,
             onChange: val => modelFormActions.changeField('start', val),
             onValid: () => modelFormActions.resetFieldError('start'),
             onInvalid: err => modelFormActions.setFieldError('start', err),
-              type: PICKER_TYPES.dateTime,
-              validate: {
-                checkOnBlur: true,
-                requiredDate: false,
-                requiredTime: false,
-            },
-          }}
-        />
+            type: PICKER_TYPES.dateTime,
+            validate: {
+              checkOnBlur: true,
+              requiredDate: false,
+              requiredTime: false,
+
+          },
+        }}
+      />
       <DateTimePicker
-            {...{
-              label: 'deadline',
+          {...{
+            label: 'deadline',
             className: modalsStyle.control,
             value: model.deadline,
             errors: modelErrors.deadline,
             onChange: val => modelFormActions.changeField('deadline', val),
             onValid: () => modelFormActions.resetFieldError('deadline'),
             onInvalid: err => modelFormActions.setFieldError('deadline', err),
-              type: PICKER_TYPES.dateTime,
-              validate: {
-                checkOnBlur: true,
-                requiredDate: false,
-                requiredTime: false,
-            },
-          }}
-        />
+            type: PICKER_TYPES.dateTime,
+            validate: {
+              checkOnBlur: true,
+              requiredDate: false,
+              requiredTime: false,
+
+          },
+        }}
+      />
       <TCheckbox
           {...{
             label: 'deleted',
