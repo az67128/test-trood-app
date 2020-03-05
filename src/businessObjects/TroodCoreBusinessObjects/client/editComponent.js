@@ -25,12 +25,16 @@ const EditComponent = ({
   const clientActiveStatusModelConfig = RESTIFY_CONFIG.registeredModels.clientActiveStatus
   const clientActiveStatusApiConfig = {
     filter: {
-      q: clientActiveStatusSearch ? `eq(${clientActiveStatusModelConfig.idField},${clientActiveStatusSearch})` : '',
+      q: clientActiveStatusSearch 
+        ? `eq(${clientActiveStatusModelConfig.idField},${clientActiveStatusSearch})`
+        : '',
       depth: 1,
     },
   }
   const clientActiveStatusArray = clientActiveStatusEntities.getArray(clientActiveStatusApiConfig)
-  const clientActiveStatusArrayIsLoading = clientActiveStatusEntities.getIsLoadingArray(clientActiveStatusApiConfig)
+  const clientActiveStatusArrayIsLoading = clientActiveStatusEntities.getIsLoadingArray(
+    clientActiveStatusApiConfig,
+  )
   const clientActiveStatusNextPage = clientActiveStatusEntities.getNextPage(clientActiveStatusApiConfig)
   const clientActiveStatusNextPageAction = () => {
     if (clientActiveStatusNextPage) {
@@ -42,12 +46,16 @@ const EditComponent = ({
   const employeeModelConfig = RESTIFY_CONFIG.registeredModels.employee
   const employeeApiConfig = {
     filter: {
-      q: employeeSearch ? `eq(${employeeModelConfig.idField},${employeeSearch})` : '',
+      q: employeeSearch 
+        ? `eq(${employeeModelConfig.idField},${employeeSearch})`
+        : '',
       depth: 1,
     },
   }
   const employeeArray = employeeEntities.getArray(employeeApiConfig)
-  const employeeArrayIsLoading = employeeEntities.getIsLoadingArray(employeeApiConfig)
+  const employeeArrayIsLoading = employeeEntities.getIsLoadingArray(
+    employeeApiConfig,
+  )
   const employeeNextPage = employeeEntities.getNextPage(employeeApiConfig)
   const employeeNextPageAction = () => {
     if (employeeNextPage) {
@@ -59,12 +67,16 @@ const EditComponent = ({
   const clientTypeModelConfig = RESTIFY_CONFIG.registeredModels.clientType
   const clientTypeApiConfig = {
     filter: {
-      q: clientTypeSearch ? `eq(${clientTypeModelConfig.idField},${clientTypeSearch})` : '',
+      q: clientTypeSearch 
+        ? `eq(${clientTypeModelConfig.idField},${clientTypeSearch})`
+        : '',
       depth: 1,
     },
   }
   const clientTypeArray = clientTypeEntities.getArray(clientTypeApiConfig)
-  const clientTypeArrayIsLoading = clientTypeEntities.getIsLoadingArray(clientTypeApiConfig)
+  const clientTypeArrayIsLoading = clientTypeEntities.getIsLoadingArray(
+    clientTypeApiConfig,
+  )
   const clientTypeNextPage = clientTypeEntities.getNextPage(clientTypeApiConfig)
   const clientTypeNextPageAction = () => {
     if (clientTypeNextPage) {
@@ -76,12 +88,16 @@ const EditComponent = ({
   const conflictStatusModelConfig = RESTIFY_CONFIG.registeredModels.conflictStatus
   const conflictStatusApiConfig = {
     filter: {
-      q: conflictStatusSearch ? `eq(${conflictStatusModelConfig.idField},${conflictStatusSearch})` : '',
+      q: conflictStatusSearch 
+        ? `eq(${conflictStatusModelConfig.idField},${conflictStatusSearch})`
+        : '',
       depth: 1,
     },
   }
   const conflictStatusArray = conflictStatusEntities.getArray(conflictStatusApiConfig)
-  const conflictStatusArrayIsLoading = conflictStatusEntities.getIsLoadingArray(conflictStatusApiConfig)
+  const conflictStatusArrayIsLoading = conflictStatusEntities.getIsLoadingArray(
+    conflictStatusApiConfig,
+  )
   const conflictStatusNextPage = conflictStatusEntities.getNextPage(conflictStatusApiConfig)
   const conflictStatusNextPageAction = () => {
     if (conflictStatusNextPage) {

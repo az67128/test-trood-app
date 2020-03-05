@@ -30,12 +30,16 @@ const EditComponent = ({
   const employeeModelConfig = RESTIFY_CONFIG.registeredModels.employee
   const employeeApiConfig = {
     filter: {
-      q: employeeSearch ? `eq(${employeeModelConfig.idField},${employeeSearch})` : '',
+      q: employeeSearch 
+        ? `eq(${employeeModelConfig.idField},${employeeSearch})`
+        : '',
       depth: 1,
     },
   }
   const employeeArray = employeeEntities.getArray(employeeApiConfig)
-  const employeeArrayIsLoading = employeeEntities.getIsLoadingArray(employeeApiConfig)
+  const employeeArrayIsLoading = employeeEntities.getIsLoadingArray(
+    employeeApiConfig,
+  )
   const employeeNextPage = employeeEntities.getNextPage(employeeApiConfig)
   const employeeNextPageAction = () => {
     if (employeeNextPage) {
@@ -47,12 +51,16 @@ const EditComponent = ({
   const activityStatusModelConfig = RESTIFY_CONFIG.registeredModels.activityStatus
   const activityStatusApiConfig = {
     filter: {
-      q: activityStatusSearch ? `eq(${activityStatusModelConfig.idField},${activityStatusSearch})` : '',
+      q: activityStatusSearch 
+        ? `eq(${activityStatusModelConfig.idField},${activityStatusSearch})`
+        : '',
       depth: 1,
     },
   }
   const activityStatusArray = activityStatusEntities.getArray(activityStatusApiConfig)
-  const activityStatusArrayIsLoading = activityStatusEntities.getIsLoadingArray(activityStatusApiConfig)
+  const activityStatusArrayIsLoading = activityStatusEntities.getIsLoadingArray(
+    activityStatusApiConfig,
+  )
   const activityStatusNextPage = activityStatusEntities.getNextPage(activityStatusApiConfig)
   const activityStatusNextPageAction = () => {
     if (activityStatusNextPage) {
@@ -64,12 +72,16 @@ const EditComponent = ({
   const matterModelConfig = RESTIFY_CONFIG.registeredModels.matter
   const matterApiConfig = {
     filter: {
-      q: matterSearch ? `eq(${matterModelConfig.idField},${matterSearch})` : '',
+      q: matterSearch 
+        ? `eq(${matterModelConfig.idField},${matterSearch})`
+        : '',
       depth: 1,
     },
   }
   const matterArray = matterEntities.getArray(matterApiConfig)
-  const matterArrayIsLoading = matterEntities.getIsLoadingArray(matterApiConfig)
+  const matterArrayIsLoading = matterEntities.getIsLoadingArray(
+    matterApiConfig,
+  )
   const matterNextPage = matterEntities.getNextPage(matterApiConfig)
   const matterNextPageAction = () => {
     if (matterNextPage) {
@@ -81,12 +93,16 @@ const EditComponent = ({
   const activityTypeModelConfig = RESTIFY_CONFIG.registeredModels.activityType
   const activityTypeApiConfig = {
     filter: {
-      q: activityTypeSearch ? `eq(${activityTypeModelConfig.idField},${activityTypeSearch})` : '',
+      q: activityTypeSearch 
+        ? `eq(${activityTypeModelConfig.idField},${activityTypeSearch})`
+        : '',
       depth: 1,
     },
   }
   const activityTypeArray = activityTypeEntities.getArray(activityTypeApiConfig)
-  const activityTypeArrayIsLoading = activityTypeEntities.getIsLoadingArray(activityTypeApiConfig)
+  const activityTypeArrayIsLoading = activityTypeEntities.getIsLoadingArray(
+    activityTypeApiConfig,
+  )
   const activityTypeNextPage = activityTypeEntities.getNextPage(activityTypeApiConfig)
   const activityTypeNextPageAction = () => {
     if (activityTypeNextPage) {
@@ -98,12 +114,16 @@ const EditComponent = ({
   const invitationListModelConfig = RESTIFY_CONFIG.registeredModels.invitationList
   const invitationListApiConfig = {
     filter: {
-      q: invitationListSearch ? `eq(${invitationListModelConfig.idField},${invitationListSearch})` : '',
+      q: invitationListSearch 
+        ? `eq(${invitationListModelConfig.idField},${invitationListSearch})`
+        : '',
       depth: 1,
     },
   }
   const invitationListArray = invitationListEntities.getArray(invitationListApiConfig)
-  const invitationListArrayIsLoading = invitationListEntities.getIsLoadingArray(invitationListApiConfig)
+  const invitationListArrayIsLoading = invitationListEntities.getIsLoadingArray(
+    invitationListApiConfig,
+  )
   const invitationListNextPage = invitationListEntities.getNextPage(invitationListApiConfig)
   const invitationListNextPageAction = () => {
     if (invitationListNextPage) {
@@ -115,12 +135,16 @@ const EditComponent = ({
   const activityAccessStatusModelConfig = RESTIFY_CONFIG.registeredModels.activityAccessStatus
   const activityAccessStatusApiConfig = {
     filter: {
-      q: activityAccessStatusSearch ? `eq(${activityAccessStatusModelConfig.idField},${activityAccessStatusSearch})` : '',
+      q: activityAccessStatusSearch 
+        ? `eq(${activityAccessStatusModelConfig.idField},${activityAccessStatusSearch})`
+        : '',
       depth: 1,
     },
   }
   const activityAccessStatusArray = activityAccessStatusEntities.getArray(activityAccessStatusApiConfig)
-  const activityAccessStatusArrayIsLoading = activityAccessStatusEntities.getIsLoadingArray(activityAccessStatusApiConfig)
+  const activityAccessStatusArrayIsLoading = activityAccessStatusEntities.getIsLoadingArray(
+    activityAccessStatusApiConfig,
+  )
   const activityAccessStatusNextPage = activityAccessStatusEntities.getNextPage(activityAccessStatusApiConfig)
   const activityAccessStatusNextPageAction = () => {
     if (activityAccessStatusNextPage) {

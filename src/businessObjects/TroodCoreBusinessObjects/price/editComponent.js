@@ -25,12 +25,16 @@ const EditComponent = ({
   const priceUnitModelConfig = RESTIFY_CONFIG.registeredModels.priceUnit
   const priceUnitApiConfig = {
     filter: {
-      q: priceUnitSearch ? `eq(${priceUnitModelConfig.idField},${priceUnitSearch})` : '',
+      q: priceUnitSearch 
+        ? `eq(${priceUnitModelConfig.idField},${priceUnitSearch})`
+        : '',
       depth: 1,
     },
   }
   const priceUnitArray = priceUnitEntities.getArray(priceUnitApiConfig)
-  const priceUnitArrayIsLoading = priceUnitEntities.getIsLoadingArray(priceUnitApiConfig)
+  const priceUnitArrayIsLoading = priceUnitEntities.getIsLoadingArray(
+    priceUnitApiConfig,
+  )
   const priceUnitNextPage = priceUnitEntities.getNextPage(priceUnitApiConfig)
   const priceUnitNextPageAction = () => {
     if (priceUnitNextPage) {
@@ -42,12 +46,16 @@ const EditComponent = ({
   const employeeModelConfig = RESTIFY_CONFIG.registeredModels.employee
   const employeeApiConfig = {
     filter: {
-      q: employeeSearch ? `eq(${employeeModelConfig.idField},${employeeSearch})` : '',
+      q: employeeSearch 
+        ? `eq(${employeeModelConfig.idField},${employeeSearch})`
+        : '',
       depth: 1,
     },
   }
   const employeeArray = employeeEntities.getArray(employeeApiConfig)
-  const employeeArrayIsLoading = employeeEntities.getIsLoadingArray(employeeApiConfig)
+  const employeeArrayIsLoading = employeeEntities.getIsLoadingArray(
+    employeeApiConfig,
+  )
   const employeeNextPage = employeeEntities.getNextPage(employeeApiConfig)
   const employeeNextPageAction = () => {
     if (employeeNextPage) {
@@ -59,12 +67,16 @@ const EditComponent = ({
   const utbmsModelConfig = RESTIFY_CONFIG.registeredModels.utbms
   const utbmsApiConfig = {
     filter: {
-      q: utbmsSearch ? `eq(${utbmsModelConfig.idField},${utbmsSearch})` : '',
+      q: utbmsSearch 
+        ? `eq(${utbmsModelConfig.idField},${utbmsSearch})`
+        : '',
       depth: 1,
     },
   }
   const utbmsArray = utbmsEntities.getArray(utbmsApiConfig)
-  const utbmsArrayIsLoading = utbmsEntities.getIsLoadingArray(utbmsApiConfig)
+  const utbmsArrayIsLoading = utbmsEntities.getIsLoadingArray(
+    utbmsApiConfig,
+  )
   const utbmsNextPage = utbmsEntities.getNextPage(utbmsApiConfig)
   const utbmsNextPageAction = () => {
     if (utbmsNextPage) {
@@ -76,12 +88,16 @@ const EditComponent = ({
   const serviceTypeModelConfig = RESTIFY_CONFIG.registeredModels.serviceType
   const serviceTypeApiConfig = {
     filter: {
-      q: serviceTypeSearch ? `eq(${serviceTypeModelConfig.idField},${serviceTypeSearch})` : '',
+      q: serviceTypeSearch 
+        ? `eq(${serviceTypeModelConfig.idField},${serviceTypeSearch})`
+        : '',
       depth: 1,
     },
   }
   const serviceTypeArray = serviceTypeEntities.getArray(serviceTypeApiConfig)
-  const serviceTypeArrayIsLoading = serviceTypeEntities.getIsLoadingArray(serviceTypeApiConfig)
+  const serviceTypeArrayIsLoading = serviceTypeEntities.getIsLoadingArray(
+    serviceTypeApiConfig,
+  )
   const serviceTypeNextPage = serviceTypeEntities.getNextPage(serviceTypeApiConfig)
   const serviceTypeNextPageAction = () => {
     if (serviceTypeNextPage) {

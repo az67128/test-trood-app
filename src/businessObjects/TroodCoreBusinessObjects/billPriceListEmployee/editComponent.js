@@ -19,12 +19,16 @@ const EditComponent = ({
   const billPriceListModelConfig = RESTIFY_CONFIG.registeredModels.billPriceList
   const billPriceListApiConfig = {
     filter: {
-      q: billPriceListSearch ? `eq(${billPriceListModelConfig.idField},${billPriceListSearch})` : '',
+      q: billPriceListSearch 
+        ? `eq(${billPriceListModelConfig.idField},${billPriceListSearch})`
+        : '',
       depth: 1,
     },
   }
   const billPriceListArray = billPriceListEntities.getArray(billPriceListApiConfig)
-  const billPriceListArrayIsLoading = billPriceListEntities.getIsLoadingArray(billPriceListApiConfig)
+  const billPriceListArrayIsLoading = billPriceListEntities.getIsLoadingArray(
+    billPriceListApiConfig,
+  )
   const billPriceListNextPage = billPriceListEntities.getNextPage(billPriceListApiConfig)
   const billPriceListNextPageAction = () => {
     if (billPriceListNextPage) {
@@ -36,12 +40,16 @@ const EditComponent = ({
   const employeeModelConfig = RESTIFY_CONFIG.registeredModels.employee
   const employeeApiConfig = {
     filter: {
-      q: employeeSearch ? `eq(${employeeModelConfig.idField},${employeeSearch})` : '',
+      q: employeeSearch 
+        ? `eq(${employeeModelConfig.idField},${employeeSearch})`
+        : '',
       depth: 1,
     },
   }
   const employeeArray = employeeEntities.getArray(employeeApiConfig)
-  const employeeArrayIsLoading = employeeEntities.getIsLoadingArray(employeeApiConfig)
+  const employeeArrayIsLoading = employeeEntities.getIsLoadingArray(
+    employeeApiConfig,
+  )
   const employeeNextPage = employeeEntities.getNextPage(employeeApiConfig)
   const employeeNextPageAction = () => {
     if (employeeNextPage) {

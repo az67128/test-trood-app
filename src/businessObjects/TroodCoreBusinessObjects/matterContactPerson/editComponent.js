@@ -19,12 +19,16 @@ const EditComponent = ({
   const matterModelConfig = RESTIFY_CONFIG.registeredModels.matter
   const matterApiConfig = {
     filter: {
-      q: matterSearch ? `eq(${matterModelConfig.idField},${matterSearch})` : '',
+      q: matterSearch 
+        ? `eq(${matterModelConfig.idField},${matterSearch})`
+        : '',
       depth: 1,
     },
   }
   const matterArray = matterEntities.getArray(matterApiConfig)
-  const matterArrayIsLoading = matterEntities.getIsLoadingArray(matterApiConfig)
+  const matterArrayIsLoading = matterEntities.getIsLoadingArray(
+    matterApiConfig,
+  )
   const matterNextPage = matterEntities.getNextPage(matterApiConfig)
   const matterNextPageAction = () => {
     if (matterNextPage) {
@@ -36,12 +40,16 @@ const EditComponent = ({
   const contactPersonModelConfig = RESTIFY_CONFIG.registeredModels.contactPerson
   const contactPersonApiConfig = {
     filter: {
-      q: contactPersonSearch ? `eq(${contactPersonModelConfig.idField},${contactPersonSearch})` : '',
+      q: contactPersonSearch 
+        ? `eq(${contactPersonModelConfig.idField},${contactPersonSearch})`
+        : '',
       depth: 1,
     },
   }
   const contactPersonArray = contactPersonEntities.getArray(contactPersonApiConfig)
-  const contactPersonArrayIsLoading = contactPersonEntities.getIsLoadingArray(contactPersonApiConfig)
+  const contactPersonArrayIsLoading = contactPersonEntities.getIsLoadingArray(
+    contactPersonApiConfig,
+  )
   const contactPersonNextPage = contactPersonEntities.getNextPage(contactPersonApiConfig)
   const contactPersonNextPageAction = () => {
     if (contactPersonNextPage) {

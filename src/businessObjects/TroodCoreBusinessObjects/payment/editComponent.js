@@ -25,12 +25,16 @@ const EditComponent = ({
   const employeeModelConfig = RESTIFY_CONFIG.registeredModels.employee
   const employeeApiConfig = {
     filter: {
-      q: employeeSearch ? `eq(${employeeModelConfig.idField},${employeeSearch})` : '',
+      q: employeeSearch 
+        ? `eq(${employeeModelConfig.idField},${employeeSearch})`
+        : '',
       depth: 1,
     },
   }
   const employeeArray = employeeEntities.getArray(employeeApiConfig)
-  const employeeArrayIsLoading = employeeEntities.getIsLoadingArray(employeeApiConfig)
+  const employeeArrayIsLoading = employeeEntities.getIsLoadingArray(
+    employeeApiConfig,
+  )
   const employeeNextPage = employeeEntities.getNextPage(employeeApiConfig)
   const employeeNextPageAction = () => {
     if (employeeNextPage) {
@@ -42,12 +46,16 @@ const EditComponent = ({
   const clientModelConfig = RESTIFY_CONFIG.registeredModels.client
   const clientApiConfig = {
     filter: {
-      q: clientSearch ? `eq(${clientModelConfig.idField},${clientSearch})` : '',
+      q: clientSearch 
+        ? `eq(${clientModelConfig.idField},${clientSearch})`
+        : '',
       depth: 1,
     },
   }
   const clientArray = clientEntities.getArray(clientApiConfig)
-  const clientArrayIsLoading = clientEntities.getIsLoadingArray(clientApiConfig)
+  const clientArrayIsLoading = clientEntities.getIsLoadingArray(
+    clientApiConfig,
+  )
   const clientNextPage = clientEntities.getNextPage(clientApiConfig)
   const clientNextPageAction = () => {
     if (clientNextPage) {
@@ -59,12 +67,16 @@ const EditComponent = ({
   const matterModelConfig = RESTIFY_CONFIG.registeredModels.matter
   const matterApiConfig = {
     filter: {
-      q: matterSearch ? `eq(${matterModelConfig.idField},${matterSearch})` : '',
+      q: matterSearch 
+        ? `eq(${matterModelConfig.idField},${matterSearch})`
+        : '',
       depth: 1,
     },
   }
   const matterArray = matterEntities.getArray(matterApiConfig)
-  const matterArrayIsLoading = matterEntities.getIsLoadingArray(matterApiConfig)
+  const matterArrayIsLoading = matterEntities.getIsLoadingArray(
+    matterApiConfig,
+  )
   const matterNextPage = matterEntities.getNextPage(matterApiConfig)
   const matterNextPageAction = () => {
     if (matterNextPage) {
@@ -76,12 +88,16 @@ const EditComponent = ({
   const billModelConfig = RESTIFY_CONFIG.registeredModels.bill
   const billApiConfig = {
     filter: {
-      q: billSearch ? `eq(${billModelConfig.idField},${billSearch})` : '',
+      q: billSearch 
+        ? `eq(${billModelConfig.idField},${billSearch})`
+        : '',
       depth: 1,
     },
   }
   const billArray = billEntities.getArray(billApiConfig)
-  const billArrayIsLoading = billEntities.getIsLoadingArray(billApiConfig)
+  const billArrayIsLoading = billEntities.getIsLoadingArray(
+    billApiConfig,
+  )
   const billNextPage = billEntities.getNextPage(billApiConfig)
   const billNextPageAction = () => {
     if (billNextPage) {

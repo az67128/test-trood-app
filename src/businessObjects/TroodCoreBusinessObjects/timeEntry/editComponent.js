@@ -32,12 +32,16 @@ const EditComponent = ({
   const employeeModelConfig = RESTIFY_CONFIG.registeredModels.employee
   const employeeApiConfig = {
     filter: {
-      q: employeeSearch ? `eq(${employeeModelConfig.idField},${employeeSearch})` : '',
+      q: employeeSearch 
+        ? `eq(${employeeModelConfig.idField},${employeeSearch})`
+        : '',
       depth: 1,
     },
   }
   const employeeArray = employeeEntities.getArray(employeeApiConfig)
-  const employeeArrayIsLoading = employeeEntities.getIsLoadingArray(employeeApiConfig)
+  const employeeArrayIsLoading = employeeEntities.getIsLoadingArray(
+    employeeApiConfig,
+  )
   const employeeNextPage = employeeEntities.getNextPage(employeeApiConfig)
   const employeeNextPageAction = () => {
     if (employeeNextPage) {
@@ -49,12 +53,16 @@ const EditComponent = ({
   const timeEntryBillableModelConfig = RESTIFY_CONFIG.registeredModels.timeEntryBillable
   const timeEntryBillableApiConfig = {
     filter: {
-      q: timeEntryBillableSearch ? `eq(${timeEntryBillableModelConfig.idField},${timeEntryBillableSearch})` : '',
+      q: timeEntryBillableSearch 
+        ? `eq(${timeEntryBillableModelConfig.idField},${timeEntryBillableSearch})`
+        : '',
       depth: 1,
     },
   }
   const timeEntryBillableArray = timeEntryBillableEntities.getArray(timeEntryBillableApiConfig)
-  const timeEntryBillableArrayIsLoading = timeEntryBillableEntities.getIsLoadingArray(timeEntryBillableApiConfig)
+  const timeEntryBillableArrayIsLoading = timeEntryBillableEntities.getIsLoadingArray(
+    timeEntryBillableApiConfig,
+  )
   const timeEntryBillableNextPage = timeEntryBillableEntities.getNextPage(timeEntryBillableApiConfig)
   const timeEntryBillableNextPageAction = () => {
     if (timeEntryBillableNextPage) {
@@ -66,12 +74,16 @@ const EditComponent = ({
   const matterModelConfig = RESTIFY_CONFIG.registeredModels.matter
   const matterApiConfig = {
     filter: {
-      q: matterSearch ? `eq(${matterModelConfig.idField},${matterSearch})` : '',
+      q: matterSearch 
+        ? `eq(${matterModelConfig.idField},${matterSearch})`
+        : '',
       depth: 1,
     },
   }
   const matterArray = matterEntities.getArray(matterApiConfig)
-  const matterArrayIsLoading = matterEntities.getIsLoadingArray(matterApiConfig)
+  const matterArrayIsLoading = matterEntities.getIsLoadingArray(
+    matterApiConfig,
+  )
   const matterNextPage = matterEntities.getNextPage(matterApiConfig)
   const matterNextPageAction = () => {
     if (matterNextPage) {
@@ -83,12 +95,16 @@ const EditComponent = ({
   const activityModelConfig = RESTIFY_CONFIG.registeredModels.activity
   const activityApiConfig = {
     filter: {
-      q: activitySearch ? `eq(${activityModelConfig.idField},${activitySearch})` : '',
+      q: activitySearch 
+        ? `eq(${activityModelConfig.idField},${activitySearch})`
+        : '',
       depth: 1,
     },
   }
   const activityArray = activityEntities.getArray(activityApiConfig)
-  const activityArrayIsLoading = activityEntities.getIsLoadingArray(activityApiConfig)
+  const activityArrayIsLoading = activityEntities.getIsLoadingArray(
+    activityApiConfig,
+  )
   const activityNextPage = activityEntities.getNextPage(activityApiConfig)
   const activityNextPageAction = () => {
     if (activityNextPage) {
@@ -100,12 +116,16 @@ const EditComponent = ({
   const billModelConfig = RESTIFY_CONFIG.registeredModels.bill
   const billApiConfig = {
     filter: {
-      q: billSearch ? `eq(${billModelConfig.idField},${billSearch})` : '',
+      q: billSearch 
+        ? `eq(${billModelConfig.idField},${billSearch})`
+        : '',
       depth: 1,
     },
   }
   const billArray = billEntities.getArray(billApiConfig)
-  const billArrayIsLoading = billEntities.getIsLoadingArray(billApiConfig)
+  const billArrayIsLoading = billEntities.getIsLoadingArray(
+    billApiConfig,
+  )
   const billNextPage = billEntities.getNextPage(billApiConfig)
   const billNextPageAction = () => {
     if (billNextPage) {
@@ -117,12 +137,16 @@ const EditComponent = ({
   const utbmsModelConfig = RESTIFY_CONFIG.registeredModels.utbms
   const utbmsApiConfig = {
     filter: {
-      q: utbmsSearch ? `eq(${utbmsModelConfig.idField},${utbmsSearch})` : '',
+      q: utbmsSearch 
+        ? `eq(${utbmsModelConfig.idField},${utbmsSearch})`
+        : '',
       depth: 1,
     },
   }
   const utbmsArray = utbmsEntities.getArray(utbmsApiConfig)
-  const utbmsArrayIsLoading = utbmsEntities.getIsLoadingArray(utbmsApiConfig)
+  const utbmsArrayIsLoading = utbmsEntities.getIsLoadingArray(
+    utbmsApiConfig,
+  )
   const utbmsNextPage = utbmsEntities.getNextPage(utbmsApiConfig)
   const utbmsNextPageAction = () => {
     if (utbmsNextPage) {
@@ -134,12 +158,16 @@ const EditComponent = ({
   const timeEntryStatusModelConfig = RESTIFY_CONFIG.registeredModels.timeEntryStatus
   const timeEntryStatusApiConfig = {
     filter: {
-      q: timeEntryStatusSearch ? `eq(${timeEntryStatusModelConfig.idField},${timeEntryStatusSearch})` : '',
+      q: timeEntryStatusSearch 
+        ? `eq(${timeEntryStatusModelConfig.idField},${timeEntryStatusSearch})`
+        : '',
       depth: 1,
     },
   }
   const timeEntryStatusArray = timeEntryStatusEntities.getArray(timeEntryStatusApiConfig)
-  const timeEntryStatusArrayIsLoading = timeEntryStatusEntities.getIsLoadingArray(timeEntryStatusApiConfig)
+  const timeEntryStatusArrayIsLoading = timeEntryStatusEntities.getIsLoadingArray(
+    timeEntryStatusApiConfig,
+  )
   const timeEntryStatusNextPage = timeEntryStatusEntities.getNextPage(timeEntryStatusApiConfig)
   const timeEntryStatusNextPageAction = () => {
     if (timeEntryStatusNextPage) {

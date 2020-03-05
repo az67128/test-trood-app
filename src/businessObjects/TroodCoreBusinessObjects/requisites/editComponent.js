@@ -18,12 +18,16 @@ const EditComponent = ({
   const clientModelConfig = RESTIFY_CONFIG.registeredModels.client
   const clientApiConfig = {
     filter: {
-      q: clientSearch ? `eq(${clientModelConfig.idField},${clientSearch})` : '',
+      q: clientSearch 
+        ? `eq(${clientModelConfig.idField},${clientSearch})`
+        : '',
       depth: 1,
     },
   }
   const clientArray = clientEntities.getArray(clientApiConfig)
-  const clientArrayIsLoading = clientEntities.getIsLoadingArray(clientApiConfig)
+  const clientArrayIsLoading = clientEntities.getIsLoadingArray(
+    clientApiConfig,
+  )
   const clientNextPage = clientEntities.getNextPage(clientApiConfig)
   const clientNextPageAction = () => {
     if (clientNextPage) {

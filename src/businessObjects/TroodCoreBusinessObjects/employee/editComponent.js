@@ -22,12 +22,16 @@ const EditComponent = ({
   const employeePositionModelConfig = RESTIFY_CONFIG.registeredModels.employeePosition
   const employeePositionApiConfig = {
     filter: {
-      q: employeePositionSearch ? `eq(${employeePositionModelConfig.idField},${employeePositionSearch})` : '',
+      q: employeePositionSearch 
+        ? `eq(${employeePositionModelConfig.idField},${employeePositionSearch})`
+        : '',
       depth: 1,
     },
   }
   const employeePositionArray = employeePositionEntities.getArray(employeePositionApiConfig)
-  const employeePositionArrayIsLoading = employeePositionEntities.getIsLoadingArray(employeePositionApiConfig)
+  const employeePositionArrayIsLoading = employeePositionEntities.getIsLoadingArray(
+    employeePositionApiConfig,
+  )
   const employeePositionNextPage = employeePositionEntities.getNextPage(employeePositionApiConfig)
   const employeePositionNextPageAction = () => {
     if (employeePositionNextPage) {
@@ -39,12 +43,16 @@ const EditComponent = ({
   const employeeRoleModelConfig = RESTIFY_CONFIG.registeredModels.employeeRole
   const employeeRoleApiConfig = {
     filter: {
-      q: employeeRoleSearch ? `eq(${employeeRoleModelConfig.idField},${employeeRoleSearch})` : '',
+      q: employeeRoleSearch 
+        ? `eq(${employeeRoleModelConfig.idField},${employeeRoleSearch})`
+        : '',
       depth: 1,
     },
   }
   const employeeRoleArray = employeeRoleEntities.getArray(employeeRoleApiConfig)
-  const employeeRoleArrayIsLoading = employeeRoleEntities.getIsLoadingArray(employeeRoleApiConfig)
+  const employeeRoleArrayIsLoading = employeeRoleEntities.getIsLoadingArray(
+    employeeRoleApiConfig,
+  )
   const employeeRoleNextPage = employeeRoleEntities.getNextPage(employeeRoleApiConfig)
   const employeeRoleNextPageAction = () => {
     if (employeeRoleNextPage) {

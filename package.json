@@ -1,7 +1,11 @@
 {
   "name": "trood-init",
   "version": "1.0.0",
-  "dependencies": {},
+  "dependencies": {
+    "react": "^16.13.0",
+    "react-dom": "^16.13.0",
+    "react-peer": "^0.2.6"
+  },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^2.9.0",
     "@typescript-eslint/parser": "^2.9.0",

@@ -19,12 +19,16 @@ const EditComponent = ({
   const employeeModelConfig = RESTIFY_CONFIG.registeredModels.employee
   const employeeApiConfig = {
     filter: {
-      q: employeeSearch ? `eq(${employeeModelConfig.idField},${employeeSearch})` : '',
+      q: employeeSearch 
+        ? `eq(${employeeModelConfig.idField},${employeeSearch})`
+        : '',
       depth: 1,
     },
   }
   const employeeArray = employeeEntities.getArray(employeeApiConfig)
-  const employeeArrayIsLoading = employeeEntities.getIsLoadingArray(employeeApiConfig)
+  const employeeArrayIsLoading = employeeEntities.getIsLoadingArray(
+    employeeApiConfig,
+  )
   const employeeNextPage = employeeEntities.getNextPage(employeeApiConfig)
   const employeeNextPageAction = () => {
     if (employeeNextPage) {
@@ -36,12 +40,16 @@ const EditComponent = ({
   const invitationListModelConfig = RESTIFY_CONFIG.registeredModels.invitationList
   const invitationListApiConfig = {
     filter: {
-      q: invitationListSearch ? `eq(${invitationListModelConfig.idField},${invitationListSearch})` : '',
+      q: invitationListSearch 
+        ? `eq(${invitationListModelConfig.idField},${invitationListSearch})`
+        : '',
       depth: 1,
     },
   }
   const invitationListArray = invitationListEntities.getArray(invitationListApiConfig)
-  const invitationListArrayIsLoading = invitationListEntities.getIsLoadingArray(invitationListApiConfig)
+  const invitationListArrayIsLoading = invitationListEntities.getIsLoadingArray(
+    invitationListApiConfig,
+  )
   const invitationListNextPage = invitationListEntities.getNextPage(invitationListApiConfig)
   const invitationListNextPageAction = () => {
     if (invitationListNextPage) {

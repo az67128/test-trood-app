@@ -20,12 +20,16 @@ const EditComponent = ({
   const clientModelConfig = RESTIFY_CONFIG.registeredModels.client
   const clientApiConfig = {
     filter: {
-      q: clientSearch ? `eq(${clientModelConfig.idField},${clientSearch})` : '',
+      q: clientSearch 
+        ? `eq(${clientModelConfig.idField},${clientSearch})`
+        : '',
       depth: 1,
     },
   }
   const clientArray = clientEntities.getArray(clientApiConfig)
-  const clientArrayIsLoading = clientEntities.getIsLoadingArray(clientApiConfig)
+  const clientArrayIsLoading = clientEntities.getIsLoadingArray(
+    clientApiConfig,
+  )
   const clientNextPage = clientEntities.getNextPage(clientApiConfig)
   const clientNextPageAction = () => {
     if (clientNextPage) {
@@ -37,12 +41,16 @@ const EditComponent = ({
   const employeePositionModelConfig = RESTIFY_CONFIG.registeredModels.employeePosition
   const employeePositionApiConfig = {
     filter: {
-      q: employeePositionSearch ? `eq(${employeePositionModelConfig.idField},${employeePositionSearch})` : '',
+      q: employeePositionSearch 
+        ? `eq(${employeePositionModelConfig.idField},${employeePositionSearch})`
+        : '',
       depth: 1,
     },
   }
   const employeePositionArray = employeePositionEntities.getArray(employeePositionApiConfig)
-  const employeePositionArrayIsLoading = employeePositionEntities.getIsLoadingArray(employeePositionApiConfig)
+  const employeePositionArrayIsLoading = employeePositionEntities.getIsLoadingArray(
+    employeePositionApiConfig,
+  )
   const employeePositionNextPage = employeePositionEntities.getNextPage(employeePositionApiConfig)
   const employeePositionNextPageAction = () => {
     if (employeePositionNextPage) {

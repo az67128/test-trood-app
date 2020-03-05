@@ -22,12 +22,16 @@ const EditComponent = ({
   const employeeModelConfig = RESTIFY_CONFIG.registeredModels.employee
   const employeeApiConfig = {
     filter: {
-      q: employeeSearch ? `eq(${employeeModelConfig.idField},${employeeSearch})` : '',
+      q: employeeSearch 
+        ? `eq(${employeeModelConfig.idField},${employeeSearch})`
+        : '',
       depth: 1,
     },
   }
   const employeeArray = employeeEntities.getArray(employeeApiConfig)
-  const employeeArrayIsLoading = employeeEntities.getIsLoadingArray(employeeApiConfig)
+  const employeeArrayIsLoading = employeeEntities.getIsLoadingArray(
+    employeeApiConfig,
+  )
   const employeeNextPage = employeeEntities.getNextPage(employeeApiConfig)
   const employeeNextPageAction = () => {
     if (employeeNextPage) {
@@ -39,12 +43,16 @@ const EditComponent = ({
   const teamMemberModelConfig = RESTIFY_CONFIG.registeredModels.teamMember
   const teamMemberApiConfig = {
     filter: {
-      q: teamMemberSearch ? `eq(${teamMemberModelConfig.idField},${teamMemberSearch})` : '',
+      q: teamMemberSearch 
+        ? `eq(${teamMemberModelConfig.idField},${teamMemberSearch})`
+        : '',
       depth: 1,
     },
   }
   const teamMemberArray = teamMemberEntities.getArray(teamMemberApiConfig)
-  const teamMemberArrayIsLoading = teamMemberEntities.getIsLoadingArray(teamMemberApiConfig)
+  const teamMemberArrayIsLoading = teamMemberEntities.getIsLoadingArray(
+    teamMemberApiConfig,
+  )
   const teamMemberNextPage = teamMemberEntities.getNextPage(teamMemberApiConfig)
   const teamMemberNextPageAction = () => {
     if (teamMemberNextPage) {

@@ -23,12 +23,16 @@ const EditComponent = ({
   const timerStatusModelConfig = RESTIFY_CONFIG.registeredModels.timerStatus
   const timerStatusApiConfig = {
     filter: {
-      q: timerStatusSearch ? `eq(${timerStatusModelConfig.idField},${timerStatusSearch})` : '',
+      q: timerStatusSearch 
+        ? `eq(${timerStatusModelConfig.idField},${timerStatusSearch})`
+        : '',
       depth: 1,
     },
   }
   const timerStatusArray = timerStatusEntities.getArray(timerStatusApiConfig)
-  const timerStatusArrayIsLoading = timerStatusEntities.getIsLoadingArray(timerStatusApiConfig)
+  const timerStatusArrayIsLoading = timerStatusEntities.getIsLoadingArray(
+    timerStatusApiConfig,
+  )
   const timerStatusNextPage = timerStatusEntities.getNextPage(timerStatusApiConfig)
   const timerStatusNextPageAction = () => {
     if (timerStatusNextPage) {
@@ -40,12 +44,16 @@ const EditComponent = ({
   const employeeModelConfig = RESTIFY_CONFIG.registeredModels.employee
   const employeeApiConfig = {
     filter: {
-      q: employeeSearch ? `eq(${employeeModelConfig.idField},${employeeSearch})` : '',
+      q: employeeSearch 
+        ? `eq(${employeeModelConfig.idField},${employeeSearch})`
+        : '',
       depth: 1,
     },
   }
   const employeeArray = employeeEntities.getArray(employeeApiConfig)
-  const employeeArrayIsLoading = employeeEntities.getIsLoadingArray(employeeApiConfig)
+  const employeeArrayIsLoading = employeeEntities.getIsLoadingArray(
+    employeeApiConfig,
+  )
   const employeeNextPage = employeeEntities.getNextPage(employeeApiConfig)
   const employeeNextPageAction = () => {
     if (employeeNextPage) {
@@ -57,12 +65,16 @@ const EditComponent = ({
   const activityModelConfig = RESTIFY_CONFIG.registeredModels.activity
   const activityApiConfig = {
     filter: {
-      q: activitySearch ? `eq(${activityModelConfig.idField},${activitySearch})` : '',
+      q: activitySearch 
+        ? `eq(${activityModelConfig.idField},${activitySearch})`
+        : '',
       depth: 1,
     },
   }
   const activityArray = activityEntities.getArray(activityApiConfig)
-  const activityArrayIsLoading = activityEntities.getIsLoadingArray(activityApiConfig)
+  const activityArrayIsLoading = activityEntities.getIsLoadingArray(
+    activityApiConfig,
+  )
   const activityNextPage = activityEntities.getNextPage(activityApiConfig)
   const activityNextPageAction = () => {
     if (activityNextPage) {

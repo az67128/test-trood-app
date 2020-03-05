@@ -21,12 +21,16 @@ const EditComponent = ({
   const employeeModelConfig = RESTIFY_CONFIG.registeredModels.employee
   const employeeApiConfig = {
     filter: {
-      q: employeeSearch ? `eq(${employeeModelConfig.idField},${employeeSearch})` : '',
+      q: employeeSearch 
+        ? `eq(${employeeModelConfig.idField},${employeeSearch})`
+        : '',
       depth: 1,
     },
   }
   const employeeArray = employeeEntities.getArray(employeeApiConfig)
-  const employeeArrayIsLoading = employeeEntities.getIsLoadingArray(employeeApiConfig)
+  const employeeArrayIsLoading = employeeEntities.getIsLoadingArray(
+    employeeApiConfig,
+  )
   const employeeNextPage = employeeEntities.getNextPage(employeeApiConfig)
   const employeeNextPageAction = () => {
     if (employeeNextPage) {
@@ -38,12 +42,16 @@ const EditComponent = ({
   const statusRequestVacationModelConfig = RESTIFY_CONFIG.registeredModels.statusRequestVacation
   const statusRequestVacationApiConfig = {
     filter: {
-      q: statusRequestVacationSearch ? `eq(${statusRequestVacationModelConfig.idField},${statusRequestVacationSearch})` : '',
+      q: statusRequestVacationSearch 
+        ? `eq(${statusRequestVacationModelConfig.idField},${statusRequestVacationSearch})`
+        : '',
       depth: 1,
     },
   }
   const statusRequestVacationArray = statusRequestVacationEntities.getArray(statusRequestVacationApiConfig)
-  const statusRequestVacationArrayIsLoading = statusRequestVacationEntities.getIsLoadingArray(statusRequestVacationApiConfig)
+  const statusRequestVacationArrayIsLoading = statusRequestVacationEntities.getIsLoadingArray(
+    statusRequestVacationApiConfig,
+  )
   const statusRequestVacationNextPage = statusRequestVacationEntities.getNextPage(statusRequestVacationApiConfig)
   const statusRequestVacationNextPageAction = () => {
     if (statusRequestVacationNextPage) {

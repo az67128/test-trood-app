@@ -21,12 +21,16 @@ const EditComponent = ({
   const employeeModelConfig = RESTIFY_CONFIG.registeredModels.employee
   const employeeApiConfig = {
     filter: {
-      q: employeeSearch ? `eq(${employeeModelConfig.idField},${employeeSearch})` : '',
+      q: employeeSearch 
+        ? `eq(${employeeModelConfig.idField},${employeeSearch})`
+        : '',
       depth: 1,
     },
   }
   const employeeArray = employeeEntities.getArray(employeeApiConfig)
-  const employeeArrayIsLoading = employeeEntities.getIsLoadingArray(employeeApiConfig)
+  const employeeArrayIsLoading = employeeEntities.getIsLoadingArray(
+    employeeApiConfig,
+  )
   const employeeNextPage = employeeEntities.getNextPage(employeeApiConfig)
   const employeeNextPageAction = () => {
     if (employeeNextPage) {
@@ -38,12 +42,16 @@ const EditComponent = ({
   const vacancyStatusModelConfig = RESTIFY_CONFIG.registeredModels.vacancyStatus
   const vacancyStatusApiConfig = {
     filter: {
-      q: vacancyStatusSearch ? `eq(${vacancyStatusModelConfig.idField},${vacancyStatusSearch})` : '',
+      q: vacancyStatusSearch 
+        ? `eq(${vacancyStatusModelConfig.idField},${vacancyStatusSearch})`
+        : '',
       depth: 1,
     },
   }
   const vacancyStatusArray = vacancyStatusEntities.getArray(vacancyStatusApiConfig)
-  const vacancyStatusArrayIsLoading = vacancyStatusEntities.getIsLoadingArray(vacancyStatusApiConfig)
+  const vacancyStatusArrayIsLoading = vacancyStatusEntities.getIsLoadingArray(
+    vacancyStatusApiConfig,
+  )
   const vacancyStatusNextPage = vacancyStatusEntities.getNextPage(vacancyStatusApiConfig)
   const vacancyStatusNextPageAction = () => {
     if (vacancyStatusNextPage) {

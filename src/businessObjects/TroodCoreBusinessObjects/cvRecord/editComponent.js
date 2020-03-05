@@ -22,12 +22,16 @@ const EditComponent = ({
   const employeeModelConfig = RESTIFY_CONFIG.registeredModels.employee
   const employeeApiConfig = {
     filter: {
-      q: employeeSearch ? `eq(${employeeModelConfig.idField},${employeeSearch})` : '',
+      q: employeeSearch 
+        ? `eq(${employeeModelConfig.idField},${employeeSearch})`
+        : '',
       depth: 1,
     },
   }
   const employeeArray = employeeEntities.getArray(employeeApiConfig)
-  const employeeArrayIsLoading = employeeEntities.getIsLoadingArray(employeeApiConfig)
+  const employeeArrayIsLoading = employeeEntities.getIsLoadingArray(
+    employeeApiConfig,
+  )
   const employeeNextPage = employeeEntities.getNextPage(employeeApiConfig)
   const employeeNextPageAction = () => {
     if (employeeNextPage) {
@@ -40,12 +44,16 @@ const EditComponent = ({
   const targetObjectModelConfig = RESTIFY_CONFIG.registeredModels[snakeToCamel(model.targetObject._object)]
   const targetObjectApiConfig = {
     filter: {
-      q: targetObjectSearch ? `eq(${targetObjectModelConfig.idField},${targetObjectSearch})` : '',
+      q: targetObjectSearch 
+        ? `eq(${targetObjectModelConfig.idField},${targetObjectSearch})`
+        : '',
       depth: 1,
     },
   }
   const targetObjectArray = targetObjectGenericEnteties.getArray(targetObjectApiConfig)
-  const targetObjectArrayIsLoading = targetObjectGenericEnteties.getIsLoadingArray(targetObjectApiConfig)
+  const targetObjectArrayIsLoading = targetObjectGenericEnteties.getIsLoadingArray(
+    targetObjectApiConfig,
+  )
   const targetObjectNextPage = targetObjectGenericEnteties.getNextPage(targetObjectApiConfig)
   const targetObjectNextPageAction = () => {
     if (targetObjectNextPage) {
@@ -116,26 +124,29 @@ const EditComponent = ({
           }}
       />
       <div className={style.row}>
-          <TSelect 
-            {...{
-              className: undefined,
-              label: 'targetObject_type',
-              items: [{ value: 'candidate' }, { value: 'employee' }],
-              type: SELECT_TYPES.filterDropdown,
-              clearable: true,
-              values: model.targetObject && model.targetObject._object ? [model.targetObject._object] : [],
-              placeHolder: 'Not set',
-              onChange: vals => modelFormActions.changeField('targetObject', { _object: vals[0] }),
-              onInvalid: err => modelFormActions.setFieldError('targetObject', err),
-              validate: {
-                checkOnBlur: true,
-                required: true,
-              },
-            }} 
-          />
-          <TSelect
-            {...{
-        items: targetObjectArray.map(item => ({
+        <TSelect 
+          {...{
+            className: undefined,
+            label: 'targetObject_type',
+            items: [
+              { value: 'candidate' },
+              { value: 'employee' },
+            ],
+            type: SELECT_TYPES.filterDropdown,
+            clearable: true,
+            values: model.targetObject && model.targetObject._object ? [model.targetObject._object] : [],
+            placeHolder: 'Not set',
+            onChange: vals => modelFormActions.changeField('targetObject', { _object: vals[0] }),
+            onInvalid: err => modelFormActions.setFieldError('targetObject', err),
+            validate: {
+              checkOnBlur: true,
+              required: true,
+            },
+          }} 
+        />
+        <TSelect
+          {...{
+      items: targetObjectArray.map(item => ({
             value: item[targetObjectModelConfig.idField], 
             label: item.name || item[targetObjectModelConfig.idField],
           })),
@@ -158,9 +169,9 @@ const EditComponent = ({
           multi: false,
           clearable: true,
           placeHolder: 'Not set',
-            }}
-          />
-        </div>
+          }}
+        />
+      </div>
       <DateTimePicker
             {...{
               label: 'created',

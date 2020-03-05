@@ -26,12 +26,16 @@ const EditComponent = ({
   const employeeModelConfig = RESTIFY_CONFIG.registeredModels.employee
   const employeeApiConfig = {
     filter: {
-      q: employeeSearch ? `eq(${employeeModelConfig.idField},${employeeSearch})` : '',
+      q: employeeSearch 
+        ? `eq(${employeeModelConfig.idField},${employeeSearch})`
+        : '',
       depth: 1,
     },
   }
   const employeeArray = employeeEntities.getArray(employeeApiConfig)
-  const employeeArrayIsLoading = employeeEntities.getIsLoadingArray(employeeApiConfig)
+  const employeeArrayIsLoading = employeeEntities.getIsLoadingArray(
+    employeeApiConfig,
+  )
   const employeeNextPage = employeeEntities.getNextPage(employeeApiConfig)
   const employeeNextPageAction = () => {
     if (employeeNextPage) {
@@ -43,12 +47,16 @@ const EditComponent = ({
   const candidateStatusModelConfig = RESTIFY_CONFIG.registeredModels.candidateStatus
   const candidateStatusApiConfig = {
     filter: {
-      q: candidateStatusSearch ? `eq(${candidateStatusModelConfig.idField},${candidateStatusSearch})` : '',
+      q: candidateStatusSearch 
+        ? `eq(${candidateStatusModelConfig.idField},${candidateStatusSearch})`
+        : '',
       depth: 1,
     },
   }
   const candidateStatusArray = candidateStatusEntities.getArray(candidateStatusApiConfig)
-  const candidateStatusArrayIsLoading = candidateStatusEntities.getIsLoadingArray(candidateStatusApiConfig)
+  const candidateStatusArrayIsLoading = candidateStatusEntities.getIsLoadingArray(
+    candidateStatusApiConfig,
+  )
   const candidateStatusNextPage = candidateStatusEntities.getNextPage(candidateStatusApiConfig)
   const candidateStatusNextPageAction = () => {
     if (candidateStatusNextPage) {
@@ -60,12 +68,16 @@ const EditComponent = ({
   const resolveCandidateModelConfig = RESTIFY_CONFIG.registeredModels.resolveCandidate
   const resolveCandidateApiConfig = {
     filter: {
-      q: resolveCandidateSearch ? `eq(${resolveCandidateModelConfig.idField},${resolveCandidateSearch})` : '',
+      q: resolveCandidateSearch 
+        ? `eq(${resolveCandidateModelConfig.idField},${resolveCandidateSearch})`
+        : '',
       depth: 1,
     },
   }
   const resolveCandidateArray = resolveCandidateEntities.getArray(resolveCandidateApiConfig)
-  const resolveCandidateArrayIsLoading = resolveCandidateEntities.getIsLoadingArray(resolveCandidateApiConfig)
+  const resolveCandidateArrayIsLoading = resolveCandidateEntities.getIsLoadingArray(
+    resolveCandidateApiConfig,
+  )
   const resolveCandidateNextPage = resolveCandidateEntities.getNextPage(resolveCandidateApiConfig)
   const resolveCandidateNextPageAction = () => {
     if (resolveCandidateNextPage) {
@@ -77,12 +89,16 @@ const EditComponent = ({
   const candidateModelConfig = RESTIFY_CONFIG.registeredModels.candidate
   const candidateApiConfig = {
     filter: {
-      q: candidateSearch ? `eq(${candidateModelConfig.idField},${candidateSearch})` : '',
+      q: candidateSearch 
+        ? `eq(${candidateModelConfig.idField},${candidateSearch})`
+        : '',
       depth: 1,
     },
   }
   const candidateArray = candidateEntities.getArray(candidateApiConfig)
-  const candidateArrayIsLoading = candidateEntities.getIsLoadingArray(candidateApiConfig)
+  const candidateArrayIsLoading = candidateEntities.getIsLoadingArray(
+    candidateApiConfig,
+  )
   const candidateNextPage = candidateEntities.getNextPage(candidateApiConfig)
   const candidateNextPageAction = () => {
     if (candidateNextPage) {
@@ -94,12 +110,16 @@ const EditComponent = ({
   const vacancyModelConfig = RESTIFY_CONFIG.registeredModels.vacancy
   const vacancyApiConfig = {
     filter: {
-      q: vacancySearch ? `eq(${vacancyModelConfig.idField},${vacancySearch})` : '',
+      q: vacancySearch 
+        ? `eq(${vacancyModelConfig.idField},${vacancySearch})`
+        : '',
       depth: 1,
     },
   }
   const vacancyArray = vacancyEntities.getArray(vacancyApiConfig)
-  const vacancyArrayIsLoading = vacancyEntities.getIsLoadingArray(vacancyApiConfig)
+  const vacancyArrayIsLoading = vacancyEntities.getIsLoadingArray(
+    vacancyApiConfig,
+  )
   const vacancyNextPage = vacancyEntities.getNextPage(vacancyApiConfig)
   const vacancyNextPageAction = () => {
     if (vacancyNextPage) {

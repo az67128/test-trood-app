@@ -18,12 +18,16 @@ const EditComponent = ({
   const requisitesModelConfig = RESTIFY_CONFIG.registeredModels.requisites
   const requisitesApiConfig = {
     filter: {
-      q: requisitesSearch ? `eq(${requisitesModelConfig.idField},${requisitesSearch})` : '',
+      q: requisitesSearch 
+        ? `eq(${requisitesModelConfig.idField},${requisitesSearch})`
+        : '',
       depth: 1,
     },
   }
   const requisitesArray = requisitesEntities.getArray(requisitesApiConfig)
-  const requisitesArrayIsLoading = requisitesEntities.getIsLoadingArray(requisitesApiConfig)
+  const requisitesArrayIsLoading = requisitesEntities.getIsLoadingArray(
+    requisitesApiConfig,
+  )
   const requisitesNextPage = requisitesEntities.getNextPage(requisitesApiConfig)
   const requisitesNextPageAction = () => {
     if (requisitesNextPage) {
