@@ -307,4 +307,5 @@ const EditComponent = ({
     </div>
   )
 }
+
 export default EditComponent
