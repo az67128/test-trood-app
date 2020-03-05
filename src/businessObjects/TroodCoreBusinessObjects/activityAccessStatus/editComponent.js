@@ -12,7 +12,7 @@ const EditComponent = ({
 }) => {
 
   return (
-    <div {...{className: classNames(style.root, modalsStyle.root)}}>
+    <div className={classNames(style.root, modalsStyle.root)}>
       <TInput
           {...{
             type: INPUT_TYPES.multi,

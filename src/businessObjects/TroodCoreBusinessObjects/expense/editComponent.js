@@ -91,7 +91,7 @@ const EditComponent = ({
   }
       
   return (
-    <div {...{className: classNames(style.root, modalsStyle.root)}}>
+    <div className={classNames(style.root, modalsStyle.root)}>
       <TSelect
         {...{
           className: modalsStyle.control,
