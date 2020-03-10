@@ -1,1 +1,12 @@
 .root {}
+
+.row {
+  composes: root;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+}
+
+.row > * {
+  width: calc(50% - 8px);
+}
