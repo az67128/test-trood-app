@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import style from './editComponent.css'
 import modalsStyle from '$trood/styles/modals.css'
 import classNames from 'classnames'
@@ -21,7 +21,7 @@ const EditComponent = ({
   modelErrors,
   model, 
 }) => {
-  const [clientActiveStatusSearch, clientActiveStatusSearchSet] = React.useState('')
+  const [clientActiveStatusSearch, clientActiveStatusSearchSet] = useState('')
   const clientActiveStatusModelConfig = RESTIFY_CONFIG.registeredModels.clientActiveStatus
   const clientActiveStatusApiConfig = {
     filter: {
@@ -42,7 +42,7 @@ const EditComponent = ({
     }
   }
       
-  const [employeeSearch, employeeSearchSet] = React.useState('')
+  const [employeeSearch, employeeSearchSet] = useState('')
   const employeeModelConfig = RESTIFY_CONFIG.registeredModels.employee
   const employeeApiConfig = {
     filter: {
@@ -63,7 +63,7 @@ const EditComponent = ({
     }
   }
       
-  const [clientTypeSearch, clientTypeSearchSet] = React.useState('')
+  const [clientTypeSearch, clientTypeSearchSet] = useState('')
   const clientTypeModelConfig = RESTIFY_CONFIG.registeredModels.clientType
   const clientTypeApiConfig = {
     filter: {
@@ -84,7 +84,7 @@ const EditComponent = ({
     }
   }
       
-  const [conflictStatusSearch, conflictStatusSearchSet] = React.useState('')
+  const [conflictStatusSearch, conflictStatusSearchSet] = useState('')
   const conflictStatusModelConfig = RESTIFY_CONFIG.registeredModels.conflictStatus
   const conflictStatusApiConfig = {
     filter: {

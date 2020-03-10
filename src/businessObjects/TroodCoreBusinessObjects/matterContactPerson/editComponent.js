@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import style from './editComponent.css'
 import modalsStyle from '$trood/styles/modals.css'
 import classNames from 'classnames'
@@ -15,7 +15,7 @@ const EditComponent = ({
   modelErrors,
   model, 
 }) => {
-  const [matterSearch, matterSearchSet] = React.useState('')
+  const [matterSearch, matterSearchSet] = useState('')
   const matterModelConfig = RESTIFY_CONFIG.registeredModels.matter
   const matterApiConfig = {
     filter: {
@@ -36,7 +36,7 @@ const EditComponent = ({
     }
   }
       
-  const [contactPersonSearch, contactPersonSearchSet] = React.useState('')
+  const [contactPersonSearch, contactPersonSearchSet] = useState('')
   const contactPersonModelConfig = RESTIFY_CONFIG.registeredModels.contactPerson
   const contactPersonApiConfig = {
     filter: {

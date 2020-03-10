@@ -311,13 +311,14 @@ export default {
           models: {
             contact: 'contact',
             contactType: 'contactType',
-            employee: 'employee', 
-            contactPerson: 'contactPerson', client:'client', candidate:'candidate',
+            employee: 'employee',
+            contactPerson: 'contactPerson',
+            client: 'client',
+            candidate: 'candidate',
           },
         },
       ],
     },
-    
   ],
   entityPages: {},
 }

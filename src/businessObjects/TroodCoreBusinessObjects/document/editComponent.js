@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import style from './editComponent.css'
 import modalsStyle from '$trood/styles/modals.css'
 import classNames from 'classnames'
@@ -20,7 +20,7 @@ const EditComponent = ({
   model,
   ...restProps 
 }) => {
-  const [employeeSearch, employeeSearchSet] = React.useState('')
+  const [employeeSearch, employeeSearchSet] = useState('')
   const employeeModelConfig = RESTIFY_CONFIG.registeredModels.employee
   const employeeApiConfig = {
     filter: {
@@ -42,7 +42,7 @@ const EditComponent = ({
   }
       
   const targetObjectGenericEnteties = restProps[snakeToCamel(model.targetObject._object) + 'Entities']
-  const [targetObjectSearch, targetObjectSearchSet] = React.useState('')
+  const [targetObjectSearch, targetObjectSearchSet] = useState('')
   const targetObjectModelConfig = RESTIFY_CONFIG.registeredModels[snakeToCamel(model.targetObject._object)]
   const targetObjectApiConfig = {
     filter: {
@@ -63,7 +63,7 @@ const EditComponent = ({
     }
   }
       
-  const [docCustomTypeSearch, docCustomTypeSearchSet] = React.useState('')
+  const [docCustomTypeSearch, docCustomTypeSearchSet] = useState('')
   const docCustomTypeModelConfig = RESTIFY_CONFIG.registeredModels.docCustomType
   const docCustomTypeApiConfig = {
     filter: {

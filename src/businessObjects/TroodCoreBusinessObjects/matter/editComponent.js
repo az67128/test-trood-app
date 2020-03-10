@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import style from './editComponent.css'
 import modalsStyle from '$trood/styles/modals.css'
 import classNames from 'classnames'
@@ -27,7 +27,7 @@ const EditComponent = ({
   modelErrors,
   model, 
 }) => {
-  const [employeeSearch, employeeSearchSet] = React.useState('')
+  const [employeeSearch, employeeSearchSet] = useState('')
   const employeeModelConfig = RESTIFY_CONFIG.registeredModels.employee
   const employeeApiConfig = {
     filter: {
@@ -48,7 +48,7 @@ const EditComponent = ({
     }
   }
       
-  const [clientSearch, clientSearchSet] = React.useState('')
+  const [clientSearch, clientSearchSet] = useState('')
   const clientModelConfig = RESTIFY_CONFIG.registeredModels.client
   const clientApiConfig = {
     filter: {
@@ -69,7 +69,7 @@ const EditComponent = ({
     }
   }
       
-  const [matterTypeSearch, matterTypeSearchSet] = React.useState('')
+  const [matterTypeSearch, matterTypeSearchSet] = useState('')
   const matterTypeModelConfig = RESTIFY_CONFIG.registeredModels.matterType
   const matterTypeApiConfig = {
     filter: {
@@ -90,7 +90,7 @@ const EditComponent = ({
     }
   }
       
-  const [matterStatusSearch, matterStatusSearchSet] = React.useState('')
+  const [matterStatusSearch, matterStatusSearchSet] = useState('')
   const matterStatusModelConfig = RESTIFY_CONFIG.registeredModels.matterStatus
   const matterStatusApiConfig = {
     filter: {
@@ -111,7 +111,7 @@ const EditComponent = ({
     }
   }
       
-  const [matterActiveStatusSearch, matterActiveStatusSearchSet] = React.useState('')
+  const [matterActiveStatusSearch, matterActiveStatusSearchSet] = useState('')
   const matterActiveStatusModelConfig = RESTIFY_CONFIG.registeredModels.matterActiveStatus
   const matterActiveStatusApiConfig = {
     filter: {
@@ -132,7 +132,7 @@ const EditComponent = ({
     }
   }
       
-  const [budgetTypeSearch, budgetTypeSearchSet] = React.useState('')
+  const [budgetTypeSearch, budgetTypeSearchSet] = useState('')
   const budgetTypeModelConfig = RESTIFY_CONFIG.registeredModels.budgetType
   const budgetTypeApiConfig = {
     filter: {
@@ -153,7 +153,7 @@ const EditComponent = ({
     }
   }
       
-  const [contactPersonSearch, contactPersonSearchSet] = React.useState('')
+  const [contactPersonSearch, contactPersonSearchSet] = useState('')
   const contactPersonModelConfig = RESTIFY_CONFIG.registeredModels.contactPerson
   const contactPersonApiConfig = {
     filter: {

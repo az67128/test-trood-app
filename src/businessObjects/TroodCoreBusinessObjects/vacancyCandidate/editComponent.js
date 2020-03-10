@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import style from './editComponent.css'
 import modalsStyle from '$trood/styles/modals.css'
 import classNames from 'classnames'
@@ -22,7 +22,7 @@ const EditComponent = ({
   modelErrors,
   model, 
 }) => {
-  const [employeeSearch, employeeSearchSet] = React.useState('')
+  const [employeeSearch, employeeSearchSet] = useState('')
   const employeeModelConfig = RESTIFY_CONFIG.registeredModels.employee
   const employeeApiConfig = {
     filter: {
@@ -43,7 +43,7 @@ const EditComponent = ({
     }
   }
       
-  const [candidateStatusSearch, candidateStatusSearchSet] = React.useState('')
+  const [candidateStatusSearch, candidateStatusSearchSet] = useState('')
   const candidateStatusModelConfig = RESTIFY_CONFIG.registeredModels.candidateStatus
   const candidateStatusApiConfig = {
     filter: {
@@ -64,7 +64,7 @@ const EditComponent = ({
     }
   }
       
-  const [resolveCandidateSearch, resolveCandidateSearchSet] = React.useState('')
+  const [resolveCandidateSearch, resolveCandidateSearchSet] = useState('')
   const resolveCandidateModelConfig = RESTIFY_CONFIG.registeredModels.resolveCandidate
   const resolveCandidateApiConfig = {
     filter: {
@@ -85,7 +85,7 @@ const EditComponent = ({
     }
   }
       
-  const [candidateSearch, candidateSearchSet] = React.useState('')
+  const [candidateSearch, candidateSearchSet] = useState('')
   const candidateModelConfig = RESTIFY_CONFIG.registeredModels.candidate
   const candidateApiConfig = {
     filter: {
@@ -106,7 +106,7 @@ const EditComponent = ({
     }
   }
       
-  const [vacancySearch, vacancySearchSet] = React.useState('')
+  const [vacancySearch, vacancySearchSet] = useState('')
   const vacancyModelConfig = RESTIFY_CONFIG.registeredModels.vacancy
   const vacancyApiConfig = {
     filter: {

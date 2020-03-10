@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import style from './editComponent.css'
 import modalsStyle from '$trood/styles/modals.css'
 import classNames from 'classnames'
@@ -28,7 +28,7 @@ const EditComponent = ({
   modelErrors,
   model, 
 }) => {
-  const [employeeSearch, employeeSearchSet] = React.useState('')
+  const [employeeSearch, employeeSearchSet] = useState('')
   const employeeModelConfig = RESTIFY_CONFIG.registeredModels.employee
   const employeeApiConfig = {
     filter: {
@@ -49,7 +49,7 @@ const EditComponent = ({
     }
   }
       
-  const [timeEntryBillableSearch, timeEntryBillableSearchSet] = React.useState('')
+  const [timeEntryBillableSearch, timeEntryBillableSearchSet] = useState('')
   const timeEntryBillableModelConfig = RESTIFY_CONFIG.registeredModels.timeEntryBillable
   const timeEntryBillableApiConfig = {
     filter: {
@@ -70,7 +70,7 @@ const EditComponent = ({
     }
   }
       
-  const [matterSearch, matterSearchSet] = React.useState('')
+  const [matterSearch, matterSearchSet] = useState('')
   const matterModelConfig = RESTIFY_CONFIG.registeredModels.matter
   const matterApiConfig = {
     filter: {
@@ -91,7 +91,7 @@ const EditComponent = ({
     }
   }
       
-  const [activitySearch, activitySearchSet] = React.useState('')
+  const [activitySearch, activitySearchSet] = useState('')
   const activityModelConfig = RESTIFY_CONFIG.registeredModels.activity
   const activityApiConfig = {
     filter: {
@@ -112,7 +112,7 @@ const EditComponent = ({
     }
   }
       
-  const [billSearch, billSearchSet] = React.useState('')
+  const [billSearch, billSearchSet] = useState('')
   const billModelConfig = RESTIFY_CONFIG.registeredModels.bill
   const billApiConfig = {
     filter: {
@@ -133,7 +133,7 @@ const EditComponent = ({
     }
   }
       
-  const [utbmsSearch, utbmsSearchSet] = React.useState('')
+  const [utbmsSearch, utbmsSearchSet] = useState('')
   const utbmsModelConfig = RESTIFY_CONFIG.registeredModels.utbms
   const utbmsApiConfig = {
     filter: {
@@ -154,7 +154,7 @@ const EditComponent = ({
     }
   }
       
-  const [timeEntryStatusSearch, timeEntryStatusSearchSet] = React.useState('')
+  const [timeEntryStatusSearch, timeEntryStatusSearchSet] = useState('')
   const timeEntryStatusModelConfig = RESTIFY_CONFIG.registeredModels.timeEntryStatus
   const timeEntryStatusApiConfig = {
     filter: {
