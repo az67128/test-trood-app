@@ -76,7 +76,8 @@ const EditComponent = ({
           emptyItemsLabel: matterArrayIsLoading ? '' : undefined,
           onScrollToEnd: matterNextPageAction,
           isLoading: matterArrayIsLoading,
-          missingValueResolver: value => matterEntities.getById(value)['matter'],
+          missingValueResolver: value => 
+            matterEntities.getById(value)[matterModelConfig.idField],
           label: 'matter',
           errors: modelErrors.matter,
           onValid: () => modelFormActions.resetFieldError('matter'),
@@ -104,7 +105,8 @@ const EditComponent = ({
           emptyItemsLabel: contactPersonArrayIsLoading ? '' : undefined,
           onScrollToEnd: contactPersonNextPageAction,
           isLoading: contactPersonArrayIsLoading,
-          missingValueResolver: value => contactPersonEntities.getById(value)['contactPerson'],
+          missingValueResolver: value => 
+            contactPersonEntities.getById(value)[contactPersonModelConfig.idField],
           label: 'contactPerson',
           errors: modelErrors.contactPerson,
           onValid: () => modelFormActions.resetFieldError('contactPerson'),

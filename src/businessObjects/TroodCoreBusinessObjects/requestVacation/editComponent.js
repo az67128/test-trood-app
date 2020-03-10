@@ -78,7 +78,8 @@ const EditComponent = ({
           emptyItemsLabel: employeeArrayIsLoading ? '' : undefined,
           onScrollToEnd: employeeNextPageAction,
           isLoading: employeeArrayIsLoading,
-          missingValueResolver: value => employeeEntities.getById(value)['author'],
+          missingValueResolver: value => 
+            employeeEntities.getById(value)[employeeModelConfig.idField],
           label: 'author',
           errors: modelErrors.author,
           onValid: () => modelFormActions.resetFieldError('author'),
@@ -106,7 +107,8 @@ const EditComponent = ({
           emptyItemsLabel: statusRequestVacationArrayIsLoading ? '' : undefined,
           onScrollToEnd: statusRequestVacationNextPageAction,
           isLoading: statusRequestVacationArrayIsLoading,
-          missingValueResolver: value => statusRequestVacationEntities.getById(value)['statusRequestVacation'],
+          missingValueResolver: value => 
+            statusRequestVacationEntities.getById(value)[statusRequestVacationModelConfig.idField],
           label: 'statusRequestVacation',
           errors: modelErrors.statusRequestVacation,
           onValid: () => modelFormActions.resetFieldError('statusRequestVacation'),
@@ -118,56 +120,54 @@ const EditComponent = ({
         }}
       />
       <DateTimePicker
-          {...{
-            label: 'created',
-            className: modalsStyle.control,
-            value: model.created,
-            errors: modelErrors.created,
-            onChange: val => modelFormActions.changeField('created', val),
-            onValid: () => modelFormActions.resetFieldError('created'),
-            onInvalid: err => modelFormActions.setFieldError('created', err),
-            type: PICKER_TYPES.dateTime,
-            validate: {
-              checkOnBlur: true,
-              requiredDate: false,
-              requiredTime: false,
-
+        {...{
+          label: 'created',
+          className: modalsStyle.control,
+          value: model.created,
+          errors: modelErrors.created,
+          onChange: val => modelFormActions.changeField('created', val),
+          onValid: () => modelFormActions.resetFieldError('created'),
+          onInvalid: err => modelFormActions.setFieldError('created', err),
+          type: PICKER_TYPES.dateTime,
+          validate: {
+            checkOnBlur: true,
+            requiredDate: false,
+            requiredTime: false,
           },
         }}
       />
       <DateTimePicker
-          {...{
-            label: 'statusDate',
-            className: modalsStyle.control,
-            value: model.statusDate,
-            errors: modelErrors.statusDate,
-            onChange: val => modelFormActions.changeField('statusDate', val),
-            onValid: () => modelFormActions.resetFieldError('statusDate'),
-            onInvalid: err => modelFormActions.setFieldError('statusDate', err),
-            type: PICKER_TYPES.dateTime,
-            validate: {
-              checkOnBlur: true,
-              requiredDate: false,
-              requiredTime: false,
-
+        {...{
+          label: 'statusDate',
+          className: modalsStyle.control,
+          value: model.statusDate,
+          errors: modelErrors.statusDate,
+          onChange: val => modelFormActions.changeField('statusDate', val),
+          onValid: () => modelFormActions.resetFieldError('statusDate'),
+          onInvalid: err => modelFormActions.setFieldError('statusDate', err),
+          type: PICKER_TYPES.dateTime,
+          validate: {
+            checkOnBlur: true,
+            requiredDate: false,
+            requiredTime: false,
           },
         }}
       />
       <TInput
-          {...{
-            type: INPUT_TYPES.multi,
-            label: 'number',
-            className: modalsStyle.control,
-            value: model.number,
-            errors: modelErrors.number,
-            onChange: val => modelFormActions.changeField('number', val),
-            onValid: () => modelFormActions.resetFieldError('number'),
-            onInvalid: err => modelFormActions.setFieldError('number', err),
-            validate: {
-              checkOnBlur: true,
-              required: false,
-            },
-          }}
+        {...{
+          type: INPUT_TYPES.multi,
+          label: 'number',
+          className: modalsStyle.control,
+          value: model.number,
+          errors: modelErrors.number,
+          onChange: val => modelFormActions.changeField('number', val),
+          onValid: () => modelFormActions.resetFieldError('number'),
+          onInvalid: err => modelFormActions.setFieldError('number', err),
+          validate: {
+            checkOnBlur: true,
+            required: false,
+          },
+        }}
       />
     </div>
   )

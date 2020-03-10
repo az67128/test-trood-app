@@ -76,7 +76,8 @@ const EditComponent = ({
           emptyItemsLabel: billPriceListArrayIsLoading ? '' : undefined,
           onScrollToEnd: billPriceListNextPageAction,
           isLoading: billPriceListArrayIsLoading,
-          missingValueResolver: value => billPriceListEntities.getById(value)['billPriceList'],
+          missingValueResolver: value => 
+            billPriceListEntities.getById(value)[billPriceListModelConfig.idField],
           label: 'billPriceList',
           errors: modelErrors.billPriceList,
           onValid: () => modelFormActions.resetFieldError('billPriceList'),
@@ -104,7 +105,8 @@ const EditComponent = ({
           emptyItemsLabel: employeeArrayIsLoading ? '' : undefined,
           onScrollToEnd: employeeNextPageAction,
           isLoading: employeeArrayIsLoading,
-          missingValueResolver: value => employeeEntities.getById(value)['employee'],
+          missingValueResolver: value => 
+            employeeEntities.getById(value)[employeeModelConfig.idField],
           label: 'employee',
           errors: modelErrors.employee,
           onValid: () => modelFormActions.resetFieldError('employee'),

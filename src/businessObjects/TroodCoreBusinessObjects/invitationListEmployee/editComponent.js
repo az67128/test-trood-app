@@ -76,7 +76,8 @@ const EditComponent = ({
           emptyItemsLabel: employeeArrayIsLoading ? '' : undefined,
           onScrollToEnd: employeeNextPageAction,
           isLoading: employeeArrayIsLoading,
-          missingValueResolver: value => employeeEntities.getById(value)['employee'],
+          missingValueResolver: value => 
+            employeeEntities.getById(value)[employeeModelConfig.idField],
           label: 'employee',
           errors: modelErrors.employee,
           onValid: () => modelFormActions.resetFieldError('employee'),
@@ -104,7 +105,8 @@ const EditComponent = ({
           emptyItemsLabel: invitationListArrayIsLoading ? '' : undefined,
           onScrollToEnd: invitationListNextPageAction,
           isLoading: invitationListArrayIsLoading,
-          missingValueResolver: value => invitationListEntities.getById(value)['invitationList'],
+          missingValueResolver: value => 
+            invitationListEntities.getById(value)[invitationListModelConfig.idField],
           label: 'invitationList',
           errors: modelErrors.invitationList,
           onValid: () => modelFormActions.resetFieldError('invitationList'),

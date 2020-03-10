@@ -77,7 +77,8 @@ const EditComponent = ({
           emptyItemsLabel: clientArrayIsLoading ? '' : undefined,
           onScrollToEnd: clientNextPageAction,
           isLoading: clientArrayIsLoading,
-          missingValueResolver: value => clientEntities.getById(value)['client'],
+          missingValueResolver: value => 
+            clientEntities.getById(value)[clientModelConfig.idField],
           label: 'client',
           errors: modelErrors.client,
           onValid: () => modelFormActions.resetFieldError('client'),
@@ -105,7 +106,8 @@ const EditComponent = ({
           emptyItemsLabel: employeePositionArrayIsLoading ? '' : undefined,
           onScrollToEnd: employeePositionNextPageAction,
           isLoading: employeePositionArrayIsLoading,
-          missingValueResolver: value => employeePositionEntities.getById(value)['employeePosition'],
+          missingValueResolver: value => 
+            employeePositionEntities.getById(value)[employeePositionModelConfig.idField],
           label: 'employeePosition',
           errors: modelErrors.employeePosition,
           onValid: () => modelFormActions.resetFieldError('employeePosition'),
@@ -117,20 +119,20 @@ const EditComponent = ({
         }}
       />
       <TInput
-          {...{
-            type: INPUT_TYPES.float,
-            label: 'rate',
-            className: modalsStyle.control,
-            value: model.rate,
-            errors: modelErrors.rate,
-            onChange: val => modelFormActions.changeField('rate', val),
-            onValid: () => modelFormActions.resetFieldError('rate'),
-            onInvalid: err => modelFormActions.setFieldError('rate', err),
-            validate: {
-              checkOnBlur: true,
-              required: true,
-            },
-          }}
+        {...{
+          type: INPUT_TYPES.float,
+          label: 'rate',
+          className: modalsStyle.control,
+          value: model.rate,
+          errors: modelErrors.rate,
+          onChange: val => modelFormActions.changeField('rate', val),
+          onValid: () => modelFormActions.resetFieldError('rate'),
+          onInvalid: err => modelFormActions.setFieldError('rate', err),
+          validate: {
+            checkOnBlur: true,
+            required: true,
+          },
+        }}
       />
     </div>
   )

@@ -55,7 +55,8 @@ const EditComponent = ({
           emptyItemsLabel: employeeArrayIsLoading ? '' : undefined,
           onScrollToEnd: employeeNextPageAction,
           isLoading: employeeArrayIsLoading,
-          missingValueResolver: value => employeeEntities.getById(value)['recruiter'],
+          missingValueResolver: value => 
+            employeeEntities.getById(value)[employeeModelConfig.idField],
           label: 'recruiter',
           errors: modelErrors.recruiter,
           onValid: () => modelFormActions.resetFieldError('recruiter'),
@@ -67,54 +68,53 @@ const EditComponent = ({
         }}
       />
       <TInput
-          {...{
-            type: INPUT_TYPES.multi,
-            label: 'name',
-            className: modalsStyle.control,
-            value: model.name,
-            errors: modelErrors.name,
-            onChange: val => modelFormActions.changeField('name', val),
-            onValid: () => modelFormActions.resetFieldError('name'),
-            onInvalid: err => modelFormActions.setFieldError('name', err),
-            validate: {
-              checkOnBlur: true,
-              required: true,
-            },
-          }}
+        {...{
+          type: INPUT_TYPES.multi,
+          label: 'name',
+          className: modalsStyle.control,
+          value: model.name,
+          errors: modelErrors.name,
+          onChange: val => modelFormActions.changeField('name', val),
+          onValid: () => modelFormActions.resetFieldError('name'),
+          onInvalid: err => modelFormActions.setFieldError('name', err),
+          validate: {
+            checkOnBlur: true,
+            required: true,
+          },
+        }}
       />
       <DateTimePicker
-          {...{
-            label: 'created',
-            className: modalsStyle.control,
-            value: model.created,
-            errors: modelErrors.created,
-            onChange: val => modelFormActions.changeField('created', val),
-            onValid: () => modelFormActions.resetFieldError('created'),
-            onInvalid: err => modelFormActions.setFieldError('created', err),
-            type: PICKER_TYPES.dateTime,
-            validate: {
-              checkOnBlur: true,
-              requiredDate: false,
-              requiredTime: false,
-
+        {...{
+          label: 'created',
+          className: modalsStyle.control,
+          value: model.created,
+          errors: modelErrors.created,
+          onChange: val => modelFormActions.changeField('created', val),
+          onValid: () => modelFormActions.resetFieldError('created'),
+          onInvalid: err => modelFormActions.setFieldError('created', err),
+          type: PICKER_TYPES.dateTime,
+          validate: {
+            checkOnBlur: true,
+            requiredDate: false,
+            requiredTime: false,
           },
         }}
       />
       <TInput
-          {...{
-            type: INPUT_TYPES.multi,
-            label: 'avatar',
-            className: modalsStyle.control,
-            value: model.avatar,
-            errors: modelErrors.avatar,
-            onChange: val => modelFormActions.changeField('avatar', val),
-            onValid: () => modelFormActions.resetFieldError('avatar'),
-            onInvalid: err => modelFormActions.setFieldError('avatar', err),
-            validate: {
-              checkOnBlur: true,
-              required: false,
-            },
-          }}
+        {...{
+          type: INPUT_TYPES.multi,
+          label: 'avatar',
+          className: modalsStyle.control,
+          value: model.avatar,
+          errors: modelErrors.avatar,
+          onChange: val => modelFormActions.changeField('avatar', val),
+          onValid: () => modelFormActions.resetFieldError('avatar'),
+          onInvalid: err => modelFormActions.setFieldError('avatar', err),
+          validate: {
+            checkOnBlur: true,
+            required: false,
+          },
+        }}
       />
     </div>
   )

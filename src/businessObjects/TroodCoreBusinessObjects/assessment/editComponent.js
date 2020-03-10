@@ -63,20 +63,20 @@ const EditComponent = ({
   return (
     <div className={classNames(style.root, modalsStyle.root)}>
       <TInput
-          {...{
-            type: INPUT_TYPES.float,
-            label: 'rating',
-            className: modalsStyle.control,
-            value: model.rating,
-            errors: modelErrors.rating,
-            onChange: val => modelFormActions.changeField('rating', val),
-            onValid: () => modelFormActions.resetFieldError('rating'),
-            onInvalid: err => modelFormActions.setFieldError('rating', err),
-            validate: {
-              checkOnBlur: true,
-              required: true,
-            },
-          }}
+        {...{
+          type: INPUT_TYPES.float,
+          label: 'rating',
+          className: modalsStyle.control,
+          value: model.rating,
+          errors: modelErrors.rating,
+          onChange: val => modelFormActions.changeField('rating', val),
+          onValid: () => modelFormActions.resetFieldError('rating'),
+          onInvalid: err => modelFormActions.setFieldError('rating', err),
+          validate: {
+            checkOnBlur: true,
+            required: true,
+          },
+        }}
       />
       <TSelect
         {...{
@@ -95,7 +95,8 @@ const EditComponent = ({
           emptyItemsLabel: employeeArrayIsLoading ? '' : undefined,
           onScrollToEnd: employeeNextPageAction,
           isLoading: employeeArrayIsLoading,
-          missingValueResolver: value => employeeEntities.getById(value)['rewiewer'],
+          missingValueResolver: value => 
+            employeeEntities.getById(value)[employeeModelConfig.idField],
           label: 'rewiewer',
           errors: modelErrors.rewiewer,
           onValid: () => modelFormActions.resetFieldError('rewiewer'),
@@ -107,48 +108,47 @@ const EditComponent = ({
         }}
       />
       <TInput
-          {...{
-            type: INPUT_TYPES.multi,
-            label: 'details',
-            className: modalsStyle.control,
-            value: model.details,
-            errors: modelErrors.details,
-            onChange: val => modelFormActions.changeField('details', val),
-            onValid: () => modelFormActions.resetFieldError('details'),
-            onInvalid: err => modelFormActions.setFieldError('details', err),
-            validate: {
-              checkOnBlur: true,
-              required: true,
-            },
-          }}
+        {...{
+          type: INPUT_TYPES.multi,
+          label: 'details',
+          className: modalsStyle.control,
+          value: model.details,
+          errors: modelErrors.details,
+          onChange: val => modelFormActions.changeField('details', val),
+          onValid: () => modelFormActions.resetFieldError('details'),
+          onInvalid: err => modelFormActions.setFieldError('details', err),
+          validate: {
+            checkOnBlur: true,
+            required: true,
+          },
+        }}
       />
       <DateTimePicker
-          {...{
-            label: 'created',
-            className: modalsStyle.control,
-            value: model.created,
-            errors: modelErrors.created,
-            onChange: val => modelFormActions.changeField('created', val),
-            onValid: () => modelFormActions.resetFieldError('created'),
-            onInvalid: err => modelFormActions.setFieldError('created', err),
-            type: PICKER_TYPES.dateTime,
-            validate: {
-              checkOnBlur: true,
-              requiredDate: false,
-              requiredTime: false,
-
+        {...{
+          label: 'created',
+          className: modalsStyle.control,
+          value: model.created,
+          errors: modelErrors.created,
+          onChange: val => modelFormActions.changeField('created', val),
+          onValid: () => modelFormActions.resetFieldError('created'),
+          onInvalid: err => modelFormActions.setFieldError('created', err),
+          type: PICKER_TYPES.dateTime,
+          validate: {
+            checkOnBlur: true,
+            requiredDate: false,
+            requiredTime: false,
           },
         }}
       />
       <TCheckbox
           {...{
             label: 'isMin',
-            className: modalsStyle.control,
-            value: model.isMin,
-            errors: modelErrors.isMin,
-            onChange: val => modelFormActions.changeField('isMin', val),
-            onValid: () => modelFormActions.resetFieldError('isMin'),
-            onInvalid: err => modelFormActions.setFieldError('isMin', err),
+          className: modalsStyle.control,
+          value: model.isMin,
+          errors: modelErrors.isMin,
+          onChange: val => modelFormActions.changeField('isMin', val),
+          onValid: () => modelFormActions.resetFieldError('isMin'),
+          onInvalid: err => modelFormActions.setFieldError('isMin', err),
             validate: {
               checkOnBlur: true,
               required: false,
@@ -158,12 +158,12 @@ const EditComponent = ({
       <TCheckbox
           {...{
             label: 'isMax',
-            className: modalsStyle.control,
-            value: model.isMax,
-            errors: modelErrors.isMax,
-            onChange: val => modelFormActions.changeField('isMax', val),
-            onValid: () => modelFormActions.resetFieldError('isMax'),
-            onInvalid: err => modelFormActions.setFieldError('isMax', err),
+          className: modalsStyle.control,
+          value: model.isMax,
+          errors: modelErrors.isMax,
+          onChange: val => modelFormActions.changeField('isMax', val),
+          onValid: () => modelFormActions.resetFieldError('isMax'),
+          onInvalid: err => modelFormActions.setFieldError('isMax', err),
             validate: {
               checkOnBlur: true,
               required: false,
@@ -187,7 +187,8 @@ const EditComponent = ({
           emptyItemsLabel: teamMemberArrayIsLoading ? '' : undefined,
           onScrollToEnd: teamMemberNextPageAction,
           isLoading: teamMemberArrayIsLoading,
-          missingValueResolver: value => teamMemberEntities.getById(value)['teamMember'],
+          missingValueResolver: value => 
+            teamMemberEntities.getById(value)[teamMemberModelConfig.idField],
           label: 'teamMember',
           errors: modelErrors.teamMember,
           onValid: () => modelFormActions.resetFieldError('teamMember'),

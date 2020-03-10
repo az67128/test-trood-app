@@ -14,36 +14,36 @@ const EditComponent = ({
   return (
     <div className={classNames(style.root, modalsStyle.root)}>
       <TInput
-          {...{
-            type: INPUT_TYPES.multi,
-            label: 'name',
-            className: modalsStyle.control,
-            value: model.name,
-            errors: modelErrors.name,
-            onChange: val => modelFormActions.changeField('name', val),
-            onValid: () => modelFormActions.resetFieldError('name'),
-            onInvalid: err => modelFormActions.setFieldError('name', err),
-            validate: {
-              checkOnBlur: true,
-              required: true,
-            },
-          }}
+        {...{
+          type: INPUT_TYPES.multi,
+          label: 'name',
+          className: modalsStyle.control,
+          value: model.name,
+          errors: modelErrors.name,
+          onChange: val => modelFormActions.changeField('name', val),
+          onValid: () => modelFormActions.resetFieldError('name'),
+          onInvalid: err => modelFormActions.setFieldError('name', err),
+          validate: {
+            checkOnBlur: true,
+            required: true,
+          },
+        }}
       />
       <TInput
-          {...{
-            type: INPUT_TYPES.float,
-            label: 'order',
-            className: modalsStyle.control,
-            value: model.order,
-            errors: modelErrors.order,
-            onChange: val => modelFormActions.changeField('order', val),
-            onValid: () => modelFormActions.resetFieldError('order'),
-            onInvalid: err => modelFormActions.setFieldError('order', err),
-            validate: {
-              checkOnBlur: true,
-              required: true,
-            },
-          }}
+        {...{
+          type: INPUT_TYPES.float,
+          label: 'order',
+          className: modalsStyle.control,
+          value: model.order,
+          errors: modelErrors.order,
+          onChange: val => modelFormActions.changeField('order', val),
+          onValid: () => modelFormActions.resetFieldError('order'),
+          onInvalid: err => modelFormActions.setFieldError('order', err),
+          validate: {
+            checkOnBlur: true,
+            required: true,
+          },
+        }}
       />
     </div>
   )

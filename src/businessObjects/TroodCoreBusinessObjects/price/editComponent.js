@@ -108,36 +108,36 @@ const EditComponent = ({
   return (
     <div className={classNames(style.root, modalsStyle.root)}>
       <TInput
-          {...{
-            type: INPUT_TYPES.float,
-            label: 'number',
-            className: modalsStyle.control,
-            value: model.number,
-            errors: modelErrors.number,
-            onChange: val => modelFormActions.changeField('number', val),
-            onValid: () => modelFormActions.resetFieldError('number'),
-            onInvalid: err => modelFormActions.setFieldError('number', err),
-            validate: {
-              checkOnBlur: true,
-              required: true,
-            },
-          }}
+        {...{
+          type: INPUT_TYPES.float,
+          label: 'number',
+          className: modalsStyle.control,
+          value: model.number,
+          errors: modelErrors.number,
+          onChange: val => modelFormActions.changeField('number', val),
+          onValid: () => modelFormActions.resetFieldError('number'),
+          onInvalid: err => modelFormActions.setFieldError('number', err),
+          validate: {
+            checkOnBlur: true,
+            required: true,
+          },
+        }}
       />
       <TInput
-          {...{
-            type: INPUT_TYPES.multi,
-            label: 'name',
-            className: modalsStyle.control,
-            value: model.name,
-            errors: modelErrors.name,
-            onChange: val => modelFormActions.changeField('name', val),
-            onValid: () => modelFormActions.resetFieldError('name'),
-            onInvalid: err => modelFormActions.setFieldError('name', err),
-            validate: {
-              checkOnBlur: true,
-              required: true,
-            },
-          }}
+        {...{
+          type: INPUT_TYPES.multi,
+          label: 'name',
+          className: modalsStyle.control,
+          value: model.name,
+          errors: modelErrors.name,
+          onChange: val => modelFormActions.changeField('name', val),
+          onValid: () => modelFormActions.resetFieldError('name'),
+          onInvalid: err => modelFormActions.setFieldError('name', err),
+          validate: {
+            checkOnBlur: true,
+            required: true,
+          },
+        }}
       />
       <TSelect
         {...{
@@ -156,7 +156,8 @@ const EditComponent = ({
           emptyItemsLabel: priceUnitArrayIsLoading ? '' : undefined,
           onScrollToEnd: priceUnitNextPageAction,
           isLoading: priceUnitArrayIsLoading,
-          missingValueResolver: value => priceUnitEntities.getById(value)['priceUnit'],
+          missingValueResolver: value => 
+            priceUnitEntities.getById(value)[priceUnitModelConfig.idField],
           label: 'priceUnit',
           errors: modelErrors.priceUnit,
           onValid: () => modelFormActions.resetFieldError('priceUnit'),
@@ -168,20 +169,20 @@ const EditComponent = ({
         }}
       />
       <TInput
-          {...{
-            type: INPUT_TYPES.float,
-            label: 'amount',
-            className: modalsStyle.control,
-            value: model.amount,
-            errors: modelErrors.amount,
-            onChange: val => modelFormActions.changeField('amount', val),
-            onValid: () => modelFormActions.resetFieldError('amount'),
-            onInvalid: err => modelFormActions.setFieldError('amount', err),
-            validate: {
-              checkOnBlur: true,
-              required: true,
-            },
-          }}
+        {...{
+          type: INPUT_TYPES.float,
+          label: 'amount',
+          className: modalsStyle.control,
+          value: model.amount,
+          errors: modelErrors.amount,
+          onChange: val => modelFormActions.changeField('amount', val),
+          onValid: () => modelFormActions.resetFieldError('amount'),
+          onInvalid: err => modelFormActions.setFieldError('amount', err),
+          validate: {
+            checkOnBlur: true,
+            required: true,
+          },
+        }}
       />
       <TSelect
         {...{
@@ -200,7 +201,8 @@ const EditComponent = ({
           emptyItemsLabel: employeeArrayIsLoading ? '' : undefined,
           onScrollToEnd: employeeNextPageAction,
           isLoading: employeeArrayIsLoading,
-          missingValueResolver: value => employeeEntities.getById(value)['author'],
+          missingValueResolver: value => 
+            employeeEntities.getById(value)[employeeModelConfig.idField],
           label: 'author',
           errors: modelErrors.author,
           onValid: () => modelFormActions.resetFieldError('author'),
@@ -212,20 +214,19 @@ const EditComponent = ({
         }}
       />
       <DateTimePicker
-          {...{
-            label: 'created',
-            className: modalsStyle.control,
-            value: model.created,
-            errors: modelErrors.created,
-            onChange: val => modelFormActions.changeField('created', val),
-            onValid: () => modelFormActions.resetFieldError('created'),
-            onInvalid: err => modelFormActions.setFieldError('created', err),
-            type: PICKER_TYPES.dateTime,
-            validate: {
-              checkOnBlur: true,
-              requiredDate: false,
-              requiredTime: false,
-
+        {...{
+          label: 'created',
+          className: modalsStyle.control,
+          value: model.created,
+          errors: modelErrors.created,
+          onChange: val => modelFormActions.changeField('created', val),
+          onValid: () => modelFormActions.resetFieldError('created'),
+          onInvalid: err => modelFormActions.setFieldError('created', err),
+          type: PICKER_TYPES.dateTime,
+          validate: {
+            checkOnBlur: true,
+            requiredDate: false,
+            requiredTime: false,
           },
         }}
       />
@@ -246,7 +247,8 @@ const EditComponent = ({
           emptyItemsLabel: utbmsArrayIsLoading ? '' : undefined,
           onScrollToEnd: utbmsNextPageAction,
           isLoading: utbmsArrayIsLoading,
-          missingValueResolver: value => utbmsEntities.getById(value)['utbms'],
+          missingValueResolver: value => 
+            utbmsEntities.getById(value)[utbmsModelConfig.idField],
           label: 'utbms',
           errors: modelErrors.utbms,
           onValid: () => modelFormActions.resetFieldError('utbms'),
@@ -274,7 +276,8 @@ const EditComponent = ({
           emptyItemsLabel: serviceTypeArrayIsLoading ? '' : undefined,
           onScrollToEnd: serviceTypeNextPageAction,
           isLoading: serviceTypeArrayIsLoading,
-          missingValueResolver: value => serviceTypeEntities.getById(value)['serviceType'],
+          missingValueResolver: value => 
+            serviceTypeEntities.getById(value)[serviceTypeModelConfig.idField],
           label: 'serviceType',
           errors: modelErrors.serviceType,
           onValid: () => modelFormActions.resetFieldError('serviceType'),

@@ -78,7 +78,8 @@ const EditComponent = ({
           emptyItemsLabel: employeeArrayIsLoading ? '' : undefined,
           onScrollToEnd: employeeNextPageAction,
           isLoading: employeeArrayIsLoading,
-          missingValueResolver: value => employeeEntities.getById(value)['author'],
+          missingValueResolver: value => 
+            employeeEntities.getById(value)[employeeModelConfig.idField],
           label: 'author',
           errors: modelErrors.author,
           onValid: () => modelFormActions.resetFieldError('author'),
@@ -90,20 +91,20 @@ const EditComponent = ({
         }}
       />
       <TInput
-          {...{
-            type: INPUT_TYPES.multi,
-            label: 'info',
-            className: modalsStyle.control,
-            value: model.info,
-            errors: modelErrors.info,
-            onChange: val => modelFormActions.changeField('info', val),
-            onValid: () => modelFormActions.resetFieldError('info'),
-            onInvalid: err => modelFormActions.setFieldError('info', err),
-            validate: {
-              checkOnBlur: true,
-              required: true,
-            },
-          }}
+        {...{
+          type: INPUT_TYPES.multi,
+          label: 'info',
+          className: modalsStyle.control,
+          value: model.info,
+          errors: modelErrors.info,
+          onChange: val => modelFormActions.changeField('info', val),
+          onValid: () => modelFormActions.resetFieldError('info'),
+          onInvalid: err => modelFormActions.setFieldError('info', err),
+          validate: {
+            checkOnBlur: true,
+            required: true,
+          },
+        }}
       />
       <TSelect
         {...{
@@ -122,7 +123,8 @@ const EditComponent = ({
           emptyItemsLabel: matterArrayIsLoading ? '' : undefined,
           onScrollToEnd: matterNextPageAction,
           isLoading: matterArrayIsLoading,
-          missingValueResolver: value => matterEntities.getById(value)['matter'],
+          missingValueResolver: value => 
+            matterEntities.getById(value)[matterModelConfig.idField],
           label: 'matter',
           errors: modelErrors.matter,
           onValid: () => modelFormActions.resetFieldError('matter'),
@@ -134,20 +136,19 @@ const EditComponent = ({
         }}
       />
       <DateTimePicker
-          {...{
-            label: 'created',
-            className: modalsStyle.control,
-            value: model.created,
-            errors: modelErrors.created,
-            onChange: val => modelFormActions.changeField('created', val),
-            onValid: () => modelFormActions.resetFieldError('created'),
-            onInvalid: err => modelFormActions.setFieldError('created', err),
-            type: PICKER_TYPES.dateTime,
-            validate: {
-              checkOnBlur: true,
-              requiredDate: false,
-              requiredTime: false,
-
+        {...{
+          label: 'created',
+          className: modalsStyle.control,
+          value: model.created,
+          errors: modelErrors.created,
+          onChange: val => modelFormActions.changeField('created', val),
+          onValid: () => modelFormActions.resetFieldError('created'),
+          onInvalid: err => modelFormActions.setFieldError('created', err),
+          type: PICKER_TYPES.dateTime,
+          validate: {
+            checkOnBlur: true,
+            requiredDate: false,
+            requiredTime: false,
           },
         }}
       />

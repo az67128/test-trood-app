@@ -100,7 +100,8 @@ const EditComponent = ({
           emptyItemsLabel: employeeArrayIsLoading ? '' : undefined,
           onScrollToEnd: employeeNextPageAction,
           isLoading: employeeArrayIsLoading,
-          missingValueResolver: value => employeeEntities.getById(value)['employee'],
+          missingValueResolver: value => 
+            employeeEntities.getById(value)[employeeModelConfig.idField],
           label: 'employee',
           errors: modelErrors.employee,
           onValid: () => modelFormActions.resetFieldError('employee'),
@@ -128,7 +129,8 @@ const EditComponent = ({
           emptyItemsLabel: matterArrayIsLoading ? '' : undefined,
           onScrollToEnd: matterNextPageAction,
           isLoading: matterArrayIsLoading,
-          missingValueResolver: value => matterEntities.getById(value)['matter'],
+          missingValueResolver: value => 
+            matterEntities.getById(value)[matterModelConfig.idField],
           label: 'matter',
           errors: modelErrors.matter,
           onValid: () => modelFormActions.resetFieldError('matter'),
@@ -156,7 +158,8 @@ const EditComponent = ({
           emptyItemsLabel: rateTypeArrayIsLoading ? '' : undefined,
           onScrollToEnd: rateTypeNextPageAction,
           isLoading: rateTypeArrayIsLoading,
-          missingValueResolver: value => rateTypeEntities.getById(value)['rateType'],
+          missingValueResolver: value => 
+            rateTypeEntities.getById(value)[rateTypeModelConfig.idField],
           label: 'rateType',
           errors: modelErrors.rateType,
           onValid: () => modelFormActions.resetFieldError('rateType'),
@@ -168,20 +171,20 @@ const EditComponent = ({
         }}
       />
       <TInput
-          {...{
-            type: INPUT_TYPES.float,
-            label: 'rate',
-            className: modalsStyle.control,
-            value: model.rate,
-            errors: modelErrors.rate,
-            onChange: val => modelFormActions.changeField('rate', val),
-            onValid: () => modelFormActions.resetFieldError('rate'),
-            onInvalid: err => modelFormActions.setFieldError('rate', err),
-            validate: {
-              checkOnBlur: true,
-              required: true,
-            },
-          }}
+        {...{
+          type: INPUT_TYPES.float,
+          label: 'rate',
+          className: modalsStyle.control,
+          value: model.rate,
+          errors: modelErrors.rate,
+          onChange: val => modelFormActions.changeField('rate', val),
+          onValid: () => modelFormActions.resetFieldError('rate'),
+          onInvalid: err => modelFormActions.setFieldError('rate', err),
+          validate: {
+            checkOnBlur: true,
+            required: true,
+          },
+        }}
       />
     </div>
   )

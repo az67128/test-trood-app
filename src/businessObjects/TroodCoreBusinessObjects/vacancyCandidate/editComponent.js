@@ -146,7 +146,8 @@ const EditComponent = ({
           emptyItemsLabel: employeeArrayIsLoading ? '' : undefined,
           onScrollToEnd: employeeNextPageAction,
           isLoading: employeeArrayIsLoading,
-          missingValueResolver: value => employeeEntities.getById(value)['recruiter'],
+          missingValueResolver: value => 
+            employeeEntities.getById(value)[employeeModelConfig.idField],
           label: 'recruiter',
           errors: modelErrors.recruiter,
           onValid: () => modelFormActions.resetFieldError('recruiter'),
@@ -174,7 +175,8 @@ const EditComponent = ({
           emptyItemsLabel: candidateStatusArrayIsLoading ? '' : undefined,
           onScrollToEnd: candidateStatusNextPageAction,
           isLoading: candidateStatusArrayIsLoading,
-          missingValueResolver: value => candidateStatusEntities.getById(value)['candidateStatus'],
+          missingValueResolver: value => 
+            candidateStatusEntities.getById(value)[candidateStatusModelConfig.idField],
           label: 'candidateStatus',
           errors: modelErrors.candidateStatus,
           onValid: () => modelFormActions.resetFieldError('candidateStatus'),
@@ -202,7 +204,8 @@ const EditComponent = ({
           emptyItemsLabel: resolveCandidateArrayIsLoading ? '' : undefined,
           onScrollToEnd: resolveCandidateNextPageAction,
           isLoading: resolveCandidateArrayIsLoading,
-          missingValueResolver: value => resolveCandidateEntities.getById(value)['resolveCandidate'],
+          missingValueResolver: value => 
+            resolveCandidateEntities.getById(value)[resolveCandidateModelConfig.idField],
           label: 'resolveCandidate',
           errors: modelErrors.resolveCandidate,
           onValid: () => modelFormActions.resetFieldError('resolveCandidate'),
@@ -230,7 +233,8 @@ const EditComponent = ({
           emptyItemsLabel: candidateArrayIsLoading ? '' : undefined,
           onScrollToEnd: candidateNextPageAction,
           isLoading: candidateArrayIsLoading,
-          missingValueResolver: value => candidateEntities.getById(value)['candidate'],
+          missingValueResolver: value => 
+            candidateEntities.getById(value)[candidateModelConfig.idField],
           label: 'candidate',
           errors: modelErrors.candidate,
           onValid: () => modelFormActions.resetFieldError('candidate'),
@@ -258,7 +262,8 @@ const EditComponent = ({
           emptyItemsLabel: vacancyArrayIsLoading ? '' : undefined,
           onScrollToEnd: vacancyNextPageAction,
           isLoading: vacancyArrayIsLoading,
-          missingValueResolver: value => vacancyEntities.getById(value)['vacancy'],
+          missingValueResolver: value => 
+            vacancyEntities.getById(value)[vacancyModelConfig.idField],
           label: 'vacancy',
           errors: modelErrors.vacancy,
           onValid: () => modelFormActions.resetFieldError('vacancy'),
@@ -270,56 +275,53 @@ const EditComponent = ({
         }}
       />
       <DateTimePicker
-          {...{
-            label: 'created',
-            className: modalsStyle.control,
-            value: model.created,
-            errors: modelErrors.created,
-            onChange: val => modelFormActions.changeField('created', val),
-            onValid: () => modelFormActions.resetFieldError('created'),
-            onInvalid: err => modelFormActions.setFieldError('created', err),
-            type: PICKER_TYPES.dateTime,
-            validate: {
-              checkOnBlur: true,
-              requiredDate: false,
-              requiredTime: false,
-
+        {...{
+          label: 'created',
+          className: modalsStyle.control,
+          value: model.created,
+          errors: modelErrors.created,
+          onChange: val => modelFormActions.changeField('created', val),
+          onValid: () => modelFormActions.resetFieldError('created'),
+          onInvalid: err => modelFormActions.setFieldError('created', err),
+          type: PICKER_TYPES.dateTime,
+          validate: {
+            checkOnBlur: true,
+            requiredDate: false,
+            requiredTime: false,
           },
         }}
       />
       <DateTimePicker
-          {...{
-            label: 'statusDate',
-            className: modalsStyle.control,
-            value: model.statusDate,
-            errors: modelErrors.statusDate,
-            onChange: val => modelFormActions.changeField('statusDate', val),
-            onValid: () => modelFormActions.resetFieldError('statusDate'),
-            onInvalid: err => modelFormActions.setFieldError('statusDate', err),
-            type: PICKER_TYPES.dateTime,
-            validate: {
-              checkOnBlur: true,
-              requiredDate: false,
-              requiredTime: false,
-
+        {...{
+          label: 'statusDate',
+          className: modalsStyle.control,
+          value: model.statusDate,
+          errors: modelErrors.statusDate,
+          onChange: val => modelFormActions.changeField('statusDate', val),
+          onValid: () => modelFormActions.resetFieldError('statusDate'),
+          onInvalid: err => modelFormActions.setFieldError('statusDate', err),
+          type: PICKER_TYPES.dateTime,
+          validate: {
+            checkOnBlur: true,
+            requiredDate: false,
+            requiredTime: false,
           },
         }}
       />
       <DateTimePicker
-          {...{
-            label: 'resolveDate',
-            className: modalsStyle.control,
-            value: model.resolveDate,
-            errors: modelErrors.resolveDate,
-            onChange: val => modelFormActions.changeField('resolveDate', val),
-            onValid: () => modelFormActions.resetFieldError('resolveDate'),
-            onInvalid: err => modelFormActions.setFieldError('resolveDate', err),
-            type: PICKER_TYPES.dateTime,
-            validate: {
-              checkOnBlur: true,
-              requiredDate: false,
-              requiredTime: false,
-
+        {...{
+          label: 'resolveDate',
+          className: modalsStyle.control,
+          value: model.resolveDate,
+          errors: modelErrors.resolveDate,
+          onChange: val => modelFormActions.changeField('resolveDate', val),
+          onValid: () => modelFormActions.resetFieldError('resolveDate'),
+          onInvalid: err => modelFormActions.setFieldError('resolveDate', err),
+          type: PICKER_TYPES.dateTime,
+          validate: {
+            checkOnBlur: true,
+            requiredDate: false,
+            requiredTime: false,
           },
         }}
       />

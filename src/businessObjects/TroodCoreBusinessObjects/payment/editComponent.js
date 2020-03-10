@@ -124,7 +124,8 @@ const EditComponent = ({
           emptyItemsLabel: employeeArrayIsLoading ? '' : undefined,
           onScrollToEnd: employeeNextPageAction,
           isLoading: employeeArrayIsLoading,
-          missingValueResolver: value => employeeEntities.getById(value)['author'],
+          missingValueResolver: value => 
+            employeeEntities.getById(value)[employeeModelConfig.idField],
           label: 'author',
           errors: modelErrors.author,
           onValid: () => modelFormActions.resetFieldError('author'),
@@ -136,20 +137,20 @@ const EditComponent = ({
         }}
       />
       <TInput
-          {...{
-            type: INPUT_TYPES.float,
-            label: 'sumPayment',
-            className: modalsStyle.control,
-            value: model.sumPayment,
-            errors: modelErrors.sumPayment,
-            onChange: val => modelFormActions.changeField('sumPayment', val),
-            onValid: () => modelFormActions.resetFieldError('sumPayment'),
-            onInvalid: err => modelFormActions.setFieldError('sumPayment', err),
-            validate: {
-              checkOnBlur: true,
-              required: true,
-            },
-          }}
+        {...{
+          type: INPUT_TYPES.float,
+          label: 'sumPayment',
+          className: modalsStyle.control,
+          value: model.sumPayment,
+          errors: modelErrors.sumPayment,
+          onChange: val => modelFormActions.changeField('sumPayment', val),
+          onValid: () => modelFormActions.resetFieldError('sumPayment'),
+          onInvalid: err => modelFormActions.setFieldError('sumPayment', err),
+          validate: {
+            checkOnBlur: true,
+            required: true,
+          },
+        }}
       />
       <TSelect
         {...{
@@ -168,7 +169,8 @@ const EditComponent = ({
           emptyItemsLabel: clientArrayIsLoading ? '' : undefined,
           onScrollToEnd: clientNextPageAction,
           isLoading: clientArrayIsLoading,
-          missingValueResolver: value => clientEntities.getById(value)['client'],
+          missingValueResolver: value => 
+            clientEntities.getById(value)[clientModelConfig.idField],
           label: 'client',
           errors: modelErrors.client,
           onValid: () => modelFormActions.resetFieldError('client'),
@@ -180,54 +182,52 @@ const EditComponent = ({
         }}
       />
       <TInput
-          {...{
-            type: INPUT_TYPES.multi,
-            label: 'number',
-            className: modalsStyle.control,
-            value: model.number,
-            errors: modelErrors.number,
-            onChange: val => modelFormActions.changeField('number', val),
-            onValid: () => modelFormActions.resetFieldError('number'),
-            onInvalid: err => modelFormActions.setFieldError('number', err),
-            validate: {
-              checkOnBlur: true,
-              required: false,
-            },
-          }}
-      />
-      <DateTimePicker
-          {...{
-            label: 'created',
-            className: modalsStyle.control,
-            value: model.created,
-            errors: modelErrors.created,
-            onChange: val => modelFormActions.changeField('created', val),
-            onValid: () => modelFormActions.resetFieldError('created'),
-            onInvalid: err => modelFormActions.setFieldError('created', err),
-            type: PICKER_TYPES.dateTime,
-            validate: {
-              checkOnBlur: true,
-              requiredDate: false,
-              requiredTime: false,
-
+        {...{
+          type: INPUT_TYPES.multi,
+          label: 'number',
+          className: modalsStyle.control,
+          value: model.number,
+          errors: modelErrors.number,
+          onChange: val => modelFormActions.changeField('number', val),
+          onValid: () => modelFormActions.resetFieldError('number'),
+          onInvalid: err => modelFormActions.setFieldError('number', err),
+          validate: {
+            checkOnBlur: true,
+            required: false,
           },
         }}
       />
       <DateTimePicker
-          {...{
-            label: 'paymentDate',
-            className: modalsStyle.control,
-            value: model.paymentDate,
-            errors: modelErrors.paymentDate,
-            onChange: val => modelFormActions.changeField('paymentDate', val),
-            onValid: () => modelFormActions.resetFieldError('paymentDate'),
-            onInvalid: err => modelFormActions.setFieldError('paymentDate', err),
-            type: PICKER_TYPES.dateTime,
-            validate: {
-              checkOnBlur: true,
-              requiredDate: false,
-              requiredTime: false,
-
+        {...{
+          label: 'created',
+          className: modalsStyle.control,
+          value: model.created,
+          errors: modelErrors.created,
+          onChange: val => modelFormActions.changeField('created', val),
+          onValid: () => modelFormActions.resetFieldError('created'),
+          onInvalid: err => modelFormActions.setFieldError('created', err),
+          type: PICKER_TYPES.dateTime,
+          validate: {
+            checkOnBlur: true,
+            requiredDate: false,
+            requiredTime: false,
+          },
+        }}
+      />
+      <DateTimePicker
+        {...{
+          label: 'paymentDate',
+          className: modalsStyle.control,
+          value: model.paymentDate,
+          errors: modelErrors.paymentDate,
+          onChange: val => modelFormActions.changeField('paymentDate', val),
+          onValid: () => modelFormActions.resetFieldError('paymentDate'),
+          onInvalid: err => modelFormActions.setFieldError('paymentDate', err),
+          type: PICKER_TYPES.dateTime,
+          validate: {
+            checkOnBlur: true,
+            requiredDate: false,
+            requiredTime: false,
           },
         }}
       />
@@ -248,7 +248,8 @@ const EditComponent = ({
           emptyItemsLabel: matterArrayIsLoading ? '' : undefined,
           onScrollToEnd: matterNextPageAction,
           isLoading: matterArrayIsLoading,
-          missingValueResolver: value => matterEntities.getById(value)['matter'],
+          missingValueResolver: value => 
+            matterEntities.getById(value)[matterModelConfig.idField],
           label: 'matter',
           errors: modelErrors.matter,
           onValid: () => modelFormActions.resetFieldError('matter'),
@@ -276,7 +277,8 @@ const EditComponent = ({
           emptyItemsLabel: billArrayIsLoading ? '' : undefined,
           onScrollToEnd: billNextPageAction,
           isLoading: billArrayIsLoading,
-          missingValueResolver: value => billEntities.getById(value)['bill'],
+          missingValueResolver: value => 
+            billEntities.getById(value)[billModelConfig.idField],
           label: 'bill',
           errors: modelErrors.bill,
           onValid: () => modelFormActions.resetFieldError('bill'),

@@ -62,50 +62,48 @@ const EditComponent = ({
   return (
     <div className={classNames(style.root, modalsStyle.root)}>
       <DateTimePicker
-          {...{
-            label: 'startDate',
-            className: modalsStyle.control,
-            value: model.startDate,
-            errors: modelErrors.startDate,
-            onChange: val => modelFormActions.changeField('startDate', val),
-            onValid: () => modelFormActions.resetFieldError('startDate'),
-            onInvalid: err => modelFormActions.setFieldError('startDate', err),
-            type: PICKER_TYPES.dateTime,
-            validate: {
-              checkOnBlur: true,
-              requiredDate: true,
-              requiredTime: true,
-
+        {...{
+          label: 'startDate',
+          className: modalsStyle.control,
+          value: model.startDate,
+          errors: modelErrors.startDate,
+          onChange: val => modelFormActions.changeField('startDate', val),
+          onValid: () => modelFormActions.resetFieldError('startDate'),
+          onInvalid: err => modelFormActions.setFieldError('startDate', err),
+          type: PICKER_TYPES.dateTime,
+          validate: {
+            checkOnBlur: true,
+            requiredDate: true,
+            requiredTime: true,
           },
         }}
       />
       <DateTimePicker
-          {...{
-            label: 'endDate',
-            className: modalsStyle.control,
-            value: model.endDate,
-            errors: modelErrors.endDate,
-            onChange: val => modelFormActions.changeField('endDate', val),
-            onValid: () => modelFormActions.resetFieldError('endDate'),
-            onInvalid: err => modelFormActions.setFieldError('endDate', err),
-            type: PICKER_TYPES.dateTime,
-            validate: {
-              checkOnBlur: true,
-              requiredDate: true,
-              requiredTime: true,
-
+        {...{
+          label: 'endDate',
+          className: modalsStyle.control,
+          value: model.endDate,
+          errors: modelErrors.endDate,
+          onChange: val => modelFormActions.changeField('endDate', val),
+          onValid: () => modelFormActions.resetFieldError('endDate'),
+          onInvalid: err => modelFormActions.setFieldError('endDate', err),
+          type: PICKER_TYPES.dateTime,
+          validate: {
+            checkOnBlur: true,
+            requiredDate: true,
+            requiredTime: true,
           },
         }}
       />
       <TCheckbox
           {...{
             label: 'paid',
-            className: modalsStyle.control,
-            value: model.paid,
-            errors: modelErrors.paid,
-            onChange: val => modelFormActions.changeField('paid', val),
-            onValid: () => modelFormActions.resetFieldError('paid'),
-            onInvalid: err => modelFormActions.setFieldError('paid', err),
+          className: modalsStyle.control,
+          value: model.paid,
+          errors: modelErrors.paid,
+          onChange: val => modelFormActions.changeField('paid', val),
+          onValid: () => modelFormActions.resetFieldError('paid'),
+          onInvalid: err => modelFormActions.setFieldError('paid', err),
             validate: {
               checkOnBlur: true,
               required: true,
@@ -129,7 +127,8 @@ const EditComponent = ({
           emptyItemsLabel: requestVacationArrayIsLoading ? '' : undefined,
           onScrollToEnd: requestVacationNextPageAction,
           isLoading: requestVacationArrayIsLoading,
-          missingValueResolver: value => requestVacationEntities.getById(value)['requestVacation'],
+          missingValueResolver: value => 
+            requestVacationEntities.getById(value)[requestVacationModelConfig.idField],
           label: 'requestVacation',
           errors: modelErrors.requestVacation,
           onValid: () => modelFormActions.resetFieldError('requestVacation'),
@@ -141,20 +140,19 @@ const EditComponent = ({
         }}
       />
       <DateTimePicker
-          {...{
-            label: 'created',
-            className: modalsStyle.control,
-            value: model.created,
-            errors: modelErrors.created,
-            onChange: val => modelFormActions.changeField('created', val),
-            onValid: () => modelFormActions.resetFieldError('created'),
-            onInvalid: err => modelFormActions.setFieldError('created', err),
-            type: PICKER_TYPES.dateTime,
-            validate: {
-              checkOnBlur: true,
-              requiredDate: false,
-              requiredTime: false,
-
+        {...{
+          label: 'created',
+          className: modalsStyle.control,
+          value: model.created,
+          errors: modelErrors.created,
+          onChange: val => modelFormActions.changeField('created', val),
+          onValid: () => modelFormActions.resetFieldError('created'),
+          onInvalid: err => modelFormActions.setFieldError('created', err),
+          type: PICKER_TYPES.dateTime,
+          validate: {
+            checkOnBlur: true,
+            requiredDate: false,
+            requiredTime: false,
           },
         }}
       />
@@ -175,7 +173,8 @@ const EditComponent = ({
           emptyItemsLabel: employeeArrayIsLoading ? '' : undefined,
           onScrollToEnd: employeeNextPageAction,
           isLoading: employeeArrayIsLoading,
-          missingValueResolver: value => employeeEntities.getById(value)['author'],
+          missingValueResolver: value => 
+            employeeEntities.getById(value)[employeeModelConfig.idField],
           label: 'author',
           errors: modelErrors.author,
           onValid: () => modelFormActions.resetFieldError('author'),
@@ -203,7 +202,8 @@ const EditComponent = ({
           emptyItemsLabel: employeeArrayIsLoading ? '' : undefined,
           onScrollToEnd: employeeNextPageAction,
           isLoading: employeeArrayIsLoading,
-          missingValueResolver: value => employeeEntities.getById(value)['vacationIs'],
+          missingValueResolver: value => 
+            employeeEntities.getById(value)[employeeModelConfig.idField],
           label: 'vacationIs',
           errors: modelErrors.vacationIs,
           onValid: () => modelFormActions.resetFieldError('vacationIs'),

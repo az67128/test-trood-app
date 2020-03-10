@@ -41,9 +41,10 @@ const EditComponent = ({
     }
   }
       
-  const targetObjectGenericEnteties = restProps[snakeToCamel(model.targetObject._object) + 'Entities']
+  const targetObjectModelName = snakeToCamel(model.targetObject._object)
+  const targetObjectGenericEnteties = restProps[targetObjectModelName + 'Entities']
   const [targetObjectSearch, targetObjectSearchSet] = useState('')
-  const targetObjectModelConfig = RESTIFY_CONFIG.registeredModels[snakeToCamel(model.targetObject._object)]
+  const targetObjectModelConfig = RESTIFY_CONFIG.registeredModels[targetObjectModelName]
   const targetObjectApiConfig = {
     filter: {
       q: targetObjectSearch 
@@ -59,7 +60,7 @@ const EditComponent = ({
   const targetObjectNextPage = targetObjectGenericEnteties.getNextPage(targetObjectApiConfig)
   const targetObjectNextPageAction = () => {
     if (targetObjectNextPage) {
-      restProps[snakeToCamel(model.targetObject._object) + 'ApiActions'].loadNextPage(targetObjectApiConfig)
+      restProps[targetObjectModelName + 'ApiActions'].loadNextPage(targetObjectApiConfig)
     }
   }
       
@@ -103,7 +104,8 @@ const EditComponent = ({
           emptyItemsLabel: employeeArrayIsLoading ? '' : undefined,
           onScrollToEnd: employeeNextPageAction,
           isLoading: employeeArrayIsLoading,
-          missingValueResolver: value => employeeEntities.getById(value)['author'],
+          missingValueResolver: value => 
+            employeeEntities.getById(value)[employeeModelConfig.idField],
           label: 'author',
           errors: modelErrors.author,
           onValid: () => modelFormActions.resetFieldError('author'),
@@ -115,20 +117,20 @@ const EditComponent = ({
         }}
       />
       <TInput
-          {...{
-            type: INPUT_TYPES.multi,
-            label: 'file',
-            className: modalsStyle.control,
-            value: model.file,
-            errors: modelErrors.file,
-            onChange: val => modelFormActions.changeField('file', val),
-            onValid: () => modelFormActions.resetFieldError('file'),
-            onInvalid: err => modelFormActions.setFieldError('file', err),
-            validate: {
-              checkOnBlur: true,
-              required: true,
-            },
-          }}
+        {...{
+          type: INPUT_TYPES.multi,
+          label: 'file',
+          className: modalsStyle.control,
+          value: model.file,
+          errors: modelErrors.file,
+          onChange: val => modelFormActions.changeField('file', val),
+          onValid: () => modelFormActions.resetFieldError('file'),
+          onInvalid: err => modelFormActions.setFieldError('file', err),
+          validate: {
+            checkOnBlur: true,
+            required: true,
+          },
+        }}
       />
       <div className={style.row}>
         <TSelect 
@@ -158,63 +160,61 @@ const EditComponent = ({
         />
         <TSelect
           {...{
-      items: targetObjectArray.map(item => ({
-            value: item[targetObjectModelConfig.idField], 
-            label: item.name || item[targetObjectModelConfig.idField],
-          })),
-          values: model.targetObject[targetObjectModelConfig.idField]  
-            ? [model.targetObject[targetObjectModelConfig.idField] ] 
-            : [],
-          onChange: vals => modelFormActions.changeField(['targetObject', targetObjectModelConfig.idField],
-            vals[0],
-          ),
-          onSearch: (value) => targetObjectSearchSet(value ? encodeURIComponent(value) : ''),
-          emptyItemsLabel: targetObjectArrayIsLoading ? '' : undefined,
-          onScrollToEnd: targetObjectNextPageAction,
-          isLoading: targetObjectArrayIsLoading,
-          missingValueResolver: value => targetObjectGenericEnteties.getById(value)[targetObjectModelConfig.idField],
-          label: 'targetObject',
-          errors: modelErrors.targetObject,
-          onValid: () => modelFormActions.resetFieldError('targetObject'),
-          onInvalid: err => modelFormActions.setFieldError('targetObject', err),
-          type: SELECT_TYPES.filterDropdown,
-          multi: false,
-          clearable: true,
-          placeHolder: 'Not set',
+            items: targetObjectArray.map(item => ({
+              value: item[targetObjectModelConfig.idField], 
+              label: item.name || item[targetObjectModelConfig.idField],
+            })),
+            values: model.targetObject[targetObjectModelConfig.idField]  
+              ? [model.targetObject[targetObjectModelConfig.idField] ] 
+              : [],
+            onChange: vals => modelFormActions.changeField(['targetObject', targetObjectModelConfig.idField],
+              vals[0],
+            ),
+            onSearch: (value) => targetObjectSearchSet(value ? encodeURIComponent(value) : ''),
+            emptyItemsLabel: targetObjectArrayIsLoading ? '' : undefined,
+            onScrollToEnd: targetObjectNextPageAction,
+            isLoading: targetObjectArrayIsLoading,
+            label: 'targetObject',
+            errors: modelErrors.targetObject,
+            onValid: () => modelFormActions.resetFieldError('targetObject'),
+            onInvalid: err => modelFormActions.setFieldError('targetObject', err),
+            type: SELECT_TYPES.filterDropdown,
+            multi: false,
+            clearable: true,
+            placeHolder: 'Not set',
           }}
         />
       </div>
       <TInput
-          {...{
-            type: INPUT_TYPES.multi,
-            label: 'documentType',
-            className: modalsStyle.control,
-            value: model.documentType,
-            errors: modelErrors.documentType,
-            onChange: val => modelFormActions.changeField('documentType', val),
-            onValid: () => modelFormActions.resetFieldError('documentType'),
-            onInvalid: err => modelFormActions.setFieldError('documentType', err),
-            validate: {
-              checkOnBlur: true,
-              required: true,
-            },
-          }}
+        {...{
+          type: INPUT_TYPES.multi,
+          label: 'documentType',
+          className: modalsStyle.control,
+          value: model.documentType,
+          errors: modelErrors.documentType,
+          onChange: val => modelFormActions.changeField('documentType', val),
+          onValid: () => modelFormActions.resetFieldError('documentType'),
+          onInvalid: err => modelFormActions.setFieldError('documentType', err),
+          validate: {
+            checkOnBlur: true,
+            required: true,
+          },
+        }}
       />
       <DateTimePicker
-          {...{
-            label: 'created',
-            className: modalsStyle.control,
-            value: model.created,
-            errors: modelErrors.created,
-            onChange: val => modelFormActions.changeField('created', val),
-            onValid: () => modelFormActions.resetFieldError('created'),
-            onInvalid: err => modelFormActions.setFieldError('created', err),
-            type: PICKER_TYPES.dateTime,
-            validate: {
-              checkOnBlur: true,
-              requiredDate: false,
-              requiredTime: false,
-
+        {...{
+          label: 'created',
+          className: modalsStyle.control,
+          value: model.created,
+          errors: modelErrors.created,
+          onChange: val => modelFormActions.changeField('created', val),
+          onValid: () => modelFormActions.resetFieldError('created'),
+          onInvalid: err => modelFormActions.setFieldError('created', err),
+          type: PICKER_TYPES.dateTime,
+          validate: {
+            checkOnBlur: true,
+            requiredDate: false,
+            requiredTime: false,
           },
         }}
       />
@@ -235,7 +235,8 @@ const EditComponent = ({
           emptyItemsLabel: docCustomTypeArrayIsLoading ? '' : undefined,
           onScrollToEnd: docCustomTypeNextPageAction,
           isLoading: docCustomTypeArrayIsLoading,
-          missingValueResolver: value => docCustomTypeEntities.getById(value)['docCustomType'],
+          missingValueResolver: value => 
+            docCustomTypeEntities.getById(value)[docCustomTypeModelConfig.idField],
           label: 'docCustomType',
           errors: modelErrors.docCustomType,
           onValid: () => modelFormActions.resetFieldError('docCustomType'),
@@ -247,36 +248,36 @@ const EditComponent = ({
         }}
       />
       <TInput
-          {...{
-            type: INPUT_TYPES.multi,
-            label: 'description',
-            className: modalsStyle.control,
-            value: model.description,
-            errors: modelErrors.description,
-            onChange: val => modelFormActions.changeField('description', val),
-            onValid: () => modelFormActions.resetFieldError('description'),
-            onInvalid: err => modelFormActions.setFieldError('description', err),
-            validate: {
-              checkOnBlur: true,
-              required: false,
-            },
-          }}
+        {...{
+          type: INPUT_TYPES.multi,
+          label: 'description',
+          className: modalsStyle.control,
+          value: model.description,
+          errors: modelErrors.description,
+          onChange: val => modelFormActions.changeField('description', val),
+          onValid: () => modelFormActions.resetFieldError('description'),
+          onInvalid: err => modelFormActions.setFieldError('description', err),
+          validate: {
+            checkOnBlur: true,
+            required: false,
+          },
+        }}
       />
       <TInput
-          {...{
-            type: INPUT_TYPES.multi,
-            label: 'filename',
-            className: modalsStyle.control,
-            value: model.filename,
-            errors: modelErrors.filename,
-            onChange: val => modelFormActions.changeField('filename', val),
-            onValid: () => modelFormActions.resetFieldError('filename'),
-            onInvalid: err => modelFormActions.setFieldError('filename', err),
-            validate: {
-              checkOnBlur: true,
-              required: true,
-            },
-          }}
+        {...{
+          type: INPUT_TYPES.multi,
+          label: 'filename',
+          className: modalsStyle.control,
+          value: model.filename,
+          errors: modelErrors.filename,
+          onChange: val => modelFormActions.changeField('filename', val),
+          onValid: () => modelFormActions.resetFieldError('filename'),
+          onInvalid: err => modelFormActions.setFieldError('filename', err),
+          validate: {
+            checkOnBlur: true,
+            required: true,
+          },
+        }}
       />
     </div>
   )

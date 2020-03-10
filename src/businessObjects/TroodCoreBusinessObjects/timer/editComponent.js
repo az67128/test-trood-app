@@ -101,7 +101,8 @@ const EditComponent = ({
           emptyItemsLabel: timerStatusArrayIsLoading ? '' : undefined,
           onScrollToEnd: timerStatusNextPageAction,
           isLoading: timerStatusArrayIsLoading,
-          missingValueResolver: value => timerStatusEntities.getById(value)['timerStatus'],
+          missingValueResolver: value => 
+            timerStatusEntities.getById(value)[timerStatusModelConfig.idField],
           label: 'timerStatus',
           errors: modelErrors.timerStatus,
           onValid: () => modelFormActions.resetFieldError('timerStatus'),
@@ -129,7 +130,8 @@ const EditComponent = ({
           emptyItemsLabel: employeeArrayIsLoading ? '' : undefined,
           onScrollToEnd: employeeNextPageAction,
           isLoading: employeeArrayIsLoading,
-          missingValueResolver: value => employeeEntities.getById(value)['employee'],
+          missingValueResolver: value => 
+            employeeEntities.getById(value)[employeeModelConfig.idField],
           label: 'employee',
           errors: modelErrors.employee,
           onValid: () => modelFormActions.resetFieldError('employee'),
@@ -157,7 +159,8 @@ const EditComponent = ({
           emptyItemsLabel: activityArrayIsLoading ? '' : undefined,
           onScrollToEnd: activityNextPageAction,
           isLoading: activityArrayIsLoading,
-          missingValueResolver: value => activityEntities.getById(value)['activity'],
+          missingValueResolver: value => 
+            activityEntities.getById(value)[activityModelConfig.idField],
           label: 'activity',
           errors: modelErrors.activity,
           onValid: () => modelFormActions.resetFieldError('activity'),
@@ -169,38 +172,37 @@ const EditComponent = ({
         }}
       />
       <DateTimePicker
-          {...{
-            label: 'start',
-            className: modalsStyle.control,
-            value: model.start,
-            errors: modelErrors.start,
-            onChange: val => modelFormActions.changeField('start', val),
-            onValid: () => modelFormActions.resetFieldError('start'),
-            onInvalid: err => modelFormActions.setFieldError('start', err),
-            type: PICKER_TYPES.dateTime,
-            validate: {
-              checkOnBlur: true,
-              requiredDate: false,
-              requiredTime: false,
-
+        {...{
+          label: 'start',
+          className: modalsStyle.control,
+          value: model.start,
+          errors: modelErrors.start,
+          onChange: val => modelFormActions.changeField('start', val),
+          onValid: () => modelFormActions.resetFieldError('start'),
+          onInvalid: err => modelFormActions.setFieldError('start', err),
+          type: PICKER_TYPES.dateTime,
+          validate: {
+            checkOnBlur: true,
+            requiredDate: false,
+            requiredTime: false,
           },
         }}
       />
       <TInput
-          {...{
-            type: INPUT_TYPES.float,
-            label: 'duration',
-            className: modalsStyle.control,
-            value: model.duration,
-            errors: modelErrors.duration,
-            onChange: val => modelFormActions.changeField('duration', val),
-            onValid: () => modelFormActions.resetFieldError('duration'),
-            onInvalid: err => modelFormActions.setFieldError('duration', err),
-            validate: {
-              checkOnBlur: true,
-              required: false,
-            },
-          }}
+        {...{
+          type: INPUT_TYPES.float,
+          label: 'duration',
+          className: modalsStyle.control,
+          value: model.duration,
+          errors: modelErrors.duration,
+          onChange: val => modelFormActions.changeField('duration', val),
+          onValid: () => modelFormActions.resetFieldError('duration'),
+          onInvalid: err => modelFormActions.setFieldError('duration', err),
+          validate: {
+            checkOnBlur: true,
+            required: false,
+          },
+        }}
       />
     </div>
   )

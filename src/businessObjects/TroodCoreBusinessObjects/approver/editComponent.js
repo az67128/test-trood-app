@@ -62,20 +62,20 @@ const EditComponent = ({
   return (
     <div className={classNames(style.root, modalsStyle.root)}>
       <TInput
-          {...{
-            type: INPUT_TYPES.float,
-            label: 'priority',
-            className: modalsStyle.control,
-            value: model.priority,
-            errors: modelErrors.priority,
-            onChange: val => modelFormActions.changeField('priority', val),
-            onValid: () => modelFormActions.resetFieldError('priority'),
-            onInvalid: err => modelFormActions.setFieldError('priority', err),
-            validate: {
-              checkOnBlur: true,
-              required: true,
-            },
-          }}
+        {...{
+          type: INPUT_TYPES.float,
+          label: 'priority',
+          className: modalsStyle.control,
+          value: model.priority,
+          errors: modelErrors.priority,
+          onChange: val => modelFormActions.changeField('priority', val),
+          onValid: () => modelFormActions.resetFieldError('priority'),
+          onInvalid: err => modelFormActions.setFieldError('priority', err),
+          validate: {
+            checkOnBlur: true,
+            required: true,
+          },
+        }}
       />
       <TSelect
         {...{
@@ -94,7 +94,8 @@ const EditComponent = ({
           emptyItemsLabel: employeeArrayIsLoading ? '' : undefined,
           onScrollToEnd: employeeNextPageAction,
           isLoading: employeeArrayIsLoading,
-          missingValueResolver: value => employeeEntities.getById(value)['employee'],
+          missingValueResolver: value => 
+            employeeEntities.getById(value)[employeeModelConfig.idField],
           label: 'employee',
           errors: modelErrors.employee,
           onValid: () => modelFormActions.resetFieldError('employee'),
@@ -122,7 +123,8 @@ const EditComponent = ({
           emptyItemsLabel: requestVacationArrayIsLoading ? '' : undefined,
           onScrollToEnd: requestVacationNextPageAction,
           isLoading: requestVacationArrayIsLoading,
-          missingValueResolver: value => requestVacationEntities.getById(value)['requestVacation'],
+          missingValueResolver: value => 
+            requestVacationEntities.getById(value)[requestVacationModelConfig.idField],
           label: 'requestVacation',
           errors: modelErrors.requestVacation,
           onValid: () => modelFormActions.resetFieldError('requestVacation'),
@@ -134,52 +136,51 @@ const EditComponent = ({
         }}
       />
       <TInput
-          {...{
-            type: INPUT_TYPES.multi,
-            label: 'approve',
-            className: modalsStyle.control,
-            value: model.approve,
-            errors: modelErrors.approve,
-            onChange: val => modelFormActions.changeField('approve', val),
-            onValid: () => modelFormActions.resetFieldError('approve'),
-            onInvalid: err => modelFormActions.setFieldError('approve', err),
-            validate: {
-              checkOnBlur: true,
-              required: false,
-            },
-          }}
+        {...{
+          type: INPUT_TYPES.multi,
+          label: 'approve',
+          className: modalsStyle.control,
+          value: model.approve,
+          errors: modelErrors.approve,
+          onChange: val => modelFormActions.changeField('approve', val),
+          onValid: () => modelFormActions.resetFieldError('approve'),
+          onInvalid: err => modelFormActions.setFieldError('approve', err),
+          validate: {
+            checkOnBlur: true,
+            required: false,
+          },
+        }}
       />
       <TInput
-          {...{
-            type: INPUT_TYPES.multi,
-            label: 'comment',
-            className: modalsStyle.control,
-            value: model.comment,
-            errors: modelErrors.comment,
-            onChange: val => modelFormActions.changeField('comment', val),
-            onValid: () => modelFormActions.resetFieldError('comment'),
-            onInvalid: err => modelFormActions.setFieldError('comment', err),
-            validate: {
-              checkOnBlur: true,
-              required: false,
-            },
-          }}
+        {...{
+          type: INPUT_TYPES.multi,
+          label: 'comment',
+          className: modalsStyle.control,
+          value: model.comment,
+          errors: modelErrors.comment,
+          onChange: val => modelFormActions.changeField('comment', val),
+          onValid: () => modelFormActions.resetFieldError('comment'),
+          onInvalid: err => modelFormActions.setFieldError('comment', err),
+          validate: {
+            checkOnBlur: true,
+            required: false,
+          },
+        }}
       />
       <DateTimePicker
-          {...{
-            label: 'approveDate',
-            className: modalsStyle.control,
-            value: model.approveDate,
-            errors: modelErrors.approveDate,
-            onChange: val => modelFormActions.changeField('approveDate', val),
-            onValid: () => modelFormActions.resetFieldError('approveDate'),
-            onInvalid: err => modelFormActions.setFieldError('approveDate', err),
-            type: PICKER_TYPES.dateTime,
-            validate: {
-              checkOnBlur: true,
-              requiredDate: false,
-              requiredTime: false,
-
+        {...{
+          label: 'approveDate',
+          className: modalsStyle.control,
+          value: model.approveDate,
+          errors: modelErrors.approveDate,
+          onChange: val => modelFormActions.changeField('approveDate', val),
+          onValid: () => modelFormActions.resetFieldError('approveDate'),
+          onInvalid: err => modelFormActions.setFieldError('approveDate', err),
+          type: PICKER_TYPES.dateTime,
+          validate: {
+            checkOnBlur: true,
+            requiredDate: false,
+            requiredTime: false,
           },
         }}
       />

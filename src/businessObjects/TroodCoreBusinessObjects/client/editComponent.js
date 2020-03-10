@@ -108,20 +108,20 @@ const EditComponent = ({
   return (
     <div className={classNames(style.root, modalsStyle.root)}>
       <TInput
-          {...{
-            type: INPUT_TYPES.multi,
-            label: 'name',
-            className: modalsStyle.control,
-            value: model.name,
-            errors: modelErrors.name,
-            onChange: val => modelFormActions.changeField('name', val),
-            onValid: () => modelFormActions.resetFieldError('name'),
-            onInvalid: err => modelFormActions.setFieldError('name', err),
-            validate: {
-              checkOnBlur: true,
-              required: true,
-            },
-          }}
+        {...{
+          type: INPUT_TYPES.multi,
+          label: 'name',
+          className: modalsStyle.control,
+          value: model.name,
+          errors: modelErrors.name,
+          onChange: val => modelFormActions.changeField('name', val),
+          onValid: () => modelFormActions.resetFieldError('name'),
+          onInvalid: err => modelFormActions.setFieldError('name', err),
+          validate: {
+            checkOnBlur: true,
+            required: true,
+          },
+        }}
       />
       <TSelect
         {...{
@@ -140,7 +140,8 @@ const EditComponent = ({
           emptyItemsLabel: clientActiveStatusArrayIsLoading ? '' : undefined,
           onScrollToEnd: clientActiveStatusNextPageAction,
           isLoading: clientActiveStatusArrayIsLoading,
-          missingValueResolver: value => clientActiveStatusEntities.getById(value)['clientActiveStatus'],
+          missingValueResolver: value => 
+            clientActiveStatusEntities.getById(value)[clientActiveStatusModelConfig.idField],
           label: 'clientActiveStatus',
           errors: modelErrors.clientActiveStatus,
           onValid: () => modelFormActions.resetFieldError('clientActiveStatus'),
@@ -168,7 +169,8 @@ const EditComponent = ({
           emptyItemsLabel: employeeArrayIsLoading ? '' : undefined,
           onScrollToEnd: employeeNextPageAction,
           isLoading: employeeArrayIsLoading,
-          missingValueResolver: value => employeeEntities.getById(value)['responsible'],
+          missingValueResolver: value => 
+            employeeEntities.getById(value)[employeeModelConfig.idField],
           label: 'responsible',
           errors: modelErrors.responsible,
           onValid: () => modelFormActions.resetFieldError('responsible'),
@@ -196,7 +198,8 @@ const EditComponent = ({
           emptyItemsLabel: clientTypeArrayIsLoading ? '' : undefined,
           onScrollToEnd: clientTypeNextPageAction,
           isLoading: clientTypeArrayIsLoading,
-          missingValueResolver: value => clientTypeEntities.getById(value)['clientType'],
+          missingValueResolver: value => 
+            clientTypeEntities.getById(value)[clientTypeModelConfig.idField],
           label: 'clientType',
           errors: modelErrors.clientType,
           onValid: () => modelFormActions.resetFieldError('clientType'),
@@ -208,56 +211,54 @@ const EditComponent = ({
         }}
       />
       <DateTimePicker
-          {...{
-            label: 'created',
-            className: modalsStyle.control,
-            value: model.created,
-            errors: modelErrors.created,
-            onChange: val => modelFormActions.changeField('created', val),
-            onValid: () => modelFormActions.resetFieldError('created'),
-            onInvalid: err => modelFormActions.setFieldError('created', err),
-            type: PICKER_TYPES.dateTime,
-            validate: {
-              checkOnBlur: true,
-              requiredDate: false,
-              requiredTime: false,
-
+        {...{
+          label: 'created',
+          className: modalsStyle.control,
+          value: model.created,
+          errors: modelErrors.created,
+          onChange: val => modelFormActions.changeField('created', val),
+          onValid: () => modelFormActions.resetFieldError('created'),
+          onInvalid: err => modelFormActions.setFieldError('created', err),
+          type: PICKER_TYPES.dateTime,
+          validate: {
+            checkOnBlur: true,
+            requiredDate: false,
+            requiredTime: false,
           },
         }}
       />
       <DateTimePicker
-          {...{
-            label: 'conflictCheckDate',
-            className: modalsStyle.control,
-            value: model.conflictCheckDate,
-            errors: modelErrors.conflictCheckDate,
-            onChange: val => modelFormActions.changeField('conflictCheckDate', val),
-            onValid: () => modelFormActions.resetFieldError('conflictCheckDate'),
-            onInvalid: err => modelFormActions.setFieldError('conflictCheckDate', err),
-            type: PICKER_TYPES.dateTime,
-            validate: {
-              checkOnBlur: true,
-              requiredDate: false,
-              requiredTime: false,
-
+        {...{
+          label: 'conflictCheckDate',
+          className: modalsStyle.control,
+          value: model.conflictCheckDate,
+          errors: modelErrors.conflictCheckDate,
+          onChange: val => modelFormActions.changeField('conflictCheckDate', val),
+          onValid: () => modelFormActions.resetFieldError('conflictCheckDate'),
+          onInvalid: err => modelFormActions.setFieldError('conflictCheckDate', err),
+          type: PICKER_TYPES.dateTime,
+          validate: {
+            checkOnBlur: true,
+            requiredDate: false,
+            requiredTime: false,
           },
         }}
       />
       <TInput
-          {...{
-            type: INPUT_TYPES.float,
-            label: 'revenue',
-            className: modalsStyle.control,
-            value: model.revenue,
-            errors: modelErrors.revenue,
-            onChange: val => modelFormActions.changeField('revenue', val),
-            onValid: () => modelFormActions.resetFieldError('revenue'),
-            onInvalid: err => modelFormActions.setFieldError('revenue', err),
-            validate: {
-              checkOnBlur: true,
-              required: false,
-            },
-          }}
+        {...{
+          type: INPUT_TYPES.float,
+          label: 'revenue',
+          className: modalsStyle.control,
+          value: model.revenue,
+          errors: modelErrors.revenue,
+          onChange: val => modelFormActions.changeField('revenue', val),
+          onValid: () => modelFormActions.resetFieldError('revenue'),
+          onInvalid: err => modelFormActions.setFieldError('revenue', err),
+          validate: {
+            checkOnBlur: true,
+            required: false,
+          },
+        }}
       />
       <TSelect
         {...{
@@ -276,7 +277,8 @@ const EditComponent = ({
           emptyItemsLabel: conflictStatusArrayIsLoading ? '' : undefined,
           onScrollToEnd: conflictStatusNextPageAction,
           isLoading: conflictStatusArrayIsLoading,
-          missingValueResolver: value => conflictStatusEntities.getById(value)['conflictStatus'],
+          missingValueResolver: value => 
+            conflictStatusEntities.getById(value)[conflictStatusModelConfig.idField],
           label: 'conflictStatus',
           errors: modelErrors.conflictStatus,
           onValid: () => modelFormActions.resetFieldError('conflictStatus'),

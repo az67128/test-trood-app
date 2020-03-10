@@ -86,20 +86,20 @@ const EditComponent = ({
   return (
     <div className={classNames(style.root, modalsStyle.root)}>
       <TInput
-          {...{
-            type: INPUT_TYPES.multi,
-            label: 'number',
-            className: modalsStyle.control,
-            value: model.number,
-            errors: modelErrors.number,
-            onChange: val => modelFormActions.changeField('number', val),
-            onValid: () => modelFormActions.resetFieldError('number'),
-            onInvalid: err => modelFormActions.setFieldError('number', err),
-            validate: {
-              checkOnBlur: true,
-              required: true,
-            },
-          }}
+        {...{
+          type: INPUT_TYPES.multi,
+          label: 'number',
+          className: modalsStyle.control,
+          value: model.number,
+          errors: modelErrors.number,
+          onChange: val => modelFormActions.changeField('number', val),
+          onValid: () => modelFormActions.resetFieldError('number'),
+          onInvalid: err => modelFormActions.setFieldError('number', err),
+          validate: {
+            checkOnBlur: true,
+            required: true,
+          },
+        }}
       />
       <TSelect
         {...{
@@ -118,7 +118,8 @@ const EditComponent = ({
           emptyItemsLabel: employeeArrayIsLoading ? '' : undefined,
           onScrollToEnd: employeeNextPageAction,
           isLoading: employeeArrayIsLoading,
-          missingValueResolver: value => employeeEntities.getById(value)['approver'],
+          missingValueResolver: value => 
+            employeeEntities.getById(value)[employeeModelConfig.idField],
           label: 'approver',
           errors: modelErrors.approver,
           onValid: () => modelFormActions.resetFieldError('approver'),
@@ -146,7 +147,8 @@ const EditComponent = ({
           emptyItemsLabel: matterArrayIsLoading ? '' : undefined,
           onScrollToEnd: matterNextPageAction,
           isLoading: matterArrayIsLoading,
-          missingValueResolver: value => matterEntities.getById(value)['matter'],
+          missingValueResolver: value => 
+            matterEntities.getById(value)[matterModelConfig.idField],
           label: 'matter',
           errors: modelErrors.matter,
           onValid: () => modelFormActions.resetFieldError('matter'),
@@ -158,38 +160,36 @@ const EditComponent = ({
         }}
       />
       <DateTimePicker
-          {...{
-            label: 'created',
-            className: modalsStyle.control,
-            value: model.created,
-            errors: modelErrors.created,
-            onChange: val => modelFormActions.changeField('created', val),
-            onValid: () => modelFormActions.resetFieldError('created'),
-            onInvalid: err => modelFormActions.setFieldError('created', err),
-            type: PICKER_TYPES.dateTime,
-            validate: {
-              checkOnBlur: true,
-              requiredDate: false,
-              requiredTime: false,
-
+        {...{
+          label: 'created',
+          className: modalsStyle.control,
+          value: model.created,
+          errors: modelErrors.created,
+          onChange: val => modelFormActions.changeField('created', val),
+          onValid: () => modelFormActions.resetFieldError('created'),
+          onInvalid: err => modelFormActions.setFieldError('created', err),
+          type: PICKER_TYPES.dateTime,
+          validate: {
+            checkOnBlur: true,
+            requiredDate: false,
+            requiredTime: false,
           },
         }}
       />
       <DateTimePicker
-          {...{
-            label: 'approvedDate',
-            className: modalsStyle.control,
-            value: model.approvedDate,
-            errors: modelErrors.approvedDate,
-            onChange: val => modelFormActions.changeField('approvedDate', val),
-            onValid: () => modelFormActions.resetFieldError('approvedDate'),
-            onInvalid: err => modelFormActions.setFieldError('approvedDate', err),
-            type: PICKER_TYPES.dateTime,
-            validate: {
-              checkOnBlur: true,
-              requiredDate: false,
-              requiredTime: false,
-
+        {...{
+          label: 'approvedDate',
+          className: modalsStyle.control,
+          value: model.approvedDate,
+          errors: modelErrors.approvedDate,
+          onChange: val => modelFormActions.changeField('approvedDate', val),
+          onValid: () => modelFormActions.resetFieldError('approvedDate'),
+          onInvalid: err => modelFormActions.setFieldError('approvedDate', err),
+          type: PICKER_TYPES.dateTime,
+          validate: {
+            checkOnBlur: true,
+            requiredDate: false,
+            requiredTime: false,
           },
         }}
       />
@@ -210,7 +210,8 @@ const EditComponent = ({
           emptyItemsLabel: billStatusArrayIsLoading ? '' : undefined,
           onScrollToEnd: billStatusNextPageAction,
           isLoading: billStatusArrayIsLoading,
-          missingValueResolver: value => billStatusEntities.getById(value)['billStatus'],
+          missingValueResolver: value => 
+            billStatusEntities.getById(value)[billStatusModelConfig.idField],
           label: 'billStatus',
           errors: modelErrors.billStatus,
           onValid: () => modelFormActions.resetFieldError('billStatus'),
@@ -222,64 +223,63 @@ const EditComponent = ({
         }}
       />
       <DateTimePicker
-          {...{
-            label: 'dateInvoiceSent',
-            className: modalsStyle.control,
-            value: model.dateInvoiceSent,
-            errors: modelErrors.dateInvoiceSent,
-            onChange: val => modelFormActions.changeField('dateInvoiceSent', val),
-            onValid: () => modelFormActions.resetFieldError('dateInvoiceSent'),
-            onInvalid: err => modelFormActions.setFieldError('dateInvoiceSent', err),
-            type: PICKER_TYPES.dateTime,
-            validate: {
-              checkOnBlur: true,
-              requiredDate: false,
-              requiredTime: false,
-
+        {...{
+          label: 'dateInvoiceSent',
+          className: modalsStyle.control,
+          value: model.dateInvoiceSent,
+          errors: modelErrors.dateInvoiceSent,
+          onChange: val => modelFormActions.changeField('dateInvoiceSent', val),
+          onValid: () => modelFormActions.resetFieldError('dateInvoiceSent'),
+          onInvalid: err => modelFormActions.setFieldError('dateInvoiceSent', err),
+          type: PICKER_TYPES.dateTime,
+          validate: {
+            checkOnBlur: true,
+            requiredDate: false,
+            requiredTime: false,
           },
         }}
       />
       <TInput
-          {...{
-            type: INPUT_TYPES.float,
-            label: 'sumBill',
-            className: modalsStyle.control,
-            value: model.sumBill,
-            errors: modelErrors.sumBill,
-            onChange: val => modelFormActions.changeField('sumBill', val),
-            onValid: () => modelFormActions.resetFieldError('sumBill'),
-            onInvalid: err => modelFormActions.setFieldError('sumBill', err),
-            validate: {
-              checkOnBlur: true,
-              required: false,
-            },
-          }}
+        {...{
+          type: INPUT_TYPES.float,
+          label: 'sumBill',
+          className: modalsStyle.control,
+          value: model.sumBill,
+          errors: modelErrors.sumBill,
+          onChange: val => modelFormActions.changeField('sumBill', val),
+          onValid: () => modelFormActions.resetFieldError('sumBill'),
+          onInvalid: err => modelFormActions.setFieldError('sumBill', err),
+          validate: {
+            checkOnBlur: true,
+            required: false,
+          },
+        }}
       />
       <TInput
-          {...{
-            type: INPUT_TYPES.float,
-            label: 'totalSumPayment',
-            className: modalsStyle.control,
-            value: model.totalSumPayment,
-            errors: modelErrors.totalSumPayment,
-            onChange: val => modelFormActions.changeField('totalSumPayment', val),
-            onValid: () => modelFormActions.resetFieldError('totalSumPayment'),
-            onInvalid: err => modelFormActions.setFieldError('totalSumPayment', err),
-            validate: {
-              checkOnBlur: true,
-              required: false,
-            },
-          }}
+        {...{
+          type: INPUT_TYPES.float,
+          label: 'totalSumPayment',
+          className: modalsStyle.control,
+          value: model.totalSumPayment,
+          errors: modelErrors.totalSumPayment,
+          onChange: val => modelFormActions.changeField('totalSumPayment', val),
+          onValid: () => modelFormActions.resetFieldError('totalSumPayment'),
+          onInvalid: err => modelFormActions.setFieldError('totalSumPayment', err),
+          validate: {
+            checkOnBlur: true,
+            required: false,
+          },
+        }}
       />
       <TCheckbox
           {...{
             label: 'deleted',
-            className: modalsStyle.control,
-            value: model.deleted,
-            errors: modelErrors.deleted,
-            onChange: val => modelFormActions.changeField('deleted', val),
-            onValid: () => modelFormActions.resetFieldError('deleted'),
-            onInvalid: err => modelFormActions.setFieldError('deleted', err),
+          className: modalsStyle.control,
+          value: model.deleted,
+          errors: modelErrors.deleted,
+          onChange: val => modelFormActions.changeField('deleted', val),
+          onValid: () => modelFormActions.resetFieldError('deleted'),
+          onInvalid: err => modelFormActions.setFieldError('deleted', err),
             validate: {
               checkOnBlur: true,
               required: false,
@@ -287,20 +287,19 @@ const EditComponent = ({
           }}
         />
       <DateTimePicker
-          {...{
-            label: 'dateFullPaid',
-            className: modalsStyle.control,
-            value: model.dateFullPaid,
-            errors: modelErrors.dateFullPaid,
-            onChange: val => modelFormActions.changeField('dateFullPaid', val),
-            onValid: () => modelFormActions.resetFieldError('dateFullPaid'),
-            onInvalid: err => modelFormActions.setFieldError('dateFullPaid', err),
-            type: PICKER_TYPES.dateTime,
-            validate: {
-              checkOnBlur: true,
-              requiredDate: false,
-              requiredTime: false,
-
+        {...{
+          label: 'dateFullPaid',
+          className: modalsStyle.control,
+          value: model.dateFullPaid,
+          errors: modelErrors.dateFullPaid,
+          onChange: val => modelFormActions.changeField('dateFullPaid', val),
+          onValid: () => modelFormActions.resetFieldError('dateFullPaid'),
+          onInvalid: err => modelFormActions.setFieldError('dateFullPaid', err),
+          type: PICKER_TYPES.dateTime,
+          validate: {
+            checkOnBlur: true,
+            requiredDate: false,
+            requiredTime: false,
           },
         }}
       />

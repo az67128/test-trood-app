@@ -38,9 +38,10 @@ const EditComponent = ({
     }
   }
       
-  const targetObjectGenericEnteties = restProps[snakeToCamel(model.targetObject._object) + 'Entities']
+  const targetObjectModelName = snakeToCamel(model.targetObject._object)
+  const targetObjectGenericEnteties = restProps[targetObjectModelName + 'Entities']
   const [targetObjectSearch, targetObjectSearchSet] = useState('')
-  const targetObjectModelConfig = RESTIFY_CONFIG.registeredModels[snakeToCamel(model.targetObject._object)]
+  const targetObjectModelConfig = RESTIFY_CONFIG.registeredModels[targetObjectModelName]
   const targetObjectApiConfig = {
     filter: {
       q: targetObjectSearch 
@@ -56,7 +57,7 @@ const EditComponent = ({
   const targetObjectNextPage = targetObjectGenericEnteties.getNextPage(targetObjectApiConfig)
   const targetObjectNextPageAction = () => {
     if (targetObjectNextPage) {
-      restProps[snakeToCamel(model.targetObject._object) + 'ApiActions'].loadNextPage(targetObjectApiConfig)
+      restProps[targetObjectModelName + 'ApiActions'].loadNextPage(targetObjectApiConfig)
     }
   }
       
@@ -79,7 +80,8 @@ const EditComponent = ({
           emptyItemsLabel: contactTypeArrayIsLoading ? '' : undefined,
           onScrollToEnd: contactTypeNextPageAction,
           isLoading: contactTypeArrayIsLoading,
-          missingValueResolver: value => contactTypeEntities.getById(value)['contactType'],
+          missingValueResolver: value => 
+            contactTypeEntities.getById(value)[contactTypeModelConfig.idField],
           label: 'contactType',
           errors: modelErrors.contactType,
           onValid: () => modelFormActions.resetFieldError('contactType'),
@@ -91,20 +93,20 @@ const EditComponent = ({
         }}
       />
       <TInput
-          {...{
-            type: INPUT_TYPES.multi,
-            label: 'value',
-            className: modalsStyle.control,
-            value: model.value,
-            errors: modelErrors.value,
-            onChange: val => modelFormActions.changeField('value', val),
-            onValid: () => modelFormActions.resetFieldError('value'),
-            onInvalid: err => modelFormActions.setFieldError('value', err),
-            validate: {
-              checkOnBlur: true,
-              required: true,
-            },
-          }}
+        {...{
+          type: INPUT_TYPES.multi,
+          label: 'value',
+          className: modalsStyle.control,
+          value: model.value,
+          errors: modelErrors.value,
+          onChange: val => modelFormActions.changeField('value', val),
+          onValid: () => modelFormActions.resetFieldError('value'),
+          onInvalid: err => modelFormActions.setFieldError('value', err),
+          validate: {
+            checkOnBlur: true,
+            required: true,
+          },
+        }}
       />
       <div className={style.row}>
         <TSelect 
@@ -131,29 +133,28 @@ const EditComponent = ({
         />
         <TSelect
           {...{
-      items: targetObjectArray.map(item => ({
-            value: item[targetObjectModelConfig.idField], 
-            label: item.name || item[targetObjectModelConfig.idField],
-          })),
-          values: model.targetObject[targetObjectModelConfig.idField]  
-            ? [model.targetObject[targetObjectModelConfig.idField] ] 
-            : [],
-          onChange: vals => modelFormActions.changeField(['targetObject', targetObjectModelConfig.idField],
-            vals[0],
-          ),
-          onSearch: (value) => targetObjectSearchSet(value ? encodeURIComponent(value) : ''),
-          emptyItemsLabel: targetObjectArrayIsLoading ? '' : undefined,
-          onScrollToEnd: targetObjectNextPageAction,
-          isLoading: targetObjectArrayIsLoading,
-          missingValueResolver: value => targetObjectGenericEnteties.getById(value)[targetObjectModelConfig.idField],
-          label: 'targetObject',
-          errors: modelErrors.targetObject,
-          onValid: () => modelFormActions.resetFieldError('targetObject'),
-          onInvalid: err => modelFormActions.setFieldError('targetObject', err),
-          type: SELECT_TYPES.filterDropdown,
-          multi: false,
-          clearable: true,
-          placeHolder: 'Not set',
+            items: targetObjectArray.map(item => ({
+              value: item[targetObjectModelConfig.idField], 
+              label: item.name || item[targetObjectModelConfig.idField],
+            })),
+            values: model.targetObject[targetObjectModelConfig.idField]  
+              ? [model.targetObject[targetObjectModelConfig.idField] ] 
+              : [],
+            onChange: vals => modelFormActions.changeField(['targetObject', targetObjectModelConfig.idField],
+              vals[0],
+            ),
+            onSearch: (value) => targetObjectSearchSet(value ? encodeURIComponent(value) : ''),
+            emptyItemsLabel: targetObjectArrayIsLoading ? '' : undefined,
+            onScrollToEnd: targetObjectNextPageAction,
+            isLoading: targetObjectArrayIsLoading,
+            label: 'targetObject',
+            errors: modelErrors.targetObject,
+            onValid: () => modelFormActions.resetFieldError('targetObject'),
+            onInvalid: err => modelFormActions.setFieldError('targetObject', err),
+            type: SELECT_TYPES.filterDropdown,
+            multi: false,
+            clearable: true,
+            placeHolder: 'Not set',
           }}
         />
       </div>

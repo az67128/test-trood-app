@@ -63,20 +63,20 @@ const EditComponent = ({
   return (
     <div className={classNames(style.root, modalsStyle.root)}>
       <TInput
-          {...{
-            type: INPUT_TYPES.multi,
-            label: 'name',
-            className: modalsStyle.control,
-            value: model.name,
-            errors: modelErrors.name,
-            onChange: val => modelFormActions.changeField('name', val),
-            onValid: () => modelFormActions.resetFieldError('name'),
-            onInvalid: err => modelFormActions.setFieldError('name', err),
-            validate: {
-              checkOnBlur: true,
-              required: true,
-            },
-          }}
+        {...{
+          type: INPUT_TYPES.multi,
+          label: 'name',
+          className: modalsStyle.control,
+          value: model.name,
+          errors: modelErrors.name,
+          onChange: val => modelFormActions.changeField('name', val),
+          onValid: () => modelFormActions.resetFieldError('name'),
+          onInvalid: err => modelFormActions.setFieldError('name', err),
+          validate: {
+            checkOnBlur: true,
+            required: true,
+          },
+        }}
       />
       <TSelect
         {...{
@@ -95,7 +95,8 @@ const EditComponent = ({
           emptyItemsLabel: employeePositionArrayIsLoading ? '' : undefined,
           onScrollToEnd: employeePositionNextPageAction,
           isLoading: employeePositionArrayIsLoading,
-          missingValueResolver: value => employeePositionEntities.getById(value)['position'],
+          missingValueResolver: value => 
+            employeePositionEntities.getById(value)[employeePositionModelConfig.idField],
           label: 'position',
           errors: modelErrors.position,
           onValid: () => modelFormActions.resetFieldError('position'),
@@ -123,7 +124,8 @@ const EditComponent = ({
           emptyItemsLabel: employeeRoleArrayIsLoading ? '' : undefined,
           onScrollToEnd: employeeRoleNextPageAction,
           isLoading: employeeRoleArrayIsLoading,
-          missingValueResolver: value => employeeRoleEntities.getById(value)['role'],
+          missingValueResolver: value => 
+            employeeRoleEntities.getById(value)[employeeRoleModelConfig.idField],
           label: 'role',
           errors: modelErrors.role,
           onValid: () => modelFormActions.resetFieldError('role'),
@@ -135,62 +137,62 @@ const EditComponent = ({
         }}
       />
       <TInput
-          {...{
-            type: INPUT_TYPES.multi,
-            label: 'email',
-            className: modalsStyle.control,
-            value: model.email,
-            errors: modelErrors.email,
-            onChange: val => modelFormActions.changeField('email', val),
-            onValid: () => modelFormActions.resetFieldError('email'),
-            onInvalid: err => modelFormActions.setFieldError('email', err),
-            validate: {
-              checkOnBlur: true,
-              required: true,
-            },
-          }}
+        {...{
+          type: INPUT_TYPES.multi,
+          label: 'email',
+          className: modalsStyle.control,
+          value: model.email,
+          errors: modelErrors.email,
+          onChange: val => modelFormActions.changeField('email', val),
+          onValid: () => modelFormActions.resetFieldError('email'),
+          onInvalid: err => modelFormActions.setFieldError('email', err),
+          validate: {
+            checkOnBlur: true,
+            required: true,
+          },
+        }}
       />
       <TInput
-          {...{
-            type: INPUT_TYPES.float,
-            label: 'rate',
-            className: modalsStyle.control,
-            value: model.rate,
-            errors: modelErrors.rate,
-            onChange: val => modelFormActions.changeField('rate', val),
-            onValid: () => modelFormActions.resetFieldError('rate'),
-            onInvalid: err => modelFormActions.setFieldError('rate', err),
-            validate: {
-              checkOnBlur: true,
-              required: true,
-            },
-          }}
+        {...{
+          type: INPUT_TYPES.float,
+          label: 'rate',
+          className: modalsStyle.control,
+          value: model.rate,
+          errors: modelErrors.rate,
+          onChange: val => modelFormActions.changeField('rate', val),
+          onValid: () => modelFormActions.resetFieldError('rate'),
+          onInvalid: err => modelFormActions.setFieldError('rate', err),
+          validate: {
+            checkOnBlur: true,
+            required: true,
+          },
+        }}
       />
       <TInput
-          {...{
-            type: INPUT_TYPES.float,
-            label: 'account',
-            className: modalsStyle.control,
-            value: model.account,
-            errors: modelErrors.account,
-            onChange: val => modelFormActions.changeField('account', val),
-            onValid: () => modelFormActions.resetFieldError('account'),
-            onInvalid: err => modelFormActions.setFieldError('account', err),
-            validate: {
-              checkOnBlur: true,
-              required: false,
-            },
-          }}
+        {...{
+          type: INPUT_TYPES.float,
+          label: 'account',
+          className: modalsStyle.control,
+          value: model.account,
+          errors: modelErrors.account,
+          onChange: val => modelFormActions.changeField('account', val),
+          onValid: () => modelFormActions.resetFieldError('account'),
+          onInvalid: err => modelFormActions.setFieldError('account', err),
+          validate: {
+            checkOnBlur: true,
+            required: false,
+          },
+        }}
       />
       <TCheckbox
           {...{
             label: 'active',
-            className: modalsStyle.control,
-            value: model.active,
-            errors: modelErrors.active,
-            onChange: val => modelFormActions.changeField('active', val),
-            onValid: () => modelFormActions.resetFieldError('active'),
-            onInvalid: err => modelFormActions.setFieldError('active', err),
+          className: modalsStyle.control,
+          value: model.active,
+          errors: modelErrors.active,
+          onChange: val => modelFormActions.changeField('active', val),
+          onValid: () => modelFormActions.resetFieldError('active'),
+          onInvalid: err => modelFormActions.setFieldError('active', err),
             validate: {
               checkOnBlur: true,
               required: false,
@@ -198,70 +200,69 @@ const EditComponent = ({
           }}
         />
       <DateTimePicker
-          {...{
-            label: 'created',
-            className: modalsStyle.control,
-            value: model.created,
-            errors: modelErrors.created,
-            onChange: val => modelFormActions.changeField('created', val),
-            onValid: () => modelFormActions.resetFieldError('created'),
-            onInvalid: err => modelFormActions.setFieldError('created', err),
-            type: PICKER_TYPES.dateTime,
-            validate: {
-              checkOnBlur: true,
-              requiredDate: false,
-              requiredTime: false,
-
+        {...{
+          label: 'created',
+          className: modalsStyle.control,
+          value: model.created,
+          errors: modelErrors.created,
+          onChange: val => modelFormActions.changeField('created', val),
+          onValid: () => modelFormActions.resetFieldError('created'),
+          onInvalid: err => modelFormActions.setFieldError('created', err),
+          type: PICKER_TYPES.dateTime,
+          validate: {
+            checkOnBlur: true,
+            requiredDate: false,
+            requiredTime: false,
           },
         }}
       />
       <TInput
-          {...{
-            type: INPUT_TYPES.multi,
-            label: 'avatar',
-            className: modalsStyle.control,
-            value: model.avatar,
-            errors: modelErrors.avatar,
-            onChange: val => modelFormActions.changeField('avatar', val),
-            onValid: () => modelFormActions.resetFieldError('avatar'),
-            onInvalid: err => modelFormActions.setFieldError('avatar', err),
-            validate: {
-              checkOnBlur: true,
-              required: false,
-            },
-          }}
+        {...{
+          type: INPUT_TYPES.multi,
+          label: 'avatar',
+          className: modalsStyle.control,
+          value: model.avatar,
+          errors: modelErrors.avatar,
+          onChange: val => modelFormActions.changeField('avatar', val),
+          onValid: () => modelFormActions.resetFieldError('avatar'),
+          onInvalid: err => modelFormActions.setFieldError('avatar', err),
+          validate: {
+            checkOnBlur: true,
+            required: false,
+          },
+        }}
       />
       <TInput
-          {...{
-            type: INPUT_TYPES.multi,
-            label: 'phone',
-            className: modalsStyle.control,
-            value: model.phone,
-            errors: modelErrors.phone,
-            onChange: val => modelFormActions.changeField('phone', val),
-            onValid: () => modelFormActions.resetFieldError('phone'),
-            onInvalid: err => modelFormActions.setFieldError('phone', err),
-            validate: {
-              checkOnBlur: true,
-              required: false,
-            },
-          }}
+        {...{
+          type: INPUT_TYPES.multi,
+          label: 'phone',
+          className: modalsStyle.control,
+          value: model.phone,
+          errors: modelErrors.phone,
+          onChange: val => modelFormActions.changeField('phone', val),
+          onValid: () => modelFormActions.resetFieldError('phone'),
+          onInvalid: err => modelFormActions.setFieldError('phone', err),
+          validate: {
+            checkOnBlur: true,
+            required: false,
+          },
+        }}
       />
       <TInput
-          {...{
-            type: INPUT_TYPES.float,
-            label: 'totalRating',
-            className: modalsStyle.control,
-            value: model.totalRating,
-            errors: modelErrors.totalRating,
-            onChange: val => modelFormActions.changeField('totalRating', val),
-            onValid: () => modelFormActions.resetFieldError('totalRating'),
-            onInvalid: err => modelFormActions.setFieldError('totalRating', err),
-            validate: {
-              checkOnBlur: true,
-              required: false,
-            },
-          }}
+        {...{
+          type: INPUT_TYPES.float,
+          label: 'totalRating',
+          className: modalsStyle.control,
+          value: model.totalRating,
+          errors: modelErrors.totalRating,
+          onChange: val => modelFormActions.changeField('totalRating', val),
+          onValid: () => modelFormActions.resetFieldError('totalRating'),
+          onInvalid: err => modelFormActions.setFieldError('totalRating', err),
+          validate: {
+            checkOnBlur: true,
+            required: false,
+          },
+        }}
       />
     </div>
   )

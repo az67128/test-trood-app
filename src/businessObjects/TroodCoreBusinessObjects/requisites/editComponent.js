@@ -38,116 +38,116 @@ const EditComponent = ({
   return (
     <div className={classNames(style.root, modalsStyle.root)}>
       <TInput
-          {...{
-            type: INPUT_TYPES.multi,
-            label: 'legalName',
-            className: modalsStyle.control,
-            value: model.legalName,
-            errors: modelErrors.legalName,
-            onChange: val => modelFormActions.changeField('legalName', val),
-            onValid: () => modelFormActions.resetFieldError('legalName'),
-            onInvalid: err => modelFormActions.setFieldError('legalName', err),
-            validate: {
-              checkOnBlur: true,
-              required: false,
-            },
-          }}
+        {...{
+          type: INPUT_TYPES.multi,
+          label: 'legalName',
+          className: modalsStyle.control,
+          value: model.legalName,
+          errors: modelErrors.legalName,
+          onChange: val => modelFormActions.changeField('legalName', val),
+          onValid: () => modelFormActions.resetFieldError('legalName'),
+          onInvalid: err => modelFormActions.setFieldError('legalName', err),
+          validate: {
+            checkOnBlur: true,
+            required: false,
+          },
+        }}
       />
       <TInput
-          {...{
-            type: INPUT_TYPES.multi,
-            label: 'inn',
-            className: modalsStyle.control,
-            value: model.inn,
-            errors: modelErrors.inn,
-            onChange: val => modelFormActions.changeField('inn', val),
-            onValid: () => modelFormActions.resetFieldError('inn'),
-            onInvalid: err => modelFormActions.setFieldError('inn', err),
-            validate: {
-              checkOnBlur: true,
-              required: false,
-            },
-          }}
+        {...{
+          type: INPUT_TYPES.multi,
+          label: 'inn',
+          className: modalsStyle.control,
+          value: model.inn,
+          errors: modelErrors.inn,
+          onChange: val => modelFormActions.changeField('inn', val),
+          onValid: () => modelFormActions.resetFieldError('inn'),
+          onInvalid: err => modelFormActions.setFieldError('inn', err),
+          validate: {
+            checkOnBlur: true,
+            required: false,
+          },
+        }}
       />
       <TInput
-          {...{
-            type: INPUT_TYPES.multi,
-            label: 'legalAddress',
-            className: modalsStyle.control,
-            value: model.legalAddress,
-            errors: modelErrors.legalAddress,
-            onChange: val => modelFormActions.changeField('legalAddress', val),
-            onValid: () => modelFormActions.resetFieldError('legalAddress'),
-            onInvalid: err => modelFormActions.setFieldError('legalAddress', err),
-            validate: {
-              checkOnBlur: true,
-              required: false,
-            },
-          }}
+        {...{
+          type: INPUT_TYPES.multi,
+          label: 'legalAddress',
+          className: modalsStyle.control,
+          value: model.legalAddress,
+          errors: modelErrors.legalAddress,
+          onChange: val => modelFormActions.changeField('legalAddress', val),
+          onValid: () => modelFormActions.resetFieldError('legalAddress'),
+          onInvalid: err => modelFormActions.setFieldError('legalAddress', err),
+          validate: {
+            checkOnBlur: true,
+            required: false,
+          },
+        }}
       />
       <TInput
-          {...{
-            type: INPUT_TYPES.multi,
-            label: 'ogrn',
-            className: modalsStyle.control,
-            value: model.ogrn,
-            errors: modelErrors.ogrn,
-            onChange: val => modelFormActions.changeField('ogrn', val),
-            onValid: () => modelFormActions.resetFieldError('ogrn'),
-            onInvalid: err => modelFormActions.setFieldError('ogrn', err),
-            validate: {
-              checkOnBlur: true,
-              required: false,
-            },
-          }}
+        {...{
+          type: INPUT_TYPES.multi,
+          label: 'ogrn',
+          className: modalsStyle.control,
+          value: model.ogrn,
+          errors: modelErrors.ogrn,
+          onChange: val => modelFormActions.changeField('ogrn', val),
+          onValid: () => modelFormActions.resetFieldError('ogrn'),
+          onInvalid: err => modelFormActions.setFieldError('ogrn', err),
+          validate: {
+            checkOnBlur: true,
+            required: false,
+          },
+        }}
       />
       <TInput
-          {...{
-            type: INPUT_TYPES.multi,
-            label: 'kpp',
-            className: modalsStyle.control,
-            value: model.kpp,
-            errors: modelErrors.kpp,
-            onChange: val => modelFormActions.changeField('kpp', val),
-            onValid: () => modelFormActions.resetFieldError('kpp'),
-            onInvalid: err => modelFormActions.setFieldError('kpp', err),
-            validate: {
-              checkOnBlur: true,
-              required: false,
-            },
-          }}
+        {...{
+          type: INPUT_TYPES.multi,
+          label: 'kpp',
+          className: modalsStyle.control,
+          value: model.kpp,
+          errors: modelErrors.kpp,
+          onChange: val => modelFormActions.changeField('kpp', val),
+          onValid: () => modelFormActions.resetFieldError('kpp'),
+          onInvalid: err => modelFormActions.setFieldError('kpp', err),
+          validate: {
+            checkOnBlur: true,
+            required: false,
+          },
+        }}
       />
       <TInput
-          {...{
-            type: INPUT_TYPES.multi,
-            label: 'director',
-            className: modalsStyle.control,
-            value: model.director,
-            errors: modelErrors.director,
-            onChange: val => modelFormActions.changeField('director', val),
-            onValid: () => modelFormActions.resetFieldError('director'),
-            onInvalid: err => modelFormActions.setFieldError('director', err),
-            validate: {
-              checkOnBlur: true,
-              required: false,
-            },
-          }}
+        {...{
+          type: INPUT_TYPES.multi,
+          label: 'director',
+          className: modalsStyle.control,
+          value: model.director,
+          errors: modelErrors.director,
+          onChange: val => modelFormActions.changeField('director', val),
+          onValid: () => modelFormActions.resetFieldError('director'),
+          onInvalid: err => modelFormActions.setFieldError('director', err),
+          validate: {
+            checkOnBlur: true,
+            required: false,
+          },
+        }}
       />
       <TInput
-          {...{
-            type: INPUT_TYPES.multi,
-            label: 'accaunter',
-            className: modalsStyle.control,
-            value: model.accaunter,
-            errors: modelErrors.accaunter,
-            onChange: val => modelFormActions.changeField('accaunter', val),
-            onValid: () => modelFormActions.resetFieldError('accaunter'),
-            onInvalid: err => modelFormActions.setFieldError('accaunter', err),
-            validate: {
-              checkOnBlur: true,
-              required: false,
-            },
-          }}
+        {...{
+          type: INPUT_TYPES.multi,
+          label: 'accaunter',
+          className: modalsStyle.control,
+          value: model.accaunter,
+          errors: modelErrors.accaunter,
+          onChange: val => modelFormActions.changeField('accaunter', val),
+          onValid: () => modelFormActions.resetFieldError('accaunter'),
+          onInvalid: err => modelFormActions.setFieldError('accaunter', err),
+          validate: {
+            checkOnBlur: true,
+            required: false,
+          },
+        }}
       />
       <TSelect
         {...{
@@ -166,7 +166,8 @@ const EditComponent = ({
           emptyItemsLabel: clientArrayIsLoading ? '' : undefined,
           onScrollToEnd: clientNextPageAction,
           isLoading: clientArrayIsLoading,
-          missingValueResolver: value => clientEntities.getById(value)['client'],
+          missingValueResolver: value => 
+            clientEntities.getById(value)[clientModelConfig.idField],
           label: 'client',
           errors: modelErrors.client,
           onValid: () => modelFormActions.resetFieldError('client'),
