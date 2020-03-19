@@ -2,19 +2,19 @@ import React from 'react'
 import style from './editComponent.css'
 import modalsStyle from '$trood/styles/modals.css'
 import classNames from 'classnames'
-
 import TInput, { INPUT_TYPES } from '$trood/components/TInput'
 
+
 const EditComponent = ({
-  model,
+  modelFormActions,
   modelErrors,
-  modelFormActions, 
+  model, 
 }) => {
 
   return (
-    <div {...{className: classNames(style.root, modalsStyle.root)}}>
+    <div className={classNames(style.root, modalsStyle.root)}>
       <TInput
-          {...{
+        {...{
           type: INPUT_TYPES.multi,
           label: 'name',
           className: modalsStyle.control,
@@ -32,4 +32,5 @@ const EditComponent = ({
     </div>
   )
 }
+
 export default EditComponent

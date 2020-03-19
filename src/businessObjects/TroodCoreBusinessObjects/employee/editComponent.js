@@ -1,61 +1,69 @@
-import React from 'react'
+import React, { useState } from 'react'
 import style from './editComponent.css'
 import modalsStyle from '$trood/styles/modals.css'
 import classNames from 'classnames'
-
 import TInput, { INPUT_TYPES } from '$trood/components/TInput'
 import TSelect, { SELECT_TYPES } from '$trood/components/TSelect'
 import { RESTIFY_CONFIG } from 'redux-restify'
 import TCheckbox from '$trood/components/TCheckbox'
 import DateTimePicker, { PICKER_TYPES } from '$trood/components/DateTimePicker'
 
+
 const EditComponent = ({
-  model,
-  modelErrors,
-  modelFormActions,
-  employeePositionEntities,
-  employeePositionApiActions,
+  employeeRoleApiActions,
   employeeRoleEntities,
-  employeeRoleApiActions, 
+  employeePositionApiActions,
+  employeePositionEntities,
+  modelFormActions,
+  modelErrors,
+  model, 
 }) => {
-      const [employeePositionSearch, employeePositionSearchSet] = React.useState('')
-      const employeePositionModelConfig = RESTIFY_CONFIG.registeredModels['employeePosition']
-      const employeePositionApiConfig = {
-        filter: {
-          q: employeePositionSearch ? `eq(${employeePositionModelConfig.idField},${employeePositionSearch})` : '',
-          depth: 1,
-        },
-      }
-      const employeePositionArray = employeePositionEntities.getArray(employeePositionApiConfig)
-      const employeePositionArrayIsLoading = employeePositionEntities.getIsLoadingArray(employeePositionApiConfig)
-      const employeePositionNextPage = employeePositionEntities.getNextPage(employeePositionApiConfig)
-      const employeePositionNextPageAction = () => {
-        if (employeePositionNextPage) {
-          employeePositionApiActions.loadNextPage(employeePositionApiConfig)
-        }
-      }
+  const [employeePositionSearch, employeePositionSearchSet] = useState('')
+  const employeePositionModelConfig = RESTIFY_CONFIG.registeredModels.employeePosition
+  const employeePositionApiConfig = {
+    filter: {
+      q: employeePositionSearch 
+        ? `eq(${employeePositionModelConfig.idField},${employeePositionSearch})`
+        : '',
+      depth: 1,
+    },
+  }
+  const employeePositionArray = employeePositionEntities.getArray(employeePositionApiConfig)
+  const employeePositionArrayIsLoading = employeePositionEntities.getIsLoadingArray(
+    employeePositionApiConfig,
+  )
+  const employeePositionNextPage = employeePositionEntities.getNextPage(employeePositionApiConfig)
+  const employeePositionNextPageAction = () => {
+    if (employeePositionNextPage) {
+      employeePositionApiActions.loadNextPage(employeePositionApiConfig)
+    }
+  }
       
-      const [employeeRoleSearch, employeeRoleSearchSet] = React.useState('')
-      const employeeRoleModelConfig = RESTIFY_CONFIG.registeredModels['employeeRole']
-      const employeeRoleApiConfig = {
-        filter: {
-          q: employeeRoleSearch ? `eq(${employeeRoleModelConfig.idField},${employeeRoleSearch})` : '',
-          depth: 1,
-        },
-      }
-      const employeeRoleArray = employeeRoleEntities.getArray(employeeRoleApiConfig)
-      const employeeRoleArrayIsLoading = employeeRoleEntities.getIsLoadingArray(employeeRoleApiConfig)
-      const employeeRoleNextPage = employeeRoleEntities.getNextPage(employeeRoleApiConfig)
-      const employeeRoleNextPageAction = () => {
-        if (employeeRoleNextPage) {
-          employeeRoleApiActions.loadNextPage(employeeRoleApiConfig)
-        }
-      }
+  const [employeeRoleSearch, employeeRoleSearchSet] = useState('')
+  const employeeRoleModelConfig = RESTIFY_CONFIG.registeredModels.employeeRole
+  const employeeRoleApiConfig = {
+    filter: {
+      q: employeeRoleSearch 
+        ? `eq(${employeeRoleModelConfig.idField},${employeeRoleSearch})`
+        : '',
+      depth: 1,
+    },
+  }
+  const employeeRoleArray = employeeRoleEntities.getArray(employeeRoleApiConfig)
+  const employeeRoleArrayIsLoading = employeeRoleEntities.getIsLoadingArray(
+    employeeRoleApiConfig,
+  )
+  const employeeRoleNextPage = employeeRoleEntities.getNextPage(employeeRoleApiConfig)
+  const employeeRoleNextPageAction = () => {
+    if (employeeRoleNextPage) {
+      employeeRoleApiActions.loadNextPage(employeeRoleApiConfig)
+    }
+  }
       
   return (
-    <div {...{className: classNames(style.root, modalsStyle.root)}}>
+    <div className={classNames(style.root, modalsStyle.root)}>
       <TInput
-          {...{
+        {...{
           type: INPUT_TYPES.multi,
           label: 'name',
           className: modalsStyle.control,
@@ -70,21 +78,25 @@ const EditComponent = ({
           },
         }}
       />
-<TSelect
+      <TSelect
         {...{
-          
-          
-        className: modalsStyle.control,
-        items: employeePositionArray.map(item => ({ value: item[employeePositionModelConfig.idField], label: item.name || item[employeePositionModelConfig.idField] })),
-        values: model.position ? [model.position] : [],
-        onChange: vals => modelFormActions.changeField('position',
-          vals[0],
-        ),
-        onSearch: (value) => employeePositionSearchSet(value ? encodeURIComponent(value) : ''),
-        emptyItemsLabel: employeePositionArrayIsLoading ? '' : undefined,
-        onScrollToEnd: employeePositionNextPageAction,
-        isLoading: employeePositionArrayIsLoading,
-        missingValueResolver: value => employeePositionEntities.getById(value).name,
+          className: modalsStyle.control,
+          items: employeePositionArray.map(item => ({
+            value: item[employeePositionModelConfig.idField], 
+            label: item.name || item[employeePositionModelConfig.idField],
+          })),
+          values: model.position 
+            ? [model.position] 
+            : [],
+          onChange: vals => modelFormActions.changeField('position',
+            vals[0],
+          ),
+          onSearch: (value) => employeePositionSearchSet(value ? encodeURIComponent(value) : ''),
+          emptyItemsLabel: employeePositionArrayIsLoading ? '' : undefined,
+          onScrollToEnd: employeePositionNextPageAction,
+          isLoading: employeePositionArrayIsLoading,
+          missingValueResolver: value => 
+            employeePositionEntities.getById(value)[employeePositionModelConfig.idField],
           label: 'position',
           errors: modelErrors.position,
           onValid: () => modelFormActions.resetFieldError('position'),
@@ -93,24 +105,27 @@ const EditComponent = ({
           multi: false,
           clearable: true,
           placeHolder: 'Not set',
-          
         }}
       />
-<TSelect
+      <TSelect
         {...{
-          
-          
-        className: modalsStyle.control,
-        items: employeeRoleArray.map(item => ({ value: item[employeeRoleModelConfig.idField], label: item.name || item[employeeRoleModelConfig.idField] })),
-        values: model.role ? [model.role] : [],
-        onChange: vals => modelFormActions.changeField('role',
-          vals[0],
-        ),
-        onSearch: (value) => employeeRoleSearchSet(value ? encodeURIComponent(value) : ''),
-        emptyItemsLabel: employeeRoleArrayIsLoading ? '' : undefined,
-        onScrollToEnd: employeeRoleNextPageAction,
-        isLoading: employeeRoleArrayIsLoading,
-        missingValueResolver: value => employeeRoleEntities.getById(value).name,
+          className: modalsStyle.control,
+          items: employeeRoleArray.map(item => ({
+            value: item[employeeRoleModelConfig.idField], 
+            label: item.name || item[employeeRoleModelConfig.idField],
+          })),
+          values: model.role 
+            ? [model.role] 
+            : [],
+          onChange: vals => modelFormActions.changeField('role',
+            vals[0],
+          ),
+          onSearch: (value) => employeeRoleSearchSet(value ? encodeURIComponent(value) : ''),
+          emptyItemsLabel: employeeRoleArrayIsLoading ? '' : undefined,
+          onScrollToEnd: employeeRoleNextPageAction,
+          isLoading: employeeRoleArrayIsLoading,
+          missingValueResolver: value => 
+            employeeRoleEntities.getById(value)[employeeRoleModelConfig.idField],
           label: 'role',
           errors: modelErrors.role,
           onValid: () => modelFormActions.resetFieldError('role'),
@@ -119,11 +134,10 @@ const EditComponent = ({
           multi: false,
           clearable: true,
           placeHolder: 'Not set',
-          
         }}
       />
       <TInput
-          {...{
+        {...{
           type: INPUT_TYPES.multi,
           label: 'email',
           className: modalsStyle.control,
@@ -139,7 +153,7 @@ const EditComponent = ({
         }}
       />
       <TInput
-          {...{
+        {...{
           type: INPUT_TYPES.float,
           label: 'rate',
           className: modalsStyle.control,
@@ -155,7 +169,7 @@ const EditComponent = ({
         }}
       />
       <TInput
-          {...{
+        {...{
           type: INPUT_TYPES.float,
           label: 'account',
           className: modalsStyle.control,
@@ -171,8 +185,7 @@ const EditComponent = ({
         }}
       />
       <TCheckbox
-            {...{
-            className: modalsStyle.control,
+          {...{
             label: 'active',
           className: modalsStyle.control,
           value: model.active,
@@ -187,24 +200,24 @@ const EditComponent = ({
           }}
         />
       <DateTimePicker
-            {...{
-            label: 'created',
+        {...{
+          label: 'created',
           className: modalsStyle.control,
           value: model.created,
           errors: modelErrors.created,
           onChange: val => modelFormActions.changeField('created', val),
           onValid: () => modelFormActions.resetFieldError('created'),
           onInvalid: err => modelFormActions.setFieldError('created', err),
-            type: PICKER_TYPES.dateTime,
-            validate: {
-              checkOnBlur: true,
-              requiredDate: false,
-              requiredTime: false,
-            },
-          }}
-        />
+          type: PICKER_TYPES.dateTime,
+          validate: {
+            checkOnBlur: true,
+            requiredDate: false,
+            requiredTime: false,
+          },
+        }}
+      />
       <TInput
-          {...{
+        {...{
           type: INPUT_TYPES.multi,
           label: 'avatar',
           className: modalsStyle.control,
@@ -220,7 +233,7 @@ const EditComponent = ({
         }}
       />
       <TInput
-          {...{
+        {...{
           type: INPUT_TYPES.multi,
           label: 'phone',
           className: modalsStyle.control,
@@ -236,7 +249,7 @@ const EditComponent = ({
         }}
       />
       <TInput
-          {...{
+        {...{
           type: INPUT_TYPES.float,
           label: 'totalRating',
           className: modalsStyle.control,
@@ -254,4 +267,5 @@ const EditComponent = ({
     </div>
   )
 }
+
 export default EditComponent

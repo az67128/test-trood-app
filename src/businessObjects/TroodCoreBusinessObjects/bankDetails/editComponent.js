@@ -1,40 +1,44 @@
-import React from 'react'
+import React, { useState } from 'react'
 import style from './editComponent.css'
 import modalsStyle from '$trood/styles/modals.css'
 import classNames from 'classnames'
-
 import TInput, { INPUT_TYPES } from '$trood/components/TInput'
 import TSelect, { SELECT_TYPES } from '$trood/components/TSelect'
 import { RESTIFY_CONFIG } from 'redux-restify'
 
+
 const EditComponent = ({
-  model,
-  modelErrors,
-  modelFormActions,
+  requisitesApiActions,
   requisitesEntities,
-  requisitesApiActions, 
+  modelFormActions,
+  modelErrors,
+  model, 
 }) => {
-      const [requisitesSearch, requisitesSearchSet] = React.useState('')
-      const requisitesModelConfig = RESTIFY_CONFIG.registeredModels['requisites']
-      const requisitesApiConfig = {
-        filter: {
-          q: requisitesSearch ? `eq(${requisitesModelConfig.idField},${requisitesSearch})` : '',
-          depth: 1,
-        },
-      }
-      const requisitesArray = requisitesEntities.getArray(requisitesApiConfig)
-      const requisitesArrayIsLoading = requisitesEntities.getIsLoadingArray(requisitesApiConfig)
-      const requisitesNextPage = requisitesEntities.getNextPage(requisitesApiConfig)
-      const requisitesNextPageAction = () => {
-        if (requisitesNextPage) {
-          requisitesApiActions.loadNextPage(requisitesApiConfig)
-        }
-      }
+  const [requisitesSearch, requisitesSearchSet] = useState('')
+  const requisitesModelConfig = RESTIFY_CONFIG.registeredModels.requisites
+  const requisitesApiConfig = {
+    filter: {
+      q: requisitesSearch 
+        ? `eq(${requisitesModelConfig.idField},${requisitesSearch})`
+        : '',
+      depth: 1,
+    },
+  }
+  const requisitesArray = requisitesEntities.getArray(requisitesApiConfig)
+  const requisitesArrayIsLoading = requisitesEntities.getIsLoadingArray(
+    requisitesApiConfig,
+  )
+  const requisitesNextPage = requisitesEntities.getNextPage(requisitesApiConfig)
+  const requisitesNextPageAction = () => {
+    if (requisitesNextPage) {
+      requisitesApiActions.loadNextPage(requisitesApiConfig)
+    }
+  }
       
   return (
-    <div {...{className: classNames(style.root, modalsStyle.root)}}>
+    <div className={classNames(style.root, modalsStyle.root)}>
       <TInput
-          {...{
+        {...{
           type: INPUT_TYPES.multi,
           label: 'bankName',
           className: modalsStyle.control,
@@ -50,7 +54,7 @@ const EditComponent = ({
         }}
       />
       <TInput
-          {...{
+        {...{
           type: INPUT_TYPES.multi,
           label: 'bankAddress',
           className: modalsStyle.control,
@@ -66,7 +70,7 @@ const EditComponent = ({
         }}
       />
       <TInput
-          {...{
+        {...{
           type: INPUT_TYPES.multi,
           label: 'bik',
           className: modalsStyle.control,
@@ -82,7 +86,7 @@ const EditComponent = ({
         }}
       />
       <TInput
-          {...{
+        {...{
           type: INPUT_TYPES.multi,
           label: 'ks',
           className: modalsStyle.control,
@@ -98,7 +102,7 @@ const EditComponent = ({
         }}
       />
       <TInput
-          {...{
+        {...{
           type: INPUT_TYPES.multi,
           label: 'rs',
           className: modalsStyle.control,
@@ -113,21 +117,25 @@ const EditComponent = ({
           },
         }}
       />
-<TSelect
+      <TSelect
         {...{
-          
-          
-        className: modalsStyle.control,
-        items: requisitesArray.map(item => ({ value: item[requisitesModelConfig.idField], label: item.name || item[requisitesModelConfig.idField] })),
-        values: model.requisites ? [model.requisites] : [],
-        onChange: vals => modelFormActions.changeField('requisites',
-          vals[0],
-        ),
-        onSearch: (value) => requisitesSearchSet(value ? encodeURIComponent(value) : ''),
-        emptyItemsLabel: requisitesArrayIsLoading ? '' : undefined,
-        onScrollToEnd: requisitesNextPageAction,
-        isLoading: requisitesArrayIsLoading,
-        missingValueResolver: value => requisitesEntities.getById(value).name,
+          className: modalsStyle.control,
+          items: requisitesArray.map(item => ({
+            value: item[requisitesModelConfig.idField], 
+            label: item.name || item[requisitesModelConfig.idField],
+          })),
+          values: model.requisites 
+            ? [model.requisites] 
+            : [],
+          onChange: vals => modelFormActions.changeField('requisites',
+            vals[0],
+          ),
+          onSearch: (value) => requisitesSearchSet(value ? encodeURIComponent(value) : ''),
+          emptyItemsLabel: requisitesArrayIsLoading ? '' : undefined,
+          onScrollToEnd: requisitesNextPageAction,
+          isLoading: requisitesArrayIsLoading,
+          missingValueResolver: value => 
+            requisitesEntities.getById(value)[requisitesModelConfig.idField],
           label: 'requisites',
           errors: modelErrors.requisites,
           onValid: () => modelFormActions.resetFieldError('requisites'),
@@ -136,11 +144,10 @@ const EditComponent = ({
           multi: false,
           clearable: false,
           placeHolder: 'Not set',
-          
         }}
       />
       <TInput
-          {...{
+        {...{
           type: INPUT_TYPES.multi,
           label: 'inn',
           className: modalsStyle.control,
@@ -156,7 +163,7 @@ const EditComponent = ({
         }}
       />
       <TInput
-          {...{
+        {...{
           type: INPUT_TYPES.multi,
           label: 'kpp',
           className: modalsStyle.control,
@@ -172,7 +179,7 @@ const EditComponent = ({
         }}
       />
       <TInput
-          {...{
+        {...{
           type: INPUT_TYPES.multi,
           label: 'swift',
           className: modalsStyle.control,
@@ -188,7 +195,7 @@ const EditComponent = ({
         }}
       />
       <TInput
-          {...{
+        {...{
           type: INPUT_TYPES.multi,
           label: 'iban',
           className: modalsStyle.control,
@@ -206,4 +213,5 @@ const EditComponent = ({
     </div>
   )
 }
+
 export default EditComponent
