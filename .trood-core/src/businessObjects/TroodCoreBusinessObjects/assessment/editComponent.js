@@ -1,61 +1,69 @@
-import React from 'react'
+import React, { useState } from 'react'
 import style from './editComponent.css'
 import modalsStyle from '$trood/styles/modals.css'
 import classNames from 'classnames'
-
 import TInput, { INPUT_TYPES } from '$trood/components/TInput'
 import TSelect, { SELECT_TYPES } from '$trood/components/TSelect'
 import { RESTIFY_CONFIG } from 'redux-restify'
 import DateTimePicker, { PICKER_TYPES } from '$trood/components/DateTimePicker'
 import TCheckbox from '$trood/components/TCheckbox'
 
+
 const EditComponent = ({
-  model,
-  modelErrors,
-  modelFormActions,
-  employeeEntities,
-  employeeApiActions,
+  teamMemberApiActions,
   teamMemberEntities,
-  teamMemberApiActions, 
+  employeeApiActions,
+  employeeEntities,
+  modelFormActions,
+  modelErrors,
+  model, 
 }) => {
-      const [employeeSearch, employeeSearchSet] = React.useState('')
-      const employeeModelConfig = RESTIFY_CONFIG.registeredModels['employee']
-      const employeeApiConfig = {
-        filter: {
-          q: employeeSearch ? `eq(${employeeModelConfig.idField},${employeeSearch})` : '',
-          depth: 1,
-        },
-      }
-      const employeeArray = employeeEntities.getArray(employeeApiConfig)
-      const employeeArrayIsLoading = employeeEntities.getIsLoadingArray(employeeApiConfig)
-      const employeeNextPage = employeeEntities.getNextPage(employeeApiConfig)
-      const employeeNextPageAction = () => {
-        if (employeeNextPage) {
-          employeeApiActions.loadNextPage(employeeApiConfig)
-        }
-      }
+  const [employeeSearch, employeeSearchSet] = useState('')
+  const employeeModelConfig = RESTIFY_CONFIG.registeredModels.employee
+  const employeeApiConfig = {
+    filter: {
+      q: employeeSearch 
+        ? `eq(${employeeModelConfig.idField},${employeeSearch})`
+        : '',
+      depth: 1,
+    },
+  }
+  const employeeArray = employeeEntities.getArray(employeeApiConfig)
+  const employeeArrayIsLoading = employeeEntities.getIsLoadingArray(
+    employeeApiConfig,
+  )
+  const employeeNextPage = employeeEntities.getNextPage(employeeApiConfig)
+  const employeeNextPageAction = () => {
+    if (employeeNextPage) {
+      employeeApiActions.loadNextPage(employeeApiConfig)
+    }
+  }
       
-      const [teamMemberSearch, teamMemberSearchSet] = React.useState('')
-      const teamMemberModelConfig = RESTIFY_CONFIG.registeredModels['teamMember']
-      const teamMemberApiConfig = {
-        filter: {
-          q: teamMemberSearch ? `eq(${teamMemberModelConfig.idField},${teamMemberSearch})` : '',
-          depth: 1,
-        },
-      }
-      const teamMemberArray = teamMemberEntities.getArray(teamMemberApiConfig)
-      const teamMemberArrayIsLoading = teamMemberEntities.getIsLoadingArray(teamMemberApiConfig)
-      const teamMemberNextPage = teamMemberEntities.getNextPage(teamMemberApiConfig)
-      const teamMemberNextPageAction = () => {
-        if (teamMemberNextPage) {
-          teamMemberApiActions.loadNextPage(teamMemberApiConfig)
-        }
-      }
+  const [teamMemberSearch, teamMemberSearchSet] = useState('')
+  const teamMemberModelConfig = RESTIFY_CONFIG.registeredModels.teamMember
+  const teamMemberApiConfig = {
+    filter: {
+      q: teamMemberSearch 
+        ? `eq(${teamMemberModelConfig.idField},${teamMemberSearch})`
+        : '',
+      depth: 1,
+    },
+  }
+  const teamMemberArray = teamMemberEntities.getArray(teamMemberApiConfig)
+  const teamMemberArrayIsLoading = teamMemberEntities.getIsLoadingArray(
+    teamMemberApiConfig,
+  )
+  const teamMemberNextPage = teamMemberEntities.getNextPage(teamMemberApiConfig)
+  const teamMemberNextPageAction = () => {
+    if (teamMemberNextPage) {
+      teamMemberApiActions.loadNextPage(teamMemberApiConfig)
+    }
+  }
       
   return (
-    <div {...{className: classNames(style.root, modalsStyle.root)}}>
+    <div className={classNames(style.root, modalsStyle.root)}>
       <TInput
-          {...{
+        {...{
           type: INPUT_TYPES.float,
           label: 'rating',
           className: modalsStyle.control,
@@ -70,21 +78,25 @@ const EditComponent = ({
           },
         }}
       />
-<TSelect
+      <TSelect
         {...{
-          
-          
-        className: modalsStyle.control,
-        items: employeeArray.map(item => ({ value: item[employeeModelConfig.idField], label: item.name || item[employeeModelConfig.idField] })),
-        values: model.rewiewer ? [model.rewiewer] : [],
-        onChange: vals => modelFormActions.changeField('rewiewer',
-          vals[0],
-        ),
-        onSearch: (value) => employeeSearchSet(value ? encodeURIComponent(value) : ''),
-        emptyItemsLabel: employeeArrayIsLoading ? '' : undefined,
-        onScrollToEnd: employeeNextPageAction,
-        isLoading: employeeArrayIsLoading,
-        missingValueResolver: value => employeeEntities.getById(value).name,
+          className: modalsStyle.control,
+          items: employeeArray.map(item => ({
+            value: item[employeeModelConfig.idField], 
+            label: item.name || item[employeeModelConfig.idField],
+          })),
+          values: model.rewiewer 
+            ? [model.rewiewer] 
+            : [],
+          onChange: vals => modelFormActions.changeField('rewiewer',
+            vals[0],
+          ),
+          onSearch: (value) => employeeSearchSet(value ? encodeURIComponent(value) : ''),
+          emptyItemsLabel: employeeArrayIsLoading ? '' : undefined,
+          onScrollToEnd: employeeNextPageAction,
+          isLoading: employeeArrayIsLoading,
+          missingValueResolver: value => 
+            employeeEntities.getById(value)[employeeModelConfig.idField],
           label: 'rewiewer',
           errors: modelErrors.rewiewer,
           onValid: () => modelFormActions.resetFieldError('rewiewer'),
@@ -93,11 +105,10 @@ const EditComponent = ({
           multi: false,
           clearable: true,
           placeHolder: 'Not set',
-          
         }}
       />
       <TInput
-          {...{
+        {...{
           type: INPUT_TYPES.multi,
           label: 'details',
           className: modalsStyle.control,
@@ -113,25 +124,24 @@ const EditComponent = ({
         }}
       />
       <DateTimePicker
-            {...{
-            label: 'created',
+        {...{
+          label: 'created',
           className: modalsStyle.control,
           value: model.created,
           errors: modelErrors.created,
           onChange: val => modelFormActions.changeField('created', val),
           onValid: () => modelFormActions.resetFieldError('created'),
           onInvalid: err => modelFormActions.setFieldError('created', err),
-            type: PICKER_TYPES.dateTime,
-            validate: {
-              checkOnBlur: true,
-              requiredDate: false,
-              requiredTime: false,
-            },
-          }}
-        />
+          type: PICKER_TYPES.dateTime,
+          validate: {
+            checkOnBlur: true,
+            requiredDate: false,
+            requiredTime: false,
+          },
+        }}
+      />
       <TCheckbox
-            {...{
-            className: modalsStyle.control,
+          {...{
             label: 'isMin',
           className: modalsStyle.control,
           value: model.isMin,
@@ -146,8 +156,7 @@ const EditComponent = ({
           }}
         />
       <TCheckbox
-            {...{
-            className: modalsStyle.control,
+          {...{
             label: 'isMax',
           className: modalsStyle.control,
           value: model.isMax,
@@ -161,21 +170,25 @@ const EditComponent = ({
             },
           }}
         />
-<TSelect
+      <TSelect
         {...{
-          
-          
-        className: modalsStyle.control,
-        items: teamMemberArray.map(item => ({ value: item[teamMemberModelConfig.idField], label: item.name || item[teamMemberModelConfig.idField] })),
-        values: model.teamMember ? [model.teamMember] : [],
-        onChange: vals => modelFormActions.changeField('teamMember',
-          vals[0],
-        ),
-        onSearch: (value) => teamMemberSearchSet(value ? encodeURIComponent(value) : ''),
-        emptyItemsLabel: teamMemberArrayIsLoading ? '' : undefined,
-        onScrollToEnd: teamMemberNextPageAction,
-        isLoading: teamMemberArrayIsLoading,
-        missingValueResolver: value => teamMemberEntities.getById(value).name,
+          className: modalsStyle.control,
+          items: teamMemberArray.map(item => ({
+            value: item[teamMemberModelConfig.idField], 
+            label: item.name || item[teamMemberModelConfig.idField],
+          })),
+          values: model.teamMember 
+            ? [model.teamMember] 
+            : [],
+          onChange: vals => modelFormActions.changeField('teamMember',
+            vals[0],
+          ),
+          onSearch: (value) => teamMemberSearchSet(value ? encodeURIComponent(value) : ''),
+          emptyItemsLabel: teamMemberArrayIsLoading ? '' : undefined,
+          onScrollToEnd: teamMemberNextPageAction,
+          isLoading: teamMemberArrayIsLoading,
+          missingValueResolver: value => 
+            teamMemberEntities.getById(value)[teamMemberModelConfig.idField],
           label: 'teamMember',
           errors: modelErrors.teamMember,
           onValid: () => modelFormActions.resetFieldError('teamMember'),
@@ -184,10 +197,10 @@ const EditComponent = ({
           multi: false,
           clearable: true,
           placeHolder: 'Not set',
-          
         }}
       />
     </div>
   )
 }
+
 export default EditComponent
