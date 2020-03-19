@@ -1,0 +1,10 @@
+.root {
+}
+
+.content {
+  width: 100%;
+}
+
+.hidden {
+  display: none !important;
+}

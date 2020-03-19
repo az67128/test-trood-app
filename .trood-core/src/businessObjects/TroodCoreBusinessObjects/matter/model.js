@@ -1,0 +1,38 @@
+import { RestifyForeignKey, RestifyForeignKeysArray } from 'redux-restify'
+import { messages } from '$trood/mainConstants'
+export default {
+  defaults: {
+    id: undefined,
+    code: undefined,
+    name: undefined,
+    responsible: new RestifyForeignKey('employee'),
+    client: new RestifyForeignKey('client'),
+    matterType: new RestifyForeignKey('matterType'),
+    matterStatus: new RestifyForeignKey('matterStatus'),
+    matterActiveStatus: new RestifyForeignKey('matterActiveStatus'),
+    budgetType: new RestifyForeignKey('budgetType'),
+    contactPersons: new RestifyForeignKeysArray('contactPerson', { allowNested: false }),
+    description: undefined,
+    amount: undefined,
+    created: undefined,
+    totalBillAmount: undefined,
+    startDate: undefined,
+    endDate: undefined,
+    activitySet: new RestifyForeignKeysArray('activity', { allowNested: false }),
+    billSet: new RestifyForeignKeysArray('bill', { allowNested: false }),
+    paymentSet: new RestifyForeignKeysArray('payment', { allowNested: false }),
+    timeEntrySet: new RestifyForeignKeysArray('timeEntry', { allowNested: false }),
+    expenseSet: new RestifyForeignKeysArray('expense', { allowNested: false }),
+    billPriceListSet: new RestifyForeignKeysArray('billPriceList', { allowNested: false }),
+    documentSet: new RestifyForeignKeysArray('document', { allowNested: false }),
+    matterContactPersonSet: new RestifyForeignKeysArray('matterContactPerson', { allowNested: false }),
+    commentSet: new RestifyForeignKeysArray('comment', { allowNested: false }),
+    matterInfoSet: new RestifyForeignKeysArray('matterInfo', { allowNested: false }),
+    teamMemberSet: new RestifyForeignKeysArray('teamMember', { allowNested: false }),
+  },
+  name: 'matter',
+  deletion: {
+    confirm: true,
+    message: messages.deletionQuestion,
+  },
+}

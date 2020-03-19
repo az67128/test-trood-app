@@ -1,0 +1,23 @@
+export default {
+  defaults: {
+    id: undefined,
+    name: undefined,
+    clientActiveStatus: undefined,
+    responsible: undefined,
+    clientType: undefined,
+    created: undefined,
+    conflictCheckDate: undefined,
+    revenue: undefined,
+    paymentSet: [],
+    contactSet: [],
+    commentSet: [],
+    documentSet: [],
+    conflictFirmSet: [],
+    contactPersonSet: [],
+    matterSet: [],
+    requisitesSet: [],
+    conflictStatus: undefined,
+    clientRateSet: [],
+  },
+  mapServerDataToIds: true,
+}

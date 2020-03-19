@@ -1,0 +1,22 @@
+export default {
+  defaults: {
+    id: undefined,
+    number: undefined,
+    approver: undefined,
+    matter: undefined,
+    created: undefined,
+    approvedDate: undefined,
+    billStatus: undefined,
+    dateInvoiceSent: undefined,
+    sumBill: undefined,
+    totalSumPayment: undefined,
+    deleted: undefined,
+    timeEntrySet: [],
+    expenseSet: [],
+    invoiceSet: [],
+    documentSet: [],
+    paymentSet: [],
+    dateFullPaid: undefined,
+  },
+  mapServerDataToIds: true,
+}

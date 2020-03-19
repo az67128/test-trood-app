@@ -1,0 +1,19 @@
+.root {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  background-color: var(--trood-white);
+  overflow-y: hidden;
+}
+
+.loading {
+  height: 100%;
+  width: 100%;
+}
+
+.components {
+  flex: 1;
+  background-color: var(--trood-gray);
+  overflow: auto;
+}
