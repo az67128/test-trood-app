@@ -10,6 +10,10 @@ const messages = defineMessages({
 'activities': {
     id: 'activities',
     defaultMessage: 'Activities',
+  },
+'employees': {
+    id: 'employees',
+    defaultMessage: 'Employees',
   }
 })
 

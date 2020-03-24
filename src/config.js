@@ -262,6 +262,26 @@ export default {
         },
       ],
     },
+    {
+      title: 'Employees',
+      url: 'employees',
+      type: 'grid',
+      components: [
+        {
+          id: 'employees-table',
+          type: 'LegalCoreComponents/Employees',
+          span: 3,
+          withMargin: true,
+          models: {
+            employee: 'employee',
+            employeeRole: 'employeeRole',
+            employeePosition: 'employeePosition',
+            contact: 'contact',
+            contactType: 'contactType',
+          },
+        },
+      ],
+    },
   ],
   entityPages: {},
 }

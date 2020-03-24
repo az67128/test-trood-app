@@ -26,5 +26,11 @@ export default {
        
       ],
     },
+    {
+      title: 'Employees',
+      models: [
+       
+      ],
+    },
   ],
 }

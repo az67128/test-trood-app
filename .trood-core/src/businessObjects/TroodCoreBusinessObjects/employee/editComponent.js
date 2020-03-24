@@ -10,14 +10,16 @@ import DateTimePicker, { PICKER_TYPES } from '$trood/components/DateTimePicker'
 
 
 const EditComponent = ({
-  employeeRoleApiActions,
-  employeeRoleEntities,
-  employeePositionApiActions,
-  employeePositionEntities,
-  modelFormActions,
-  modelErrors,
-  model, 
+    employeeRoleApiActions,
+    employeeRoleEntities,
+    employeePositionApiActions,
+    employeePositionEntities,
+    modelFormActions,
+    modelErrors,
+    model, 
+    mask=[],
 }) => {
+  console.log(mask)
   const [employeePositionSearch, employeePositionSearchSet] = useState('')
   const employeePositionModelConfig = RESTIFY_CONFIG.registeredModels.employeePosition
   const employeePositionApiConfig = {
@@ -69,6 +71,7 @@ const EditComponent = ({
           className: modalsStyle.control,
           value: model.name,
           errors: modelErrors.name,
+          disabled: mask.includes('name'),
           onChange: val => modelFormActions.changeField('name', val),
           onValid: () => modelFormActions.resetFieldError('name'),
           onInvalid: err => modelFormActions.setFieldError('name', err),
@@ -91,6 +94,7 @@ const EditComponent = ({
           onChange: vals => modelFormActions.changeField('position',
             vals[0],
           ),
+          disabled: mask.includes('position'),
           onSearch: (value) => employeePositionSearchSet(value ? encodeURIComponent(value) : ''),
           emptyItemsLabel: employeePositionArrayIsLoading ? '' : undefined,
           onScrollToEnd: employeePositionNextPageAction,
@@ -117,6 +121,7 @@ const EditComponent = ({
           values: model.role 
             ? [model.role] 
             : [],
+            disabled: mask.includes('role'),
           onChange: vals => modelFormActions.changeField('role',
             vals[0],
           ),

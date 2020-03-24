@@ -51,7 +51,7 @@ import { applySelectors } from '$trood/helpers/selectors'
 import { ruleChecker } from '$trood/helpers/abac'
 import { getRecursiveObjectReplacement } from '$trood/helpers/nestedObjects'
 import { snakeToCamel } from '$trood/helpers/namingNotation'
-
+import { AuthManagerContext } from '$trood/auth'
 
 const formatMessage = msg => {
   if (!msg || !msg.defaultMessage || !intlObject.intl) return msg
@@ -231,6 +231,7 @@ const getEntityEditComponent = (entityComponentName) => (modelName, modelConfig)
         nextParents,
         prevForm,
         buttons,
+        model
       } = this.props
       const contextValue = memoizedGetEntityManagerContext(entityId, parents, prevForm, nextParents)
       return (
@@ -239,7 +240,23 @@ const getEntityEditComponent = (entityComponentName) => (modelName, modelConfig)
           'data-cy': dataCyName,
         }} >
           <EntityManagerContext.Provider value={contextValue}>
-            <EntityComponent {...this.props} />
+            <AuthManagerContext.Consumer>
+            {({ checkCustodianCreateRule, checkCustodianUpdateRule, checkCustodianGetRule }) => {
+                const maskChecker =
+                  entityComponentName === ENTITY_COMPONENT_VIEW
+                    ? checkCustodianGetRule
+                    : (model.id
+                        ? checkCustodianUpdateRule
+                        : checkCustodianCreateRule)
+                const entities = this.props[modelName + 'Entities']
+                const { mask } = maskChecker({
+                  ...(model.id && { obj: entities.getById(model.id) }),
+                  ctx: model,
+                  resource: entities.modelConfig.endpoint,
+                })
+                return <EntityComponent {...{ ...this.props, mask }} />
+              }}
+            </AuthManagerContext.Consumer>
           </EntityManagerContext.Provider>
           {entityComponentName === ENTITY_COMPONENT_INLINE_EDIT && buttons(this.props)}
         </div>
