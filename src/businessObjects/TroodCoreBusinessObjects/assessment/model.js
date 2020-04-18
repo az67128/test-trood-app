@@ -16,4 +16,45 @@ export default {
     confirm: true,
     message: messages.deletionQuestion,
   },
+  views: {
+    default: 'assessment #{id}',
+  },
+  meta: {
+    id: {
+      type: 'number',
+      optional: true,
+    },
+    rating: {
+      type: 'number',
+      optional: false,
+    },
+    rewiewer: {
+      type: 'object',
+      linkMeta: 'employee',
+      linkType: 'inner',
+      optional: false,
+    },
+    details: {
+      type: 'string',
+      optional: false,
+    },
+    created: {
+      type: 'datetime',
+      optional: true,
+    },
+    is_min: {
+      type: 'bool',
+      optional: true,
+    },
+    is_max: {
+      type: 'bool',
+      optional: true,
+    },
+    team_member: {
+      type: 'object',
+      linkMeta: 'team_member',
+      linkType: 'inner',
+      optional: false,
+    },
+  },
 }

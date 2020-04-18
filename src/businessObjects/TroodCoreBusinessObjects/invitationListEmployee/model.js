@@ -11,4 +11,25 @@ export default {
     confirm: true,
     message: messages.deletionQuestion,
   },
+  views: {
+    default: 'invitation_list__employee #{id}',
+  },
+  meta: {
+    id: {
+      type: 'number',
+      optional: true,
+    },
+    employee: {
+      type: 'object',
+      linkMeta: 'employee',
+      linkType: 'inner',
+      optional: false,
+    },
+    invitation_list: {
+      type: 'object',
+      linkMeta: 'invitation_list',
+      linkType: 'inner',
+      optional: true,
+    },
+  },
 }

@@ -1,4 +1,4 @@
-import { RestifyForeignKey, RestifyForeignKeysArray } from 'redux-restify'
+import { RestifyForeignKey } from 'redux-restify'
 import { messages } from '$trood/mainConstants'
 export default {
   defaults: {
@@ -8,11 +8,43 @@ export default {
     bill: new RestifyForeignKey('bill'),
     file: undefined,
     created: undefined,
-    documentSet: new RestifyForeignKeysArray('document', { allowNested: false }),
   },
   name: 'invoice',
   deletion: {
     confirm: true,
     message: messages.deletionQuestion,
+  },
+  views: {
+    default: 'invoice #{id}',
+  },
+  meta: {
+    id: {
+      type: 'number',
+      optional: true,
+    },
+    author: {
+      type: 'object',
+      linkMeta: 'employee',
+      linkType: 'inner',
+      optional: false,
+    },
+    number: {
+      type: 'string',
+      optional: true,
+    },
+    bill: {
+      type: 'object',
+      linkMeta: 'bill',
+      linkType: 'inner',
+      optional: false,
+    },
+    file: {
+      type: 'string',
+      optional: false,
+    },
+    created: {
+      type: 'datetime',
+      optional: true,
+    },
   },
 }

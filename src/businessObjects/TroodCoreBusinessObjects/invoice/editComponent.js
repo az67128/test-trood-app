@@ -2,10 +2,10 @@ import React, { useState } from 'react'
 import style from './editComponent.css'
 import modalsStyle from '$trood/styles/modals.css'
 import classNames from 'classnames'
-import TSelect, { SELECT_TYPES } from '$trood/components/TSelect'
 import { RESTIFY_CONFIG } from 'redux-restify'
-import TInput, { INPUT_TYPES } from '$trood/components/TInput'
-import DateTimePicker, { PICKER_TYPES } from '$trood/components/DateTimePicker'
+import { templateApplyValues } from '$trood/helpers/templates'
+import { INPUT_TYPES } from '$trood/components/TInput'
+import { PICKER_TYPES } from '$trood/components/DateTimePicker'
 
 
 const EditComponent = ({
@@ -13,12 +13,13 @@ const EditComponent = ({
   billEntities,
   employeeApiActions,
   employeeEntities,
-  modelFormActions,
-  modelErrors,
-  model, 
+  ModalComponents, 
 }) => {
   const [employeeSearch, employeeSearchSet] = useState('')
   const employeeModelConfig = RESTIFY_CONFIG.registeredModels.employee
+  const employeeTemplate = employeeModelConfig.views.selectOption ||
+    employeeModelConfig.views.default ||
+    `employee/{${employeeModelConfig.idField}}`
   const employeeApiConfig = {
     filter: {
       q: employeeSearch 
@@ -40,6 +41,9 @@ const EditComponent = ({
       
   const [billSearch, billSearchSet] = useState('')
   const billModelConfig = RESTIFY_CONFIG.registeredModels.bill
+  const billTemplate = billModelConfig.views.selectOption ||
+    billModelConfig.views.default ||
+    `bill/{${billModelConfig.idField}}`
   const billApiConfig = {
     filter: {
       q: billSearch 
@@ -61,105 +65,63 @@ const EditComponent = ({
       
   return (
     <div className={classNames(style.root, modalsStyle.root)}>
-      <TSelect
+      <ModalComponents.ModalSelect
         {...{
-          className: modalsStyle.control,
+          fieldName: 'author',
           items: employeeArray.map(item => ({
             value: item[employeeModelConfig.idField], 
-            label: item.name || item[employeeModelConfig.idField],
+            label: templateApplyValues(employeeTemplate, item),
           })),
-          values: model.author 
-            ? [model.author] 
-            : [],
-          onChange: vals => modelFormActions.changeField('author',
-            vals[0],
-          ),
           onSearch: (value) => employeeSearchSet(value ? encodeURIComponent(value) : ''),
           emptyItemsLabel: employeeArrayIsLoading ? '' : undefined,
           onScrollToEnd: employeeNextPageAction,
           isLoading: employeeArrayIsLoading,
           missingValueResolver: value => 
             employeeEntities.getById(value)[employeeModelConfig.idField],
-          label: 'author',
-          errors: modelErrors.author,
-          onValid: () => modelFormActions.resetFieldError('author'),
-          onInvalid: err => modelFormActions.setFieldError('author', err),
-          type: SELECT_TYPES.filterDropdown,
           multi: false,
-          clearable: true,
-          placeHolder: 'Not set',
+          clearable: false,
         }}
       />
-      <TInput
+      <ModalComponents.ModalInput
         {...{
+          fieldName: 'number',
           type: INPUT_TYPES.multi,
-          label: 'number',
-          className: modalsStyle.control,
-          value: model.number,
-          errors: modelErrors.number,
-          onChange: val => modelFormActions.changeField('number', val),
-          onValid: () => modelFormActions.resetFieldError('number'),
-          onInvalid: err => modelFormActions.setFieldError('number', err),
           validate: {
             checkOnBlur: true,
             required: false,
           },
         }}
       />
-      <TSelect
+      <ModalComponents.ModalSelect
         {...{
-          className: modalsStyle.control,
+          fieldName: 'bill',
           items: billArray.map(item => ({
             value: item[billModelConfig.idField], 
-            label: item.name || item[billModelConfig.idField],
+            label: templateApplyValues(billTemplate, item),
           })),
-          values: model.bill 
-            ? [model.bill] 
-            : [],
-          onChange: vals => modelFormActions.changeField('bill',
-            vals[0],
-          ),
           onSearch: (value) => billSearchSet(value ? encodeURIComponent(value) : ''),
           emptyItemsLabel: billArrayIsLoading ? '' : undefined,
           onScrollToEnd: billNextPageAction,
           isLoading: billArrayIsLoading,
           missingValueResolver: value => 
             billEntities.getById(value)[billModelConfig.idField],
-          label: 'bill',
-          errors: modelErrors.bill,
-          onValid: () => modelFormActions.resetFieldError('bill'),
-          onInvalid: err => modelFormActions.setFieldError('bill', err),
-          type: SELECT_TYPES.filterDropdown,
           multi: false,
-          clearable: true,
-          placeHolder: 'Not set',
+          clearable: false,
         }}
       />
-      <TInput
+      <ModalComponents.ModalInput
         {...{
+          fieldName: 'file',
           type: INPUT_TYPES.multi,
-          label: 'file',
-          className: modalsStyle.control,
-          value: model.file,
-          errors: modelErrors.file,
-          onChange: val => modelFormActions.changeField('file', val),
-          onValid: () => modelFormActions.resetFieldError('file'),
-          onInvalid: err => modelFormActions.setFieldError('file', err),
           validate: {
             checkOnBlur: true,
             required: true,
           },
         }}
       />
-      <DateTimePicker
+      <ModalComponents.ModalDateTimePicker
         {...{
-          label: 'created',
-          className: modalsStyle.control,
-          value: model.created,
-          errors: modelErrors.created,
-          onChange: val => modelFormActions.changeField('created', val),
-          onValid: () => modelFormActions.resetFieldError('created'),
-          onInvalid: err => modelFormActions.setFieldError('created', err),
+          fieldName: 'created',
           type: PICKER_TYPES.dateTime,
           validate: {
             checkOnBlur: true,

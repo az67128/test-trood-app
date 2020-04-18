@@ -2,9 +2,9 @@ import React, { useState } from 'react'
 import style from './editComponent.css'
 import modalsStyle from '$trood/styles/modals.css'
 import classNames from 'classnames'
-import TSelect, { SELECT_TYPES } from '$trood/components/TSelect'
 import { RESTIFY_CONFIG } from 'redux-restify'
-import TInput, { INPUT_TYPES } from '$trood/components/TInput'
+import { templateApplyValues } from '$trood/helpers/templates'
+import { INPUT_TYPES } from '$trood/components/TInput'
 
 
 const EditComponent = ({
@@ -12,12 +12,13 @@ const EditComponent = ({
   employeePositionEntities,
   clientApiActions,
   clientEntities,
-  modelFormActions,
-  modelErrors,
-  model, 
+  ModalComponents, 
 }) => {
   const [clientSearch, clientSearchSet] = useState('')
   const clientModelConfig = RESTIFY_CONFIG.registeredModels.client
+  const clientTemplate = clientModelConfig.views.selectOption ||
+    clientModelConfig.views.default ||
+    `client/{${clientModelConfig.idField}}`
   const clientApiConfig = {
     filter: {
       q: clientSearch 
@@ -39,6 +40,9 @@ const EditComponent = ({
       
   const [employeePositionSearch, employeePositionSearchSet] = useState('')
   const employeePositionModelConfig = RESTIFY_CONFIG.registeredModels.employeePosition
+  const employeePositionTemplate = employeePositionModelConfig.views.selectOption ||
+    employeePositionModelConfig.views.default ||
+    `employeePosition/{${employeePositionModelConfig.idField}}`
   const employeePositionApiConfig = {
     filter: {
       q: employeePositionSearch 
@@ -60,74 +64,44 @@ const EditComponent = ({
       
   return (
     <div className={classNames(style.root, modalsStyle.root)}>
-      <TSelect
+      <ModalComponents.ModalSelect
         {...{
-          className: modalsStyle.control,
+          fieldName: 'client',
           items: clientArray.map(item => ({
             value: item[clientModelConfig.idField], 
-            label: item.name || item[clientModelConfig.idField],
+            label: templateApplyValues(clientTemplate, item),
           })),
-          values: model.client 
-            ? [model.client] 
-            : [],
-          onChange: vals => modelFormActions.changeField('client',
-            vals[0],
-          ),
           onSearch: (value) => clientSearchSet(value ? encodeURIComponent(value) : ''),
           emptyItemsLabel: clientArrayIsLoading ? '' : undefined,
           onScrollToEnd: clientNextPageAction,
           isLoading: clientArrayIsLoading,
           missingValueResolver: value => 
             clientEntities.getById(value)[clientModelConfig.idField],
-          label: 'client',
-          errors: modelErrors.client,
-          onValid: () => modelFormActions.resetFieldError('client'),
-          onInvalid: err => modelFormActions.setFieldError('client', err),
-          type: SELECT_TYPES.filterDropdown,
           multi: false,
-          clearable: true,
-          placeHolder: 'Not set',
+          clearable: false,
         }}
       />
-      <TSelect
+      <ModalComponents.ModalSelect
         {...{
-          className: modalsStyle.control,
+          fieldName: 'employeePosition',
           items: employeePositionArray.map(item => ({
             value: item[employeePositionModelConfig.idField], 
-            label: item.name || item[employeePositionModelConfig.idField],
+            label: templateApplyValues(employeePositionTemplate, item),
           })),
-          values: model.employeePosition 
-            ? [model.employeePosition] 
-            : [],
-          onChange: vals => modelFormActions.changeField('employeePosition',
-            vals[0],
-          ),
           onSearch: (value) => employeePositionSearchSet(value ? encodeURIComponent(value) : ''),
           emptyItemsLabel: employeePositionArrayIsLoading ? '' : undefined,
           onScrollToEnd: employeePositionNextPageAction,
           isLoading: employeePositionArrayIsLoading,
           missingValueResolver: value => 
             employeePositionEntities.getById(value)[employeePositionModelConfig.idField],
-          label: 'employeePosition',
-          errors: modelErrors.employeePosition,
-          onValid: () => modelFormActions.resetFieldError('employeePosition'),
-          onInvalid: err => modelFormActions.setFieldError('employeePosition', err),
-          type: SELECT_TYPES.filterDropdown,
           multi: false,
-          clearable: true,
-          placeHolder: 'Not set',
+          clearable: false,
         }}
       />
-      <TInput
+      <ModalComponents.ModalInput
         {...{
+          fieldName: 'rate',
           type: INPUT_TYPES.float,
-          label: 'rate',
-          className: modalsStyle.control,
-          value: model.rate,
-          errors: modelErrors.rate,
-          onChange: val => modelFormActions.changeField('rate', val),
-          onValid: () => modelFormActions.resetFieldError('rate'),
-          onInvalid: err => modelFormActions.setFieldError('rate', err),
           validate: {
             checkOnBlur: true,
             required: true,

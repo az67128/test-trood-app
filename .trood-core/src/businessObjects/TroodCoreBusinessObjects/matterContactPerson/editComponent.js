@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 import style from './editComponent.css'
 import modalsStyle from '$trood/styles/modals.css'
 import classNames from 'classnames'
-import TSelect, { SELECT_TYPES } from '$trood/components/TSelect'
 import { RESTIFY_CONFIG } from 'redux-restify'
+import { templateApplyValues } from '$trood/helpers/templates'
 
 
 const EditComponent = ({
@@ -11,12 +11,13 @@ const EditComponent = ({
   contactPersonEntities,
   matterApiActions,
   matterEntities,
-  modelFormActions,
-  modelErrors,
-  model, 
+  ModalComponents, 
 }) => {
   const [matterSearch, matterSearchSet] = useState('')
   const matterModelConfig = RESTIFY_CONFIG.registeredModels.matter
+  const matterTemplate = matterModelConfig.views.selectOption ||
+    matterModelConfig.views.default ||
+    `matter/{${matterModelConfig.idField}}`
   const matterApiConfig = {
     filter: {
       q: matterSearch 
@@ -38,6 +39,9 @@ const EditComponent = ({
       
   const [contactPersonSearch, contactPersonSearchSet] = useState('')
   const contactPersonModelConfig = RESTIFY_CONFIG.registeredModels.contactPerson
+  const contactPersonTemplate = contactPersonModelConfig.views.selectOption ||
+    contactPersonModelConfig.views.default ||
+    `contactPerson/{${contactPersonModelConfig.idField}}`
   const contactPersonApiConfig = {
     filter: {
       q: contactPersonSearch 
@@ -59,62 +63,38 @@ const EditComponent = ({
       
   return (
     <div className={classNames(style.root, modalsStyle.root)}>
-      <TSelect
+      <ModalComponents.ModalSelect
         {...{
-          className: modalsStyle.control,
+          fieldName: 'matter',
           items: matterArray.map(item => ({
             value: item[matterModelConfig.idField], 
-            label: item.name || item[matterModelConfig.idField],
+            label: templateApplyValues(matterTemplate, item),
           })),
-          values: model.matter 
-            ? [model.matter] 
-            : [],
-          onChange: vals => modelFormActions.changeField('matter',
-            vals[0],
-          ),
           onSearch: (value) => matterSearchSet(value ? encodeURIComponent(value) : ''),
           emptyItemsLabel: matterArrayIsLoading ? '' : undefined,
           onScrollToEnd: matterNextPageAction,
           isLoading: matterArrayIsLoading,
           missingValueResolver: value => 
             matterEntities.getById(value)[matterModelConfig.idField],
-          label: 'matter',
-          errors: modelErrors.matter,
-          onValid: () => modelFormActions.resetFieldError('matter'),
-          onInvalid: err => modelFormActions.setFieldError('matter', err),
-          type: SELECT_TYPES.filterDropdown,
           multi: false,
-          clearable: true,
-          placeHolder: 'Not set',
+          clearable: false,
         }}
       />
-      <TSelect
+      <ModalComponents.ModalSelect
         {...{
-          className: modalsStyle.control,
+          fieldName: 'contactPerson',
           items: contactPersonArray.map(item => ({
             value: item[contactPersonModelConfig.idField], 
-            label: item.name || item[contactPersonModelConfig.idField],
+            label: templateApplyValues(contactPersonTemplate, item),
           })),
-          values: model.contactPerson 
-            ? [model.contactPerson] 
-            : [],
-          onChange: vals => modelFormActions.changeField('contactPerson',
-            vals[0],
-          ),
           onSearch: (value) => contactPersonSearchSet(value ? encodeURIComponent(value) : ''),
           emptyItemsLabel: contactPersonArrayIsLoading ? '' : undefined,
           onScrollToEnd: contactPersonNextPageAction,
           isLoading: contactPersonArrayIsLoading,
           missingValueResolver: value => 
             contactPersonEntities.getById(value)[contactPersonModelConfig.idField],
-          label: 'contactPerson',
-          errors: modelErrors.contactPerson,
-          onValid: () => modelFormActions.resetFieldError('contactPerson'),
-          onInvalid: err => modelFormActions.setFieldError('contactPerson', err),
-          type: SELECT_TYPES.filterDropdown,
           multi: false,
-          clearable: true,
-          placeHolder: 'Not set',
+          clearable: false,
         }}
       />
     </div>

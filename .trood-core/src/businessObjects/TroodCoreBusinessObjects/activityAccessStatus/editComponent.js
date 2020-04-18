@@ -2,43 +2,29 @@ import React from 'react'
 import style from './editComponent.css'
 import modalsStyle from '$trood/styles/modals.css'
 import classNames from 'classnames'
-import TInput, { INPUT_TYPES } from '$trood/components/TInput'
+import { INPUT_TYPES } from '$trood/components/TInput'
 
 
 const EditComponent = ({
-  modelFormActions,
-  modelErrors,
-  model, 
+  ModalComponents, 
 }) => {
 
   return (
     <div className={classNames(style.root, modalsStyle.root)}>
-      <TInput
+      <ModalComponents.ModalInput
         {...{
+          fieldName: 'code',
           type: INPUT_TYPES.multi,
-          label: 'code',
-          className: modalsStyle.control,
-          value: model.code,
-          errors: modelErrors.code,
-          onChange: val => modelFormActions.changeField('code', val),
-          onValid: () => modelFormActions.resetFieldError('code'),
-          onInvalid: err => modelFormActions.setFieldError('code', err),
           validate: {
             checkOnBlur: true,
             required: true,
           },
         }}
       />
-      <TInput
+      <ModalComponents.ModalInput
         {...{
+          fieldName: 'order',
           type: INPUT_TYPES.float,
-          label: 'order',
-          className: modalsStyle.control,
-          value: model.order,
-          errors: modelErrors.order,
-          onChange: val => modelFormActions.changeField('order', val),
-          onValid: () => modelFormActions.resetFieldError('order'),
-          onInvalid: err => modelFormActions.setFieldError('order', err),
           validate: {
             checkOnBlur: true,
             required: true,

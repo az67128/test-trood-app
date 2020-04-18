@@ -11,12 +11,60 @@ export default {
     phone: undefined,
     email: undefined,
     avatar: undefined,
-    matterContactPersonSet: new RestifyForeignKeysArray('matterContactPerson', { allowNested: false }),
     contactSet: new RestifyForeignKeysArray('contact', { allowNested: false }),
   },
   name: 'contactPerson',
   deletion: {
     confirm: true,
     message: messages.deletionQuestion,
+  },
+  views: {
+    default: '{name}',
+  },
+  meta: {
+    id: {
+      type: 'number',
+      optional: true,
+    },
+    name: {
+      type: 'string',
+      optional: false,
+    },
+    client: {
+      type: 'object',
+      linkMeta: 'client',
+      linkType: 'inner',
+      optional: false,
+    },
+    created: {
+      type: 'datetime',
+      optional: true,
+    },
+    position: {
+      type: 'string',
+      optional: true,
+    },
+    details: {
+      type: 'string',
+      optional: true,
+    },
+    phone: {
+      type: 'string',
+      optional: true,
+    },
+    email: {
+      type: 'string',
+      optional: true,
+    },
+    avatar: {
+      type: 'string',
+      optional: true,
+    },
+    contact_set: {
+      type: 'generic',
+      linkMeta: 'contact',
+      linkType: 'outer',
+      optional: true,
+    },
   },
 }

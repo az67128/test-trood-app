@@ -1,4 +1,3 @@
-import { RestifyForeignKeysArray } from 'redux-restify'
 import { messages } from '$trood/mainConstants'
 export default {
   defaults: {
@@ -6,12 +5,31 @@ export default {
     code: undefined,
     name: undefined,
     order: undefined,
-    timeEntrySet: new RestifyForeignKeysArray('timeEntry', { allowNested: false }),
-    priceSet: new RestifyForeignKeysArray('price', { allowNested: false }),
   },
   name: 'utbms',
   deletion: {
     confirm: true,
     message: messages.deletionQuestion,
+  },
+  views: {
+    default: 'utbms #{id}',
+  },
+  meta: {
+    id: {
+      type: 'number',
+      optional: true,
+    },
+    code: {
+      type: 'string',
+      optional: false,
+    },
+    name: {
+      type: 'string',
+      optional: false,
+    },
+    order: {
+      type: 'number',
+      optional: false,
+    },
   },
 }

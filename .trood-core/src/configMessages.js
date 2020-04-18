@@ -14,6 +14,10 @@ const messages = defineMessages({
 'employees': {
     id: 'employees',
     defaultMessage: 'Employees',
+  },
+'documents': {
+    id: 'documents',
+    defaultMessage: 'Documents',
   }
 })
 

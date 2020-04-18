@@ -2,9 +2,9 @@ import React, { useState } from 'react'
 import style from './editComponent.css'
 import modalsStyle from '$trood/styles/modals.css'
 import classNames from 'classnames'
-import TSelect, { SELECT_TYPES } from '$trood/components/TSelect'
 import { RESTIFY_CONFIG } from 'redux-restify'
-import TInput, { INPUT_TYPES } from '$trood/components/TInput'
+import { templateApplyValues } from '$trood/helpers/templates'
+import { INPUT_TYPES } from '$trood/components/TInput'
 
 
 const EditComponent = ({
@@ -14,12 +14,13 @@ const EditComponent = ({
   matterEntities,
   employeeApiActions,
   employeeEntities,
-  modelFormActions,
-  modelErrors,
-  model, 
+  ModalComponents, 
 }) => {
   const [employeeSearch, employeeSearchSet] = useState('')
   const employeeModelConfig = RESTIFY_CONFIG.registeredModels.employee
+  const employeeTemplate = employeeModelConfig.views.selectOption ||
+    employeeModelConfig.views.default ||
+    `employee/{${employeeModelConfig.idField}}`
   const employeeApiConfig = {
     filter: {
       q: employeeSearch 
@@ -41,6 +42,9 @@ const EditComponent = ({
       
   const [matterSearch, matterSearchSet] = useState('')
   const matterModelConfig = RESTIFY_CONFIG.registeredModels.matter
+  const matterTemplate = matterModelConfig.views.selectOption ||
+    matterModelConfig.views.default ||
+    `matter/{${matterModelConfig.idField}}`
   const matterApiConfig = {
     filter: {
       q: matterSearch 
@@ -62,6 +66,9 @@ const EditComponent = ({
       
   const [rateTypeSearch, rateTypeSearchSet] = useState('')
   const rateTypeModelConfig = RESTIFY_CONFIG.registeredModels.rateType
+  const rateTypeTemplate = rateTypeModelConfig.views.selectOption ||
+    rateTypeModelConfig.views.default ||
+    `rateType/{${rateTypeModelConfig.idField}}`
   const rateTypeApiConfig = {
     filter: {
       q: rateTypeSearch 
@@ -83,103 +90,61 @@ const EditComponent = ({
       
   return (
     <div className={classNames(style.root, modalsStyle.root)}>
-      <TSelect
+      <ModalComponents.ModalSelect
         {...{
-          className: modalsStyle.control,
+          fieldName: 'employee',
           items: employeeArray.map(item => ({
             value: item[employeeModelConfig.idField], 
-            label: item.name || item[employeeModelConfig.idField],
+            label: templateApplyValues(employeeTemplate, item),
           })),
-          values: model.employee 
-            ? [model.employee] 
-            : [],
-          onChange: vals => modelFormActions.changeField('employee',
-            vals[0],
-          ),
           onSearch: (value) => employeeSearchSet(value ? encodeURIComponent(value) : ''),
           emptyItemsLabel: employeeArrayIsLoading ? '' : undefined,
           onScrollToEnd: employeeNextPageAction,
           isLoading: employeeArrayIsLoading,
           missingValueResolver: value => 
             employeeEntities.getById(value)[employeeModelConfig.idField],
-          label: 'employee',
-          errors: modelErrors.employee,
-          onValid: () => modelFormActions.resetFieldError('employee'),
-          onInvalid: err => modelFormActions.setFieldError('employee', err),
-          type: SELECT_TYPES.filterDropdown,
           multi: false,
-          clearable: true,
-          placeHolder: 'Not set',
+          clearable: false,
         }}
       />
-      <TSelect
+      <ModalComponents.ModalSelect
         {...{
-          className: modalsStyle.control,
+          fieldName: 'matter',
           items: matterArray.map(item => ({
             value: item[matterModelConfig.idField], 
-            label: item.name || item[matterModelConfig.idField],
+            label: templateApplyValues(matterTemplate, item),
           })),
-          values: model.matter 
-            ? [model.matter] 
-            : [],
-          onChange: vals => modelFormActions.changeField('matter',
-            vals[0],
-          ),
           onSearch: (value) => matterSearchSet(value ? encodeURIComponent(value) : ''),
           emptyItemsLabel: matterArrayIsLoading ? '' : undefined,
           onScrollToEnd: matterNextPageAction,
           isLoading: matterArrayIsLoading,
           missingValueResolver: value => 
             matterEntities.getById(value)[matterModelConfig.idField],
-          label: 'matter',
-          errors: modelErrors.matter,
-          onValid: () => modelFormActions.resetFieldError('matter'),
-          onInvalid: err => modelFormActions.setFieldError('matter', err),
-          type: SELECT_TYPES.filterDropdown,
           multi: false,
-          clearable: true,
-          placeHolder: 'Not set',
+          clearable: false,
         }}
       />
-      <TSelect
+      <ModalComponents.ModalSelect
         {...{
-          className: modalsStyle.control,
+          fieldName: 'rateType',
           items: rateTypeArray.map(item => ({
             value: item[rateTypeModelConfig.idField], 
-            label: item.name || item[rateTypeModelConfig.idField],
+            label: templateApplyValues(rateTypeTemplate, item),
           })),
-          values: model.rateType 
-            ? [model.rateType] 
-            : [],
-          onChange: vals => modelFormActions.changeField('rateType',
-            vals[0],
-          ),
           onSearch: (value) => rateTypeSearchSet(value ? encodeURIComponent(value) : ''),
           emptyItemsLabel: rateTypeArrayIsLoading ? '' : undefined,
           onScrollToEnd: rateTypeNextPageAction,
           isLoading: rateTypeArrayIsLoading,
           missingValueResolver: value => 
             rateTypeEntities.getById(value)[rateTypeModelConfig.idField],
-          label: 'rateType',
-          errors: modelErrors.rateType,
-          onValid: () => modelFormActions.resetFieldError('rateType'),
-          onInvalid: err => modelFormActions.setFieldError('rateType', err),
-          type: SELECT_TYPES.filterDropdown,
           multi: false,
-          clearable: true,
-          placeHolder: 'Not set',
+          clearable: false,
         }}
       />
-      <TInput
+      <ModalComponents.ModalInput
         {...{
+          fieldName: 'rate',
           type: INPUT_TYPES.float,
-          label: 'rate',
-          className: modalsStyle.control,
-          value: model.rate,
-          errors: modelErrors.rate,
-          onChange: val => modelFormActions.changeField('rate', val),
-          onValid: () => modelFormActions.resetFieldError('rate'),
-          onInvalid: err => modelFormActions.setFieldError('rate', err),
           validate: {
             checkOnBlur: true,
             required: true,

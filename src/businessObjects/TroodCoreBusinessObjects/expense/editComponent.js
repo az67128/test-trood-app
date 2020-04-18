@@ -2,11 +2,10 @@ import React, { useState } from 'react'
 import style from './editComponent.css'
 import modalsStyle from '$trood/styles/modals.css'
 import classNames from 'classnames'
-import TSelect, { SELECT_TYPES } from '$trood/components/TSelect'
 import { RESTIFY_CONFIG } from 'redux-restify'
-import TInput, { INPUT_TYPES } from '$trood/components/TInput'
-import DateTimePicker, { PICKER_TYPES } from '$trood/components/DateTimePicker'
-import TCheckbox from '$trood/components/TCheckbox'
+import { templateApplyValues } from '$trood/helpers/templates'
+import { INPUT_TYPES } from '$trood/components/TInput'
+import { PICKER_TYPES } from '$trood/components/DateTimePicker'
 
 
 const EditComponent = ({
@@ -18,12 +17,13 @@ const EditComponent = ({
   expenseTypeEntities,
   employeeApiActions,
   employeeEntities,
-  modelFormActions,
-  modelErrors,
-  model, 
+  ModalComponents, 
 }) => {
   const [employeeSearch, employeeSearchSet] = useState('')
   const employeeModelConfig = RESTIFY_CONFIG.registeredModels.employee
+  const employeeTemplate = employeeModelConfig.views.selectOption ||
+    employeeModelConfig.views.default ||
+    `employee/{${employeeModelConfig.idField}}`
   const employeeApiConfig = {
     filter: {
       q: employeeSearch 
@@ -45,6 +45,9 @@ const EditComponent = ({
       
   const [expenseTypeSearch, expenseTypeSearchSet] = useState('')
   const expenseTypeModelConfig = RESTIFY_CONFIG.registeredModels.expenseType
+  const expenseTypeTemplate = expenseTypeModelConfig.views.selectOption ||
+    expenseTypeModelConfig.views.default ||
+    `expenseType/{${expenseTypeModelConfig.idField}}`
   const expenseTypeApiConfig = {
     filter: {
       q: expenseTypeSearch 
@@ -66,6 +69,9 @@ const EditComponent = ({
       
   const [billSearch, billSearchSet] = useState('')
   const billModelConfig = RESTIFY_CONFIG.registeredModels.bill
+  const billTemplate = billModelConfig.views.selectOption ||
+    billModelConfig.views.default ||
+    `bill/{${billModelConfig.idField}}`
   const billApiConfig = {
     filter: {
       q: billSearch 
@@ -87,6 +93,9 @@ const EditComponent = ({
       
   const [matterSearch, matterSearchSet] = useState('')
   const matterModelConfig = RESTIFY_CONFIG.registeredModels.matter
+  const matterTemplate = matterModelConfig.views.selectOption ||
+    matterModelConfig.views.default ||
+    `matter/{${matterModelConfig.idField}}`
   const matterApiConfig = {
     filter: {
       q: matterSearch 
@@ -108,76 +117,46 @@ const EditComponent = ({
       
   return (
     <div className={classNames(style.root, modalsStyle.root)}>
-      <TSelect
+      <ModalComponents.ModalSelect
         {...{
-          className: modalsStyle.control,
+          fieldName: 'author',
           items: employeeArray.map(item => ({
             value: item[employeeModelConfig.idField], 
-            label: item.name || item[employeeModelConfig.idField],
+            label: templateApplyValues(employeeTemplate, item),
           })),
-          values: model.author 
-            ? [model.author] 
-            : [],
-          onChange: vals => modelFormActions.changeField('author',
-            vals[0],
-          ),
           onSearch: (value) => employeeSearchSet(value ? encodeURIComponent(value) : ''),
           emptyItemsLabel: employeeArrayIsLoading ? '' : undefined,
           onScrollToEnd: employeeNextPageAction,
           isLoading: employeeArrayIsLoading,
           missingValueResolver: value => 
             employeeEntities.getById(value)[employeeModelConfig.idField],
-          label: 'author',
-          errors: modelErrors.author,
-          onValid: () => modelFormActions.resetFieldError('author'),
-          onInvalid: err => modelFormActions.setFieldError('author', err),
-          type: SELECT_TYPES.filterDropdown,
           multi: false,
-          clearable: true,
-          placeHolder: 'Not set',
+          clearable: false,
         }}
       />
-      <TInput
+      <ModalComponents.ModalInput
         {...{
+          fieldName: 'amount',
           type: INPUT_TYPES.float,
-          label: 'amount',
-          className: modalsStyle.control,
-          value: model.amount,
-          errors: modelErrors.amount,
-          onChange: val => modelFormActions.changeField('amount', val),
-          onValid: () => modelFormActions.resetFieldError('amount'),
-          onInvalid: err => modelFormActions.setFieldError('amount', err),
           validate: {
             checkOnBlur: true,
             required: true,
           },
         }}
       />
-      <TInput
+      <ModalComponents.ModalInput
         {...{
+          fieldName: 'name',
           type: INPUT_TYPES.multi,
-          label: 'name',
-          className: modalsStyle.control,
-          value: model.name,
-          errors: modelErrors.name,
-          onChange: val => modelFormActions.changeField('name', val),
-          onValid: () => modelFormActions.resetFieldError('name'),
-          onInvalid: err => modelFormActions.setFieldError('name', err),
           validate: {
             checkOnBlur: true,
             required: true,
           },
         }}
       />
-      <DateTimePicker
+      <ModalComponents.ModalDateTimePicker
         {...{
-          label: 'created',
-          className: modalsStyle.control,
-          value: model.created,
-          errors: modelErrors.created,
-          onChange: val => modelFormActions.changeField('created', val),
-          onValid: () => modelFormActions.resetFieldError('created'),
-          onInvalid: err => modelFormActions.setFieldError('created', err),
+          fieldName: 'created',
           type: PICKER_TYPES.dateTime,
           validate: {
             checkOnBlur: true,
@@ -186,133 +165,79 @@ const EditComponent = ({
           },
         }}
       />
-      <TSelect
+      <ModalComponents.ModalSelect
         {...{
-          className: modalsStyle.control,
+          fieldName: 'expenseType',
           items: expenseTypeArray.map(item => ({
             value: item[expenseTypeModelConfig.idField], 
-            label: item.name || item[expenseTypeModelConfig.idField],
+            label: templateApplyValues(expenseTypeTemplate, item),
           })),
-          values: model.expenseType 
-            ? [model.expenseType] 
-            : [],
-          onChange: vals => modelFormActions.changeField('expenseType',
-            vals[0],
-          ),
           onSearch: (value) => expenseTypeSearchSet(value ? encodeURIComponent(value) : ''),
           emptyItemsLabel: expenseTypeArrayIsLoading ? '' : undefined,
           onScrollToEnd: expenseTypeNextPageAction,
           isLoading: expenseTypeArrayIsLoading,
           missingValueResolver: value => 
             expenseTypeEntities.getById(value)[expenseTypeModelConfig.idField],
-          label: 'expenseType',
-          errors: modelErrors.expenseType,
-          onValid: () => modelFormActions.resetFieldError('expenseType'),
-          onInvalid: err => modelFormActions.setFieldError('expenseType', err),
-          type: SELECT_TYPES.filterDropdown,
           multi: false,
-          clearable: false,
-          placeHolder: 'Not set',
+          clearable: true,
         }}
       />
-      <TCheckbox
+      <ModalComponents.ModalCheckbox
           {...{
-            label: 'billiable',
-          className: modalsStyle.control,
-          value: model.billiable,
-          errors: modelErrors.billiable,
-          onChange: val => modelFormActions.changeField('billiable', val),
-          onValid: () => modelFormActions.resetFieldError('billiable'),
-          onInvalid: err => modelFormActions.setFieldError('billiable', err),
+            fieldName: 'billiable',
             validate: {
               checkOnBlur: true,
               required: false,
             },
           }}
         />
-      <TInput
+      <ModalComponents.ModalInput
         {...{
+          fieldName: 'details',
           type: INPUT_TYPES.multi,
-          label: 'details',
-          className: modalsStyle.control,
-          value: model.details,
-          errors: modelErrors.details,
-          onChange: val => modelFormActions.changeField('details', val),
-          onValid: () => modelFormActions.resetFieldError('details'),
-          onInvalid: err => modelFormActions.setFieldError('details', err),
           validate: {
             checkOnBlur: true,
             required: false,
           },
         }}
       />
-      <TSelect
+      <ModalComponents.ModalSelect
         {...{
-          className: modalsStyle.control,
+          fieldName: 'bill',
           items: billArray.map(item => ({
             value: item[billModelConfig.idField], 
-            label: item.name || item[billModelConfig.idField],
+            label: templateApplyValues(billTemplate, item),
           })),
-          values: model.bill 
-            ? [model.bill] 
-            : [],
-          onChange: vals => modelFormActions.changeField('bill',
-            vals[0],
-          ),
           onSearch: (value) => billSearchSet(value ? encodeURIComponent(value) : ''),
           emptyItemsLabel: billArrayIsLoading ? '' : undefined,
           onScrollToEnd: billNextPageAction,
           isLoading: billArrayIsLoading,
           missingValueResolver: value => 
             billEntities.getById(value)[billModelConfig.idField],
-          label: 'bill',
-          errors: modelErrors.bill,
-          onValid: () => modelFormActions.resetFieldError('bill'),
-          onInvalid: err => modelFormActions.setFieldError('bill', err),
-          type: SELECT_TYPES.filterDropdown,
           multi: false,
-          clearable: false,
-          placeHolder: 'Not set',
+          clearable: true,
         }}
       />
-      <TSelect
+      <ModalComponents.ModalSelect
         {...{
-          className: modalsStyle.control,
+          fieldName: 'matter',
           items: matterArray.map(item => ({
             value: item[matterModelConfig.idField], 
-            label: item.name || item[matterModelConfig.idField],
+            label: templateApplyValues(matterTemplate, item),
           })),
-          values: model.matter 
-            ? [model.matter] 
-            : [],
-          onChange: vals => modelFormActions.changeField('matter',
-            vals[0],
-          ),
           onSearch: (value) => matterSearchSet(value ? encodeURIComponent(value) : ''),
           emptyItemsLabel: matterArrayIsLoading ? '' : undefined,
           onScrollToEnd: matterNextPageAction,
           isLoading: matterArrayIsLoading,
           missingValueResolver: value => 
             matterEntities.getById(value)[matterModelConfig.idField],
-          label: 'matter',
-          errors: modelErrors.matter,
-          onValid: () => modelFormActions.resetFieldError('matter'),
-          onInvalid: err => modelFormActions.setFieldError('matter', err),
-          type: SELECT_TYPES.filterDropdown,
           multi: false,
-          clearable: false,
-          placeHolder: 'Not set',
+          clearable: true,
         }}
       />
-      <DateTimePicker
+      <ModalComponents.ModalDateTimePicker
         {...{
-          label: 'expenseDate',
-          className: modalsStyle.control,
-          value: model.expenseDate,
-          errors: modelErrors.expenseDate,
-          onChange: val => modelFormActions.changeField('expenseDate', val),
-          onValid: () => modelFormActions.resetFieldError('expenseDate'),
-          onInvalid: err => modelFormActions.setFieldError('expenseDate', err),
+          fieldName: 'expenseDate',
           type: PICKER_TYPES.dateTime,
           validate: {
             checkOnBlur: true,

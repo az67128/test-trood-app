@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 import style from './editComponent.css'
 import modalsStyle from '$trood/styles/modals.css'
 import classNames from 'classnames'
-import TSelect, { SELECT_TYPES } from '$trood/components/TSelect'
 import { RESTIFY_CONFIG } from 'redux-restify'
+import { templateApplyValues } from '$trood/helpers/templates'
 
 
 const EditComponent = ({
@@ -11,12 +11,13 @@ const EditComponent = ({
   employeeEntities,
   billPriceListApiActions,
   billPriceListEntities,
-  modelFormActions,
-  modelErrors,
-  model, 
+  ModalComponents, 
 }) => {
   const [billPriceListSearch, billPriceListSearchSet] = useState('')
   const billPriceListModelConfig = RESTIFY_CONFIG.registeredModels.billPriceList
+  const billPriceListTemplate = billPriceListModelConfig.views.selectOption ||
+    billPriceListModelConfig.views.default ||
+    `billPriceList/{${billPriceListModelConfig.idField}}`
   const billPriceListApiConfig = {
     filter: {
       q: billPriceListSearch 
@@ -38,6 +39,9 @@ const EditComponent = ({
       
   const [employeeSearch, employeeSearchSet] = useState('')
   const employeeModelConfig = RESTIFY_CONFIG.registeredModels.employee
+  const employeeTemplate = employeeModelConfig.views.selectOption ||
+    employeeModelConfig.views.default ||
+    `employee/{${employeeModelConfig.idField}}`
   const employeeApiConfig = {
     filter: {
       q: employeeSearch 
@@ -59,62 +63,38 @@ const EditComponent = ({
       
   return (
     <div className={classNames(style.root, modalsStyle.root)}>
-      <TSelect
+      <ModalComponents.ModalSelect
         {...{
-          className: modalsStyle.control,
+          fieldName: 'billPriceList',
           items: billPriceListArray.map(item => ({
             value: item[billPriceListModelConfig.idField], 
-            label: item.name || item[billPriceListModelConfig.idField],
+            label: templateApplyValues(billPriceListTemplate, item),
           })),
-          values: model.billPriceList 
-            ? [model.billPriceList] 
-            : [],
-          onChange: vals => modelFormActions.changeField('billPriceList',
-            vals[0],
-          ),
           onSearch: (value) => billPriceListSearchSet(value ? encodeURIComponent(value) : ''),
           emptyItemsLabel: billPriceListArrayIsLoading ? '' : undefined,
           onScrollToEnd: billPriceListNextPageAction,
           isLoading: billPriceListArrayIsLoading,
           missingValueResolver: value => 
             billPriceListEntities.getById(value)[billPriceListModelConfig.idField],
-          label: 'billPriceList',
-          errors: modelErrors.billPriceList,
-          onValid: () => modelFormActions.resetFieldError('billPriceList'),
-          onInvalid: err => modelFormActions.setFieldError('billPriceList', err),
-          type: SELECT_TYPES.filterDropdown,
           multi: false,
-          clearable: true,
-          placeHolder: 'Not set',
+          clearable: false,
         }}
       />
-      <TSelect
+      <ModalComponents.ModalSelect
         {...{
-          className: modalsStyle.control,
+          fieldName: 'employee',
           items: employeeArray.map(item => ({
             value: item[employeeModelConfig.idField], 
-            label: item.name || item[employeeModelConfig.idField],
+            label: templateApplyValues(employeeTemplate, item),
           })),
-          values: model.employee 
-            ? [model.employee] 
-            : [],
-          onChange: vals => modelFormActions.changeField('employee',
-            vals[0],
-          ),
           onSearch: (value) => employeeSearchSet(value ? encodeURIComponent(value) : ''),
           emptyItemsLabel: employeeArrayIsLoading ? '' : undefined,
           onScrollToEnd: employeeNextPageAction,
           isLoading: employeeArrayIsLoading,
           missingValueResolver: value => 
             employeeEntities.getById(value)[employeeModelConfig.idField],
-          label: 'employee',
-          errors: modelErrors.employee,
-          onValid: () => modelFormActions.resetFieldError('employee'),
-          onInvalid: err => modelFormActions.setFieldError('employee', err),
-          type: SELECT_TYPES.filterDropdown,
           multi: false,
-          clearable: true,
-          placeHolder: 'Not set',
+          clearable: false,
         }}
       />
     </div>

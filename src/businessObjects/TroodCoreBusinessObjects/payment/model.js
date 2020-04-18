@@ -17,4 +17,53 @@ export default {
     confirm: true,
     message: messages.deletionQuestion,
   },
+  views: {
+    default: 'payment #{id}',
+  },
+  meta: {
+    id: {
+      type: 'number',
+      optional: true,
+    },
+    author: {
+      type: 'object',
+      linkMeta: 'employee',
+      linkType: 'inner',
+      optional: false,
+    },
+    sum_payment: {
+      type: 'number',
+      optional: false,
+    },
+    client: {
+      type: 'object',
+      linkMeta: 'client',
+      linkType: 'inner',
+      optional: false,
+    },
+    number: {
+      type: 'string',
+      optional: true,
+    },
+    created: {
+      type: 'datetime',
+      optional: true,
+    },
+    payment_date: {
+      type: 'datetime',
+      optional: true,
+    },
+    matter: {
+      type: 'object',
+      linkMeta: 'matter',
+      linkType: 'inner',
+      optional: true,
+    },
+    bill: {
+      type: 'object',
+      linkMeta: 'bill',
+      linkType: 'inner',
+      optional: true,
+    },
+  },
 }

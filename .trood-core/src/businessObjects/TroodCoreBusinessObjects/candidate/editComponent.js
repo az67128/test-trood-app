@@ -2,21 +2,22 @@ import React, { useState } from 'react'
 import style from './editComponent.css'
 import modalsStyle from '$trood/styles/modals.css'
 import classNames from 'classnames'
-import TSelect, { SELECT_TYPES } from '$trood/components/TSelect'
 import { RESTIFY_CONFIG } from 'redux-restify'
-import TInput, { INPUT_TYPES } from '$trood/components/TInput'
-import DateTimePicker, { PICKER_TYPES } from '$trood/components/DateTimePicker'
+import { templateApplyValues } from '$trood/helpers/templates'
+import { INPUT_TYPES } from '$trood/components/TInput'
+import { PICKER_TYPES } from '$trood/components/DateTimePicker'
 
 
 const EditComponent = ({
   employeeApiActions,
   employeeEntities,
-  modelFormActions,
-  modelErrors,
-  model, 
+  ModalComponents, 
 }) => {
   const [employeeSearch, employeeSearchSet] = useState('')
   const employeeModelConfig = RESTIFY_CONFIG.registeredModels.employee
+  const employeeTemplate = employeeModelConfig.views.selectOption ||
+    employeeModelConfig.views.default ||
+    `employee/{${employeeModelConfig.idField}}`
   const employeeApiConfig = {
     filter: {
       q: employeeSearch 
@@ -38,60 +39,36 @@ const EditComponent = ({
       
   return (
     <div className={classNames(style.root, modalsStyle.root)}>
-      <TSelect
+      <ModalComponents.ModalSelect
         {...{
-          className: modalsStyle.control,
+          fieldName: 'recruiter',
           items: employeeArray.map(item => ({
             value: item[employeeModelConfig.idField], 
-            label: item.name || item[employeeModelConfig.idField],
+            label: templateApplyValues(employeeTemplate, item),
           })),
-          values: model.recruiter 
-            ? [model.recruiter] 
-            : [],
-          onChange: vals => modelFormActions.changeField('recruiter',
-            vals[0],
-          ),
           onSearch: (value) => employeeSearchSet(value ? encodeURIComponent(value) : ''),
           emptyItemsLabel: employeeArrayIsLoading ? '' : undefined,
           onScrollToEnd: employeeNextPageAction,
           isLoading: employeeArrayIsLoading,
           missingValueResolver: value => 
             employeeEntities.getById(value)[employeeModelConfig.idField],
-          label: 'recruiter',
-          errors: modelErrors.recruiter,
-          onValid: () => modelFormActions.resetFieldError('recruiter'),
-          onInvalid: err => modelFormActions.setFieldError('recruiter', err),
-          type: SELECT_TYPES.filterDropdown,
           multi: false,
-          clearable: true,
-          placeHolder: 'Not set',
+          clearable: false,
         }}
       />
-      <TInput
+      <ModalComponents.ModalInput
         {...{
+          fieldName: 'name',
           type: INPUT_TYPES.multi,
-          label: 'name',
-          className: modalsStyle.control,
-          value: model.name,
-          errors: modelErrors.name,
-          onChange: val => modelFormActions.changeField('name', val),
-          onValid: () => modelFormActions.resetFieldError('name'),
-          onInvalid: err => modelFormActions.setFieldError('name', err),
           validate: {
             checkOnBlur: true,
             required: true,
           },
         }}
       />
-      <DateTimePicker
+      <ModalComponents.ModalDateTimePicker
         {...{
-          label: 'created',
-          className: modalsStyle.control,
-          value: model.created,
-          errors: modelErrors.created,
-          onChange: val => modelFormActions.changeField('created', val),
-          onValid: () => modelFormActions.resetFieldError('created'),
-          onInvalid: err => modelFormActions.setFieldError('created', err),
+          fieldName: 'created',
           type: PICKER_TYPES.dateTime,
           validate: {
             checkOnBlur: true,
@@ -100,16 +77,10 @@ const EditComponent = ({
           },
         }}
       />
-      <TInput
+      <ModalComponents.ModalInput
         {...{
+          fieldName: 'avatar',
           type: INPUT_TYPES.multi,
-          label: 'avatar',
-          className: modalsStyle.control,
-          value: model.avatar,
-          errors: modelErrors.avatar,
-          onChange: val => modelFormActions.changeField('avatar', val),
-          onValid: () => modelFormActions.resetFieldError('avatar'),
-          onInvalid: err => modelFormActions.setFieldError('avatar', err),
           validate: {
             checkOnBlur: true,
             required: false,

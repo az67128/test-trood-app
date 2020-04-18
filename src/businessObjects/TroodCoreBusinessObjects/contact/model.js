@@ -17,4 +17,34 @@ export default {
     confirm: true,
     message: messages.deletionQuestion,
   },
+  views: {
+    default: 'contact #{id}',
+  },
+  meta: {
+    id: {
+      type: 'number',
+      optional: true,
+    },
+    contact_type: {
+      type: 'object',
+      linkMeta: 'contact_type',
+      linkType: 'inner',
+      optional: false,
+    },
+    value: {
+      type: 'string',
+      optional: false,
+    },
+    target_object: {
+      type: 'generic',
+      linkMetaList: [
+        'employee',
+        'contact_person',
+        'client',
+        'candidate',
+      ],
+      linkType: 'inner',
+      optional: false,
+    },
+  },
 }

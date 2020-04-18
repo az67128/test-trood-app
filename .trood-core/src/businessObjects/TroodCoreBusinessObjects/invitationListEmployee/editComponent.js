@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 import style from './editComponent.css'
 import modalsStyle from '$trood/styles/modals.css'
 import classNames from 'classnames'
-import TSelect, { SELECT_TYPES } from '$trood/components/TSelect'
 import { RESTIFY_CONFIG } from 'redux-restify'
+import { templateApplyValues } from '$trood/helpers/templates'
 
 
 const EditComponent = ({
@@ -11,12 +11,13 @@ const EditComponent = ({
   invitationListEntities,
   employeeApiActions,
   employeeEntities,
-  modelFormActions,
-  modelErrors,
-  model, 
+  ModalComponents, 
 }) => {
   const [employeeSearch, employeeSearchSet] = useState('')
   const employeeModelConfig = RESTIFY_CONFIG.registeredModels.employee
+  const employeeTemplate = employeeModelConfig.views.selectOption ||
+    employeeModelConfig.views.default ||
+    `employee/{${employeeModelConfig.idField}}`
   const employeeApiConfig = {
     filter: {
       q: employeeSearch 
@@ -38,6 +39,9 @@ const EditComponent = ({
       
   const [invitationListSearch, invitationListSearchSet] = useState('')
   const invitationListModelConfig = RESTIFY_CONFIG.registeredModels.invitationList
+  const invitationListTemplate = invitationListModelConfig.views.selectOption ||
+    invitationListModelConfig.views.default ||
+    `invitationList/{${invitationListModelConfig.idField}}`
   const invitationListApiConfig = {
     filter: {
       q: invitationListSearch 
@@ -59,62 +63,38 @@ const EditComponent = ({
       
   return (
     <div className={classNames(style.root, modalsStyle.root)}>
-      <TSelect
+      <ModalComponents.ModalSelect
         {...{
-          className: modalsStyle.control,
+          fieldName: 'employee',
           items: employeeArray.map(item => ({
             value: item[employeeModelConfig.idField], 
-            label: item.name || item[employeeModelConfig.idField],
+            label: templateApplyValues(employeeTemplate, item),
           })),
-          values: model.employee 
-            ? [model.employee] 
-            : [],
-          onChange: vals => modelFormActions.changeField('employee',
-            vals[0],
-          ),
           onSearch: (value) => employeeSearchSet(value ? encodeURIComponent(value) : ''),
           emptyItemsLabel: employeeArrayIsLoading ? '' : undefined,
           onScrollToEnd: employeeNextPageAction,
           isLoading: employeeArrayIsLoading,
           missingValueResolver: value => 
             employeeEntities.getById(value)[employeeModelConfig.idField],
-          label: 'employee',
-          errors: modelErrors.employee,
-          onValid: () => modelFormActions.resetFieldError('employee'),
-          onInvalid: err => modelFormActions.setFieldError('employee', err),
-          type: SELECT_TYPES.filterDropdown,
           multi: false,
-          clearable: true,
-          placeHolder: 'Not set',
+          clearable: false,
         }}
       />
-      <TSelect
+      <ModalComponents.ModalSelect
         {...{
-          className: modalsStyle.control,
+          fieldName: 'invitationList',
           items: invitationListArray.map(item => ({
             value: item[invitationListModelConfig.idField], 
-            label: item.name || item[invitationListModelConfig.idField],
+            label: templateApplyValues(invitationListTemplate, item),
           })),
-          values: model.invitationList 
-            ? [model.invitationList] 
-            : [],
-          onChange: vals => modelFormActions.changeField('invitationList',
-            vals[0],
-          ),
           onSearch: (value) => invitationListSearchSet(value ? encodeURIComponent(value) : ''),
           emptyItemsLabel: invitationListArrayIsLoading ? '' : undefined,
           onScrollToEnd: invitationListNextPageAction,
           isLoading: invitationListArrayIsLoading,
           missingValueResolver: value => 
             invitationListEntities.getById(value)[invitationListModelConfig.idField],
-          label: 'invitationList',
-          errors: modelErrors.invitationList,
-          onValid: () => modelFormActions.resetFieldError('invitationList'),
-          onInvalid: err => modelFormActions.setFieldError('invitationList', err),
-          type: SELECT_TYPES.filterDropdown,
           multi: false,
-          clearable: false,
-          placeHolder: 'Not set',
+          clearable: true,
         }}
       />
     </div>

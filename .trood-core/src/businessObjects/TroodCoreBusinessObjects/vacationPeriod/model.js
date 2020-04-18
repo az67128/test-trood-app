@@ -16,4 +16,47 @@ export default {
     confirm: true,
     message: messages.deletionQuestion,
   },
+  views: {
+    default: 'vacation_period #{id}',
+  },
+  meta: {
+    id: {
+      type: 'number',
+      optional: true,
+    },
+    start_date: {
+      type: 'datetime',
+      optional: false,
+    },
+    end_date: {
+      type: 'datetime',
+      optional: false,
+    },
+    paid: {
+      type: 'bool',
+      optional: false,
+    },
+    request_vacation: {
+      type: 'object',
+      linkMeta: 'request_vacation',
+      linkType: 'inner',
+      optional: true,
+    },
+    created: {
+      type: 'datetime',
+      optional: true,
+    },
+    author: {
+      type: 'object',
+      linkMeta: 'employee',
+      linkType: 'inner',
+      optional: false,
+    },
+    vacation_is: {
+      type: 'object',
+      linkMeta: 'employee',
+      linkType: 'inner',
+      optional: false,
+    },
+  },
 }

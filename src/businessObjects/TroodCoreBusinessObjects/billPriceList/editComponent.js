@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 import style from './editComponent.css'
 import modalsStyle from '$trood/styles/modals.css'
 import classNames from 'classnames'
-import TSelect, { SELECT_TYPES } from '$trood/components/TSelect'
 import { RESTIFY_CONFIG } from 'redux-restify'
+import { templateApplyValues } from '$trood/helpers/templates'
 
 
 const EditComponent = ({
@@ -11,12 +11,13 @@ const EditComponent = ({
   employeeEntities,
   matterApiActions,
   matterEntities,
-  modelFormActions,
-  modelErrors,
-  model, 
+  ModalComponents, 
 }) => {
   const [matterSearch, matterSearchSet] = useState('')
   const matterModelConfig = RESTIFY_CONFIG.registeredModels.matter
+  const matterTemplate = matterModelConfig.views.selectOption ||
+    matterModelConfig.views.default ||
+    `matter/{${matterModelConfig.idField}}`
   const matterApiConfig = {
     filter: {
       q: matterSearch 
@@ -38,6 +39,9 @@ const EditComponent = ({
       
   const [employeeSearch, employeeSearchSet] = useState('')
   const employeeModelConfig = RESTIFY_CONFIG.registeredModels.employee
+  const employeeTemplate = employeeModelConfig.views.selectOption ||
+    employeeModelConfig.views.default ||
+    `employee/{${employeeModelConfig.idField}}`
   const employeeApiConfig = {
     filter: {
       q: employeeSearch 
@@ -59,60 +63,38 @@ const EditComponent = ({
       
   return (
     <div className={classNames(style.root, modalsStyle.root)}>
-      <TSelect
+      <ModalComponents.ModalSelect
         {...{
-          className: modalsStyle.control,
+          fieldName: 'matter',
           items: matterArray.map(item => ({
             value: item[matterModelConfig.idField], 
-            label: item.name || item[matterModelConfig.idField],
+            label: templateApplyValues(matterTemplate, item),
           })),
-          values: model.matter 
-            ? [model.matter] 
-            : [],
-          onChange: vals => modelFormActions.changeField('matter',
-            vals[0],
-          ),
           onSearch: (value) => matterSearchSet(value ? encodeURIComponent(value) : ''),
           emptyItemsLabel: matterArrayIsLoading ? '' : undefined,
           onScrollToEnd: matterNextPageAction,
           isLoading: matterArrayIsLoading,
           missingValueResolver: value => 
             matterEntities.getById(value)[matterModelConfig.idField],
-          label: 'matter',
-          errors: modelErrors.matter,
-          onValid: () => modelFormActions.resetFieldError('matter'),
-          onInvalid: err => modelFormActions.setFieldError('matter', err),
-          type: SELECT_TYPES.filterDropdown,
           multi: false,
-          clearable: true,
-          placeHolder: 'Not set',
+          clearable: false,
         }}
       />
-      <TSelect
+      <ModalComponents.ModalSelect
         {...{
-          className: modalsStyle.control,
+          fieldName: 'employee',
           items: employeeArray.map(item => ({
             value: item[employeeModelConfig.idField], 
-            label: item.name || item[employeeModelConfig.idField],
+            label: templateApplyValues(employeeTemplate, item),
           })),
-          values: model.employee,
-          onChange: vals => modelFormActions.changeField('employee',
-            vals,
-          ),
           onSearch: (value) => employeeSearchSet(value ? encodeURIComponent(value) : ''),
           emptyItemsLabel: employeeArrayIsLoading ? '' : undefined,
           onScrollToEnd: employeeNextPageAction,
           isLoading: employeeArrayIsLoading,
           missingValueResolver: value => 
             employeeEntities.getById(value)[employeeModelConfig.idField],
-          label: 'employee',
-          errors: modelErrors.employee,
-          onValid: () => modelFormActions.resetFieldError('employee'),
-          onInvalid: err => modelFormActions.setFieldError('employee', err),
-          type: SELECT_TYPES.filterDropdown,
           multi: true,
-          clearable: true,
-          placeHolder: 'Not set',
+          clearable: false,
         }}
       />
     </div>

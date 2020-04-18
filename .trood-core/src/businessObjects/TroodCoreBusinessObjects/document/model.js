@@ -25,4 +25,59 @@ export default {
     confirm: true,
     message: messages.deletionQuestion,
   },
+  views: {
+    default: 'document #{id}',
+  },
+  meta: {
+    id: {
+      type: 'number',
+      optional: true,
+    },
+    author: {
+      type: 'object',
+      linkMeta: 'employee',
+      linkType: 'inner',
+      optional: false,
+    },
+    file: {
+      type: 'string',
+      optional: false,
+    },
+    target_object: {
+      type: 'generic',
+      linkMetaList: [
+        'activity',
+        'matter',
+        'client',
+        'invoice',
+        'candidate',
+        'employee',
+        'bill',
+      ],
+      linkType: 'inner',
+      optional: false,
+    },
+    document_type: {
+      type: 'string',
+      optional: false,
+    },
+    created: {
+      type: 'datetime',
+      optional: true,
+    },
+    doc_custom_type: {
+      type: 'object',
+      linkMeta: 'doc_custom_type',
+      linkType: 'inner',
+      optional: true,
+    },
+    description: {
+      type: 'string',
+      optional: true,
+    },
+    filename: {
+      type: 'string',
+      optional: false,
+    },
+  },
 }

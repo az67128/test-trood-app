@@ -13,4 +13,33 @@ export default {
     confirm: true,
     message: messages.deletionQuestion,
   },
+  views: {
+    default: 'matter_info #{id}',
+  },
+  meta: {
+    id: {
+      type: 'number',
+      optional: true,
+    },
+    author: {
+      type: 'object',
+      linkMeta: 'employee',
+      linkType: 'inner',
+      optional: false,
+    },
+    info: {
+      type: 'string',
+      optional: false,
+    },
+    matter: {
+      type: 'object',
+      linkMeta: 'matter',
+      linkType: 'inner',
+      optional: false,
+    },
+    created: {
+      type: 'datetime',
+      optional: true,
+    },
+  },
 }

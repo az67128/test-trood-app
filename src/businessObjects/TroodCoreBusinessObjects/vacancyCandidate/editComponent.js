@@ -2,9 +2,9 @@ import React, { useState } from 'react'
 import style from './editComponent.css'
 import modalsStyle from '$trood/styles/modals.css'
 import classNames from 'classnames'
-import TSelect, { SELECT_TYPES } from '$trood/components/TSelect'
 import { RESTIFY_CONFIG } from 'redux-restify'
-import DateTimePicker, { PICKER_TYPES } from '$trood/components/DateTimePicker'
+import { templateApplyValues } from '$trood/helpers/templates'
+import { PICKER_TYPES } from '$trood/components/DateTimePicker'
 
 
 const EditComponent = ({
@@ -18,12 +18,13 @@ const EditComponent = ({
   candidateStatusEntities,
   employeeApiActions,
   employeeEntities,
-  modelFormActions,
-  modelErrors,
-  model, 
+  ModalComponents, 
 }) => {
   const [employeeSearch, employeeSearchSet] = useState('')
   const employeeModelConfig = RESTIFY_CONFIG.registeredModels.employee
+  const employeeTemplate = employeeModelConfig.views.selectOption ||
+    employeeModelConfig.views.default ||
+    `employee/{${employeeModelConfig.idField}}`
   const employeeApiConfig = {
     filter: {
       q: employeeSearch 
@@ -45,6 +46,9 @@ const EditComponent = ({
       
   const [candidateStatusSearch, candidateStatusSearchSet] = useState('')
   const candidateStatusModelConfig = RESTIFY_CONFIG.registeredModels.candidateStatus
+  const candidateStatusTemplate = candidateStatusModelConfig.views.selectOption ||
+    candidateStatusModelConfig.views.default ||
+    `candidateStatus/{${candidateStatusModelConfig.idField}}`
   const candidateStatusApiConfig = {
     filter: {
       q: candidateStatusSearch 
@@ -66,6 +70,9 @@ const EditComponent = ({
       
   const [resolveCandidateSearch, resolveCandidateSearchSet] = useState('')
   const resolveCandidateModelConfig = RESTIFY_CONFIG.registeredModels.resolveCandidate
+  const resolveCandidateTemplate = resolveCandidateModelConfig.views.selectOption ||
+    resolveCandidateModelConfig.views.default ||
+    `resolveCandidate/{${resolveCandidateModelConfig.idField}}`
   const resolveCandidateApiConfig = {
     filter: {
       q: resolveCandidateSearch 
@@ -87,6 +94,9 @@ const EditComponent = ({
       
   const [candidateSearch, candidateSearchSet] = useState('')
   const candidateModelConfig = RESTIFY_CONFIG.registeredModels.candidate
+  const candidateTemplate = candidateModelConfig.views.selectOption ||
+    candidateModelConfig.views.default ||
+    `candidate/{${candidateModelConfig.idField}}`
   const candidateApiConfig = {
     filter: {
       q: candidateSearch 
@@ -108,6 +118,9 @@ const EditComponent = ({
       
   const [vacancySearch, vacancySearchSet] = useState('')
   const vacancyModelConfig = RESTIFY_CONFIG.registeredModels.vacancy
+  const vacancyTemplate = vacancyModelConfig.views.selectOption ||
+    vacancyModelConfig.views.default ||
+    `vacancy/{${vacancyModelConfig.idField}}`
   const vacancyApiConfig = {
     filter: {
       q: vacancySearch 
@@ -129,160 +142,94 @@ const EditComponent = ({
       
   return (
     <div className={classNames(style.root, modalsStyle.root)}>
-      <TSelect
+      <ModalComponents.ModalSelect
         {...{
-          className: modalsStyle.control,
+          fieldName: 'recruiter',
           items: employeeArray.map(item => ({
             value: item[employeeModelConfig.idField], 
-            label: item.name || item[employeeModelConfig.idField],
+            label: templateApplyValues(employeeTemplate, item),
           })),
-          values: model.recruiter 
-            ? [model.recruiter] 
-            : [],
-          onChange: vals => modelFormActions.changeField('recruiter',
-            vals[0],
-          ),
           onSearch: (value) => employeeSearchSet(value ? encodeURIComponent(value) : ''),
           emptyItemsLabel: employeeArrayIsLoading ? '' : undefined,
           onScrollToEnd: employeeNextPageAction,
           isLoading: employeeArrayIsLoading,
           missingValueResolver: value => 
             employeeEntities.getById(value)[employeeModelConfig.idField],
-          label: 'recruiter',
-          errors: modelErrors.recruiter,
-          onValid: () => modelFormActions.resetFieldError('recruiter'),
-          onInvalid: err => modelFormActions.setFieldError('recruiter', err),
-          type: SELECT_TYPES.filterDropdown,
           multi: false,
-          clearable: true,
-          placeHolder: 'Not set',
+          clearable: false,
         }}
       />
-      <TSelect
+      <ModalComponents.ModalSelect
         {...{
-          className: modalsStyle.control,
+          fieldName: 'candidateStatus',
           items: candidateStatusArray.map(item => ({
             value: item[candidateStatusModelConfig.idField], 
-            label: item.name || item[candidateStatusModelConfig.idField],
+            label: templateApplyValues(candidateStatusTemplate, item),
           })),
-          values: model.candidateStatus 
-            ? [model.candidateStatus] 
-            : [],
-          onChange: vals => modelFormActions.changeField('candidateStatus',
-            vals[0],
-          ),
           onSearch: (value) => candidateStatusSearchSet(value ? encodeURIComponent(value) : ''),
           emptyItemsLabel: candidateStatusArrayIsLoading ? '' : undefined,
           onScrollToEnd: candidateStatusNextPageAction,
           isLoading: candidateStatusArrayIsLoading,
           missingValueResolver: value => 
             candidateStatusEntities.getById(value)[candidateStatusModelConfig.idField],
-          label: 'candidateStatus',
-          errors: modelErrors.candidateStatus,
-          onValid: () => modelFormActions.resetFieldError('candidateStatus'),
-          onInvalid: err => modelFormActions.setFieldError('candidateStatus', err),
-          type: SELECT_TYPES.filterDropdown,
           multi: false,
-          clearable: true,
-          placeHolder: 'Not set',
+          clearable: false,
         }}
       />
-      <TSelect
+      <ModalComponents.ModalSelect
         {...{
-          className: modalsStyle.control,
+          fieldName: 'resolveCandidate',
           items: resolveCandidateArray.map(item => ({
             value: item[resolveCandidateModelConfig.idField], 
-            label: item.name || item[resolveCandidateModelConfig.idField],
+            label: templateApplyValues(resolveCandidateTemplate, item),
           })),
-          values: model.resolveCandidate 
-            ? [model.resolveCandidate] 
-            : [],
-          onChange: vals => modelFormActions.changeField('resolveCandidate',
-            vals[0],
-          ),
           onSearch: (value) => resolveCandidateSearchSet(value ? encodeURIComponent(value) : ''),
           emptyItemsLabel: resolveCandidateArrayIsLoading ? '' : undefined,
           onScrollToEnd: resolveCandidateNextPageAction,
           isLoading: resolveCandidateArrayIsLoading,
           missingValueResolver: value => 
             resolveCandidateEntities.getById(value)[resolveCandidateModelConfig.idField],
-          label: 'resolveCandidate',
-          errors: modelErrors.resolveCandidate,
-          onValid: () => modelFormActions.resetFieldError('resolveCandidate'),
-          onInvalid: err => modelFormActions.setFieldError('resolveCandidate', err),
-          type: SELECT_TYPES.filterDropdown,
           multi: false,
-          clearable: true,
-          placeHolder: 'Not set',
+          clearable: false,
         }}
       />
-      <TSelect
+      <ModalComponents.ModalSelect
         {...{
-          className: modalsStyle.control,
+          fieldName: 'candidate',
           items: candidateArray.map(item => ({
             value: item[candidateModelConfig.idField], 
-            label: item.name || item[candidateModelConfig.idField],
+            label: templateApplyValues(candidateTemplate, item),
           })),
-          values: model.candidate 
-            ? [model.candidate] 
-            : [],
-          onChange: vals => modelFormActions.changeField('candidate',
-            vals[0],
-          ),
           onSearch: (value) => candidateSearchSet(value ? encodeURIComponent(value) : ''),
           emptyItemsLabel: candidateArrayIsLoading ? '' : undefined,
           onScrollToEnd: candidateNextPageAction,
           isLoading: candidateArrayIsLoading,
           missingValueResolver: value => 
             candidateEntities.getById(value)[candidateModelConfig.idField],
-          label: 'candidate',
-          errors: modelErrors.candidate,
-          onValid: () => modelFormActions.resetFieldError('candidate'),
-          onInvalid: err => modelFormActions.setFieldError('candidate', err),
-          type: SELECT_TYPES.filterDropdown,
           multi: false,
-          clearable: true,
-          placeHolder: 'Not set',
+          clearable: false,
         }}
       />
-      <TSelect
+      <ModalComponents.ModalSelect
         {...{
-          className: modalsStyle.control,
+          fieldName: 'vacancy',
           items: vacancyArray.map(item => ({
             value: item[vacancyModelConfig.idField], 
-            label: item.name || item[vacancyModelConfig.idField],
+            label: templateApplyValues(vacancyTemplate, item),
           })),
-          values: model.vacancy 
-            ? [model.vacancy] 
-            : [],
-          onChange: vals => modelFormActions.changeField('vacancy',
-            vals[0],
-          ),
           onSearch: (value) => vacancySearchSet(value ? encodeURIComponent(value) : ''),
           emptyItemsLabel: vacancyArrayIsLoading ? '' : undefined,
           onScrollToEnd: vacancyNextPageAction,
           isLoading: vacancyArrayIsLoading,
           missingValueResolver: value => 
             vacancyEntities.getById(value)[vacancyModelConfig.idField],
-          label: 'vacancy',
-          errors: modelErrors.vacancy,
-          onValid: () => modelFormActions.resetFieldError('vacancy'),
-          onInvalid: err => modelFormActions.setFieldError('vacancy', err),
-          type: SELECT_TYPES.filterDropdown,
           multi: false,
-          clearable: true,
-          placeHolder: 'Not set',
+          clearable: false,
         }}
       />
-      <DateTimePicker
+      <ModalComponents.ModalDateTimePicker
         {...{
-          label: 'created',
-          className: modalsStyle.control,
-          value: model.created,
-          errors: modelErrors.created,
-          onChange: val => modelFormActions.changeField('created', val),
-          onValid: () => modelFormActions.resetFieldError('created'),
-          onInvalid: err => modelFormActions.setFieldError('created', err),
+          fieldName: 'created',
           type: PICKER_TYPES.dateTime,
           validate: {
             checkOnBlur: true,
@@ -291,15 +238,9 @@ const EditComponent = ({
           },
         }}
       />
-      <DateTimePicker
+      <ModalComponents.ModalDateTimePicker
         {...{
-          label: 'statusDate',
-          className: modalsStyle.control,
-          value: model.statusDate,
-          errors: modelErrors.statusDate,
-          onChange: val => modelFormActions.changeField('statusDate', val),
-          onValid: () => modelFormActions.resetFieldError('statusDate'),
-          onInvalid: err => modelFormActions.setFieldError('statusDate', err),
+          fieldName: 'statusDate',
           type: PICKER_TYPES.dateTime,
           validate: {
             checkOnBlur: true,
@@ -308,15 +249,9 @@ const EditComponent = ({
           },
         }}
       />
-      <DateTimePicker
+      <ModalComponents.ModalDateTimePicker
         {...{
-          label: 'resolveDate',
-          className: modalsStyle.control,
-          value: model.resolveDate,
-          errors: modelErrors.resolveDate,
-          onChange: val => modelFormActions.changeField('resolveDate', val),
-          onValid: () => modelFormActions.resetFieldError('resolveDate'),
-          onInvalid: err => modelFormActions.setFieldError('resolveDate', err),
+          fieldName: 'resolveDate',
           type: PICKER_TYPES.dateTime,
           validate: {
             checkOnBlur: true,

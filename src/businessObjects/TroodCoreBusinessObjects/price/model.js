@@ -17,4 +17,53 @@ export default {
     confirm: true,
     message: messages.deletionQuestion,
   },
+  views: {
+    default: 'price #{id}',
+  },
+  meta: {
+    id: {
+      type: 'number',
+      optional: true,
+    },
+    number: {
+      type: 'number',
+      optional: false,
+    },
+    name: {
+      type: 'string',
+      optional: false,
+    },
+    price_unit: {
+      type: 'object',
+      linkMeta: 'price_unit',
+      linkType: 'inner',
+      optional: false,
+    },
+    amount: {
+      type: 'number',
+      optional: false,
+    },
+    author: {
+      type: 'object',
+      linkMeta: 'employee',
+      linkType: 'inner',
+      optional: false,
+    },
+    created: {
+      type: 'datetime',
+      optional: true,
+    },
+    utbms: {
+      type: 'object',
+      linkMeta: 'utbms',
+      linkType: 'inner',
+      optional: true,
+    },
+    service_type: {
+      type: 'object',
+      linkMeta: 'service_type',
+      linkType: 'inner',
+      optional: true,
+    },
+  },
 }

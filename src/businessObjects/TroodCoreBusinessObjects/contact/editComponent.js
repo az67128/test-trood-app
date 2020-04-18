@@ -2,23 +2,26 @@ import React, { useState } from 'react'
 import style from './editComponent.css'
 import modalsStyle from '$trood/styles/modals.css'
 import classNames from 'classnames'
-import TSelect, { SELECT_TYPES } from '$trood/components/TSelect'
 import { RESTIFY_CONFIG } from 'redux-restify'
-import TInput, { INPUT_TYPES } from '$trood/components/TInput'
+import { templateApplyValues } from '$trood/helpers/templates'
+import { INPUT_TYPES } from '$trood/components/TInput'
 import { snakeToCamel } from '$trood/helpers/namingNotation'
 
 const EditComponent = ({
+  modelFormActions,
+  model,
   targetObjectApiActions,
   targetObjectEntities,
   contactTypeApiActions,
   contactTypeEntities,
-  modelFormActions,
-  modelErrors,
-  model,
+  ModalComponents,
   ...restProps 
 }) => {
   const [contactTypeSearch, contactTypeSearchSet] = useState('')
   const contactTypeModelConfig = RESTIFY_CONFIG.registeredModels.contactType
+  const contactTypeTemplate = contactTypeModelConfig.views.selectOption ||
+    contactTypeModelConfig.views.default ||
+    `contactType/{${contactTypeModelConfig.idField}}`
   const contactTypeApiConfig = {
     filter: {
       q: contactTypeSearch 
@@ -42,6 +45,9 @@ const EditComponent = ({
   const targetObjectGenericEnteties = restProps[targetObjectModelName + 'Entities']
   const [targetObjectSearch, targetObjectSearchSet] = useState('')
   const targetObjectModelConfig = RESTIFY_CONFIG.registeredModels[targetObjectModelName]
+  const targetObjectTemplate = targetObjectModelConfig.views.selectOption ||
+    targetObjectModelConfig.views.default ||
+    `targetObject/{${targetObjectModelConfig.idField}}`
   const targetObjectApiConfig = {
     filter: {
       q: targetObjectSearch 
@@ -63,45 +69,27 @@ const EditComponent = ({
       
   return (
     <div className={classNames(style.root, modalsStyle.root)}>
-      <TSelect
+      <ModalComponents.ModalSelect
         {...{
-          className: modalsStyle.control,
+          fieldName: 'contactType',
           items: contactTypeArray.map(item => ({
             value: item[contactTypeModelConfig.idField], 
-            label: item.name || item[contactTypeModelConfig.idField],
+            label: templateApplyValues(contactTypeTemplate, item),
           })),
-          values: model.contactType 
-            ? [model.contactType] 
-            : [],
-          onChange: vals => modelFormActions.changeField('contactType',
-            vals[0],
-          ),
           onSearch: (value) => contactTypeSearchSet(value ? encodeURIComponent(value) : ''),
           emptyItemsLabel: contactTypeArrayIsLoading ? '' : undefined,
           onScrollToEnd: contactTypeNextPageAction,
           isLoading: contactTypeArrayIsLoading,
           missingValueResolver: value => 
             contactTypeEntities.getById(value)[contactTypeModelConfig.idField],
-          label: 'contactType',
-          errors: modelErrors.contactType,
-          onValid: () => modelFormActions.resetFieldError('contactType'),
-          onInvalid: err => modelFormActions.setFieldError('contactType', err),
-          type: SELECT_TYPES.filterDropdown,
           multi: false,
-          clearable: true,
-          placeHolder: 'Not set',
+          clearable: false,
         }}
       />
-      <TInput
+      <ModalComponents.ModalInput
         {...{
+          fieldName: 'value',
           type: INPUT_TYPES.multi,
-          label: 'value',
-          className: modalsStyle.control,
-          value: model.value,
-          errors: modelErrors.value,
-          onChange: val => modelFormActions.changeField('value', val),
-          onValid: () => modelFormActions.resetFieldError('value'),
-          onInvalid: err => modelFormActions.setFieldError('value', err),
           validate: {
             checkOnBlur: true,
             required: true,
@@ -109,8 +97,9 @@ const EditComponent = ({
         }}
       />
       <div className={style.row}>
-        <TSelect 
+        <ModalComponents.ModalSelect
           {...{
+            fieldName: ['targetObject', '_object'],
             className: undefined,
             label: 'targetObject_type',
             items: [
@@ -119,42 +108,27 @@ const EditComponent = ({
               { value: 'client' },
               { value: 'candidate' },
             ],
-            type: SELECT_TYPES.filterDropdown,
-            clearable: true,
-            values: model.targetObject && model.targetObject._object ? [model.targetObject._object] : [],
-            placeHolder: 'Not set',
+            clearable: false,
             onChange: vals => modelFormActions.changeField('targetObject', { _object: vals[0] }),
-            onInvalid: err => modelFormActions.setFieldError('targetObject', err),
             validate: {
               checkOnBlur: true,
               required: true,
             },
           }} 
         />
-        <TSelect
+        <ModalComponents.ModalSelect
           {...{
+            fieldName: ['targetObject', targetObjectModelConfig.idField],
             items: targetObjectArray.map(item => ({
               value: item[targetObjectModelConfig.idField], 
-              label: item.name || item[targetObjectModelConfig.idField],
+              label: templateApplyValues(targetObjectTemplate, item),
             })),
-            values: model.targetObject[targetObjectModelConfig.idField]  
-              ? [model.targetObject[targetObjectModelConfig.idField] ] 
-              : [],
-            onChange: vals => modelFormActions.changeField(['targetObject', targetObjectModelConfig.idField],
-              vals[0],
-            ),
             onSearch: (value) => targetObjectSearchSet(value ? encodeURIComponent(value) : ''),
             emptyItemsLabel: targetObjectArrayIsLoading ? '' : undefined,
             onScrollToEnd: targetObjectNextPageAction,
             isLoading: targetObjectArrayIsLoading,
-            label: 'targetObject',
-            errors: modelErrors.targetObject,
-            onValid: () => modelFormActions.resetFieldError('targetObject'),
-            onInvalid: err => modelFormActions.setFieldError('targetObject', err),
-            type: SELECT_TYPES.filterDropdown,
             multi: false,
-            clearable: true,
-            placeHolder: 'Not set',
+            clearable: false,
           }}
         />
       </div>

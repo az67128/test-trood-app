@@ -32,5 +32,11 @@ export default {
        
       ],
     },
+    {
+      title: 'Documents',
+      models: [
+       
+      ],
+    },
   ],
 }

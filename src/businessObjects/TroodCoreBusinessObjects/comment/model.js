@@ -19,4 +19,39 @@ export default {
     confirm: true,
     message: messages.deletionQuestion,
   },
+  views: {
+    default: 'comment #{id}',
+  },
+  meta: {
+    id: {
+      type: 'number',
+      optional: true,
+    },
+    author: {
+      type: 'object',
+      linkMeta: 'employee',
+      linkType: 'inner',
+      optional: false,
+    },
+    comment: {
+      type: 'string',
+      optional: false,
+    },
+    target_object: {
+      type: 'generic',
+      linkMetaList: [
+        'activity',
+        'matter',
+        'client',
+        'candidate',
+        'vacancy_candidate',
+      ],
+      linkType: 'inner',
+      optional: false,
+    },
+    created: {
+      type: 'datetime',
+      optional: true,
+    },
+  },
 }

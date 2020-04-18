@@ -17,4 +17,40 @@ export default {
     confirm: true,
     message: messages.deletionQuestion,
   },
+  views: {
+    default: 'cv_record #{id}',
+  },
+  meta: {
+    id: {
+      type: 'number',
+      optional: true,
+    },
+    author: {
+      type: 'object',
+      linkMeta: 'employee',
+      linkType: 'inner',
+      optional: false,
+    },
+    title: {
+      type: 'string',
+      optional: false,
+    },
+    description: {
+      type: 'string',
+      optional: false,
+    },
+    target_object: {
+      type: 'generic',
+      linkMetaList: [
+        'candidate',
+        'employee',
+      ],
+      linkType: 'inner',
+      optional: false,
+    },
+    created: {
+      type: 'datetime',
+      optional: true,
+    },
+  },
 }

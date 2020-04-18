@@ -2,10 +2,10 @@ import React, { useState } from 'react'
 import style from './editComponent.css'
 import modalsStyle from '$trood/styles/modals.css'
 import classNames from 'classnames'
-import TSelect, { SELECT_TYPES } from '$trood/components/TSelect'
 import { RESTIFY_CONFIG } from 'redux-restify'
-import DateTimePicker, { PICKER_TYPES } from '$trood/components/DateTimePicker'
-import TInput, { INPUT_TYPES } from '$trood/components/TInput'
+import { templateApplyValues } from '$trood/helpers/templates'
+import { PICKER_TYPES } from '$trood/components/DateTimePicker'
+import { INPUT_TYPES } from '$trood/components/TInput'
 
 
 const EditComponent = ({
@@ -13,12 +13,13 @@ const EditComponent = ({
   statusRequestVacationEntities,
   employeeApiActions,
   employeeEntities,
-  modelFormActions,
-  modelErrors,
-  model, 
+  ModalComponents, 
 }) => {
   const [employeeSearch, employeeSearchSet] = useState('')
   const employeeModelConfig = RESTIFY_CONFIG.registeredModels.employee
+  const employeeTemplate = employeeModelConfig.views.selectOption ||
+    employeeModelConfig.views.default ||
+    `employee/{${employeeModelConfig.idField}}`
   const employeeApiConfig = {
     filter: {
       q: employeeSearch 
@@ -40,6 +41,9 @@ const EditComponent = ({
       
   const [statusRequestVacationSearch, statusRequestVacationSearchSet] = useState('')
   const statusRequestVacationModelConfig = RESTIFY_CONFIG.registeredModels.statusRequestVacation
+  const statusRequestVacationTemplate = statusRequestVacationModelConfig.views.selectOption ||
+    statusRequestVacationModelConfig.views.default ||
+    `statusRequestVacation/{${statusRequestVacationModelConfig.idField}}`
   const statusRequestVacationApiConfig = {
     filter: {
       q: statusRequestVacationSearch 
@@ -61,73 +65,43 @@ const EditComponent = ({
       
   return (
     <div className={classNames(style.root, modalsStyle.root)}>
-      <TSelect
+      <ModalComponents.ModalSelect
         {...{
-          className: modalsStyle.control,
+          fieldName: 'author',
           items: employeeArray.map(item => ({
             value: item[employeeModelConfig.idField], 
-            label: item.name || item[employeeModelConfig.idField],
+            label: templateApplyValues(employeeTemplate, item),
           })),
-          values: model.author 
-            ? [model.author] 
-            : [],
-          onChange: vals => modelFormActions.changeField('author',
-            vals[0],
-          ),
           onSearch: (value) => employeeSearchSet(value ? encodeURIComponent(value) : ''),
           emptyItemsLabel: employeeArrayIsLoading ? '' : undefined,
           onScrollToEnd: employeeNextPageAction,
           isLoading: employeeArrayIsLoading,
           missingValueResolver: value => 
             employeeEntities.getById(value)[employeeModelConfig.idField],
-          label: 'author',
-          errors: modelErrors.author,
-          onValid: () => modelFormActions.resetFieldError('author'),
-          onInvalid: err => modelFormActions.setFieldError('author', err),
-          type: SELECT_TYPES.filterDropdown,
           multi: false,
-          clearable: true,
-          placeHolder: 'Not set',
+          clearable: false,
         }}
       />
-      <TSelect
+      <ModalComponents.ModalSelect
         {...{
-          className: modalsStyle.control,
+          fieldName: 'statusRequestVacation',
           items: statusRequestVacationArray.map(item => ({
             value: item[statusRequestVacationModelConfig.idField], 
-            label: item.name || item[statusRequestVacationModelConfig.idField],
+            label: templateApplyValues(statusRequestVacationTemplate, item),
           })),
-          values: model.statusRequestVacation 
-            ? [model.statusRequestVacation] 
-            : [],
-          onChange: vals => modelFormActions.changeField('statusRequestVacation',
-            vals[0],
-          ),
           onSearch: (value) => statusRequestVacationSearchSet(value ? encodeURIComponent(value) : ''),
           emptyItemsLabel: statusRequestVacationArrayIsLoading ? '' : undefined,
           onScrollToEnd: statusRequestVacationNextPageAction,
           isLoading: statusRequestVacationArrayIsLoading,
           missingValueResolver: value => 
             statusRequestVacationEntities.getById(value)[statusRequestVacationModelConfig.idField],
-          label: 'statusRequestVacation',
-          errors: modelErrors.statusRequestVacation,
-          onValid: () => modelFormActions.resetFieldError('statusRequestVacation'),
-          onInvalid: err => modelFormActions.setFieldError('statusRequestVacation', err),
-          type: SELECT_TYPES.filterDropdown,
           multi: false,
-          clearable: false,
-          placeHolder: 'Not set',
+          clearable: true,
         }}
       />
-      <DateTimePicker
+      <ModalComponents.ModalDateTimePicker
         {...{
-          label: 'created',
-          className: modalsStyle.control,
-          value: model.created,
-          errors: modelErrors.created,
-          onChange: val => modelFormActions.changeField('created', val),
-          onValid: () => modelFormActions.resetFieldError('created'),
-          onInvalid: err => modelFormActions.setFieldError('created', err),
+          fieldName: 'created',
           type: PICKER_TYPES.dateTime,
           validate: {
             checkOnBlur: true,
@@ -136,15 +110,9 @@ const EditComponent = ({
           },
         }}
       />
-      <DateTimePicker
+      <ModalComponents.ModalDateTimePicker
         {...{
-          label: 'statusDate',
-          className: modalsStyle.control,
-          value: model.statusDate,
-          errors: modelErrors.statusDate,
-          onChange: val => modelFormActions.changeField('statusDate', val),
-          onValid: () => modelFormActions.resetFieldError('statusDate'),
-          onInvalid: err => modelFormActions.setFieldError('statusDate', err),
+          fieldName: 'statusDate',
           type: PICKER_TYPES.dateTime,
           validate: {
             checkOnBlur: true,
@@ -153,16 +121,10 @@ const EditComponent = ({
           },
         }}
       />
-      <TInput
+      <ModalComponents.ModalInput
         {...{
+          fieldName: 'number',
           type: INPUT_TYPES.multi,
-          label: 'number',
-          className: modalsStyle.control,
-          value: model.number,
-          errors: modelErrors.number,
-          onChange: val => modelFormActions.changeField('number', val),
-          onValid: () => modelFormActions.resetFieldError('number'),
-          onInvalid: err => modelFormActions.setFieldError('number', err),
           validate: {
             checkOnBlur: true,
             required: false,

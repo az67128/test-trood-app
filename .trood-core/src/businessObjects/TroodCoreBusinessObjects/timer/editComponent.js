@@ -2,10 +2,10 @@ import React, { useState } from 'react'
 import style from './editComponent.css'
 import modalsStyle from '$trood/styles/modals.css'
 import classNames from 'classnames'
-import TSelect, { SELECT_TYPES } from '$trood/components/TSelect'
 import { RESTIFY_CONFIG } from 'redux-restify'
-import DateTimePicker, { PICKER_TYPES } from '$trood/components/DateTimePicker'
-import TInput, { INPUT_TYPES } from '$trood/components/TInput'
+import { templateApplyValues } from '$trood/helpers/templates'
+import { PICKER_TYPES } from '$trood/components/DateTimePicker'
+import { INPUT_TYPES } from '$trood/components/TInput'
 
 
 const EditComponent = ({
@@ -15,12 +15,13 @@ const EditComponent = ({
   employeeEntities,
   timerStatusApiActions,
   timerStatusEntities,
-  modelFormActions,
-  modelErrors,
-  model, 
+  ModalComponents, 
 }) => {
   const [timerStatusSearch, timerStatusSearchSet] = useState('')
   const timerStatusModelConfig = RESTIFY_CONFIG.registeredModels.timerStatus
+  const timerStatusTemplate = timerStatusModelConfig.views.selectOption ||
+    timerStatusModelConfig.views.default ||
+    `timerStatus/{${timerStatusModelConfig.idField}}`
   const timerStatusApiConfig = {
     filter: {
       q: timerStatusSearch 
@@ -42,6 +43,9 @@ const EditComponent = ({
       
   const [employeeSearch, employeeSearchSet] = useState('')
   const employeeModelConfig = RESTIFY_CONFIG.registeredModels.employee
+  const employeeTemplate = employeeModelConfig.views.selectOption ||
+    employeeModelConfig.views.default ||
+    `employee/{${employeeModelConfig.idField}}`
   const employeeApiConfig = {
     filter: {
       q: employeeSearch 
@@ -63,6 +67,9 @@ const EditComponent = ({
       
   const [activitySearch, activitySearchSet] = useState('')
   const activityModelConfig = RESTIFY_CONFIG.registeredModels.activity
+  const activityTemplate = activityModelConfig.views.selectOption ||
+    activityModelConfig.views.default ||
+    `activity/{${activityModelConfig.idField}}`
   const activityApiConfig = {
     filter: {
       q: activitySearch 
@@ -84,102 +91,60 @@ const EditComponent = ({
       
   return (
     <div className={classNames(style.root, modalsStyle.root)}>
-      <TSelect
+      <ModalComponents.ModalSelect
         {...{
-          className: modalsStyle.control,
+          fieldName: 'timerStatus',
           items: timerStatusArray.map(item => ({
             value: item[timerStatusModelConfig.idField], 
-            label: item.name || item[timerStatusModelConfig.idField],
+            label: templateApplyValues(timerStatusTemplate, item),
           })),
-          values: model.timerStatus 
-            ? [model.timerStatus] 
-            : [],
-          onChange: vals => modelFormActions.changeField('timerStatus',
-            vals[0],
-          ),
           onSearch: (value) => timerStatusSearchSet(value ? encodeURIComponent(value) : ''),
           emptyItemsLabel: timerStatusArrayIsLoading ? '' : undefined,
           onScrollToEnd: timerStatusNextPageAction,
           isLoading: timerStatusArrayIsLoading,
           missingValueResolver: value => 
             timerStatusEntities.getById(value)[timerStatusModelConfig.idField],
-          label: 'timerStatus',
-          errors: modelErrors.timerStatus,
-          onValid: () => modelFormActions.resetFieldError('timerStatus'),
-          onInvalid: err => modelFormActions.setFieldError('timerStatus', err),
-          type: SELECT_TYPES.filterDropdown,
           multi: false,
-          clearable: true,
-          placeHolder: 'Not set',
+          clearable: false,
         }}
       />
-      <TSelect
+      <ModalComponents.ModalSelect
         {...{
-          className: modalsStyle.control,
+          fieldName: 'employee',
           items: employeeArray.map(item => ({
             value: item[employeeModelConfig.idField], 
-            label: item.name || item[employeeModelConfig.idField],
+            label: templateApplyValues(employeeTemplate, item),
           })),
-          values: model.employee 
-            ? [model.employee] 
-            : [],
-          onChange: vals => modelFormActions.changeField('employee',
-            vals[0],
-          ),
           onSearch: (value) => employeeSearchSet(value ? encodeURIComponent(value) : ''),
           emptyItemsLabel: employeeArrayIsLoading ? '' : undefined,
           onScrollToEnd: employeeNextPageAction,
           isLoading: employeeArrayIsLoading,
           missingValueResolver: value => 
             employeeEntities.getById(value)[employeeModelConfig.idField],
-          label: 'employee',
-          errors: modelErrors.employee,
-          onValid: () => modelFormActions.resetFieldError('employee'),
-          onInvalid: err => modelFormActions.setFieldError('employee', err),
-          type: SELECT_TYPES.filterDropdown,
           multi: false,
-          clearable: true,
-          placeHolder: 'Not set',
+          clearable: false,
         }}
       />
-      <TSelect
+      <ModalComponents.ModalSelect
         {...{
-          className: modalsStyle.control,
+          fieldName: 'activity',
           items: activityArray.map(item => ({
             value: item[activityModelConfig.idField], 
-            label: item.name || item[activityModelConfig.idField],
+            label: templateApplyValues(activityTemplate, item),
           })),
-          values: model.activity 
-            ? [model.activity] 
-            : [],
-          onChange: vals => modelFormActions.changeField('activity',
-            vals[0],
-          ),
           onSearch: (value) => activitySearchSet(value ? encodeURIComponent(value) : ''),
           emptyItemsLabel: activityArrayIsLoading ? '' : undefined,
           onScrollToEnd: activityNextPageAction,
           isLoading: activityArrayIsLoading,
           missingValueResolver: value => 
             activityEntities.getById(value)[activityModelConfig.idField],
-          label: 'activity',
-          errors: modelErrors.activity,
-          onValid: () => modelFormActions.resetFieldError('activity'),
-          onInvalid: err => modelFormActions.setFieldError('activity', err),
-          type: SELECT_TYPES.filterDropdown,
           multi: false,
-          clearable: false,
-          placeHolder: 'Not set',
+          clearable: true,
         }}
       />
-      <DateTimePicker
+      <ModalComponents.ModalDateTimePicker
         {...{
-          label: 'start',
-          className: modalsStyle.control,
-          value: model.start,
-          errors: modelErrors.start,
-          onChange: val => modelFormActions.changeField('start', val),
-          onValid: () => modelFormActions.resetFieldError('start'),
-          onInvalid: err => modelFormActions.setFieldError('start', err),
+          fieldName: 'start',
           type: PICKER_TYPES.dateTime,
           validate: {
             checkOnBlur: true,
@@ -188,16 +153,10 @@ const EditComponent = ({
           },
         }}
       />
-      <TInput
+      <ModalComponents.ModalInput
         {...{
+          fieldName: 'duration',
           type: INPUT_TYPES.float,
-          label: 'duration',
-          className: modalsStyle.control,
-          value: model.duration,
-          errors: modelErrors.duration,
-          onChange: val => modelFormActions.changeField('duration', val),
-          onValid: () => modelFormActions.resetFieldError('duration'),
-          onInvalid: err => modelFormActions.setFieldError('duration', err),
           validate: {
             checkOnBlur: true,
             required: false,

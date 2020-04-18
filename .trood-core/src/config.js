@@ -282,6 +282,29 @@ export default {
         },
       ],
     },
+    {
+      title: 'Documents',
+      url: 'documents',
+      type: 'grid',
+      components: [
+        {
+          id: 'documents-table',
+          type: 'LegalCoreComponents/Documents',
+          span: 3,
+          withMargin: true,
+          models: {
+            activity: 'activity',
+            matter: 'matter',
+            client: 'client',
+            employee: 'employee',
+            candidate: 'candidate',
+            bill: 'bill',
+            document: 'document',
+            docCustomType: 'docCustomType',
+          },
+        },
+      ],
+    },
   ],
   entityPages: {},
 }

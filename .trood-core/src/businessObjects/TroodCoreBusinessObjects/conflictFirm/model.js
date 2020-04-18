@@ -15,4 +15,39 @@ export default {
     confirm: true,
     message: messages.deletionQuestion,
   },
+  views: {
+    default: 'conflict_firm #{id}',
+  },
+  meta: {
+    id: {
+      type: 'number',
+      optional: true,
+    },
+    company_code: {
+      type: 'string',
+      optional: true,
+    },
+    name: {
+      type: 'string',
+      optional: false,
+    },
+    client: {
+      type: 'object',
+      linkMeta: 'client',
+      linkType: 'inner',
+      optional: false,
+    },
+    created: {
+      type: 'datetime',
+      optional: true,
+    },
+    ur_adress: {
+      type: 'string',
+      optional: true,
+    },
+    details: {
+      type: 'string',
+      optional: true,
+    },
+  },
 }

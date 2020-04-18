@@ -4,8 +4,6 @@ import classNames from 'classnames'
 import { messages as mainMessages } from '$trood/mainConstants'
 import { intlObject } from '$trood/localeService'
 
-import { isReactComponent } from '$trood/helpers/react'
-
 import TClickOutside from '$trood/components/TClickOutside'
 import TCheckbox, { CHECK_COLORS } from '$trood/components/TCheckbox'
 import TIcon, { ICONS_TYPES, ROTATE_TYPES, LABEL_POSITION_TYPES } from '$trood/components/TIcon'
@@ -76,9 +74,9 @@ class ListView extends PureComponent {
             {
               headerItemsSortable.length > 0 &&
               <div className={classNames(style.listSortControls, style.listHeaderRow)}>
-              <span className={style.listSortControlsLabel}>
-                {intlObject.intl.formatMessage(messages.sortBy)}:
-              </span>
+                <span className={style.listSortControlsLabel}>
+                  {intlObject.intl.formatMessage(messages.sortBy)}:
+                </span>
                 <TIcon {...{
                   className: style.sortOrderIcon,
                   type: ICONS_TYPES.arrowWithTail,
@@ -108,8 +106,8 @@ class ListView extends PureComponent {
                           },
                           className: style.listSortItem,
                         }}>
-                        {item.title}
-                      </span>
+                          {item.title}
+                        </span>
                       ))}
                     </div>
                   </div>
@@ -166,10 +164,7 @@ class ListView extends PureComponent {
                     }} />
                   }
                   <div className={classNames(style.tableListItemTitleText, expanded && style.expanded)}>
-                    {isReactComponent(headerModel)
-                      ? React.cloneElement(headerModel, {onClick: undefined})
-                      : headerModel
-                    }
+                    {headerModel}
                   </div>
                 </div>
                 <TIcon {...{

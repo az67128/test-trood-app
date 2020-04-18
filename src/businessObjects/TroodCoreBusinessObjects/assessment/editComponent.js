@@ -2,11 +2,10 @@ import React, { useState } from 'react'
 import style from './editComponent.css'
 import modalsStyle from '$trood/styles/modals.css'
 import classNames from 'classnames'
-import TInput, { INPUT_TYPES } from '$trood/components/TInput'
-import TSelect, { SELECT_TYPES } from '$trood/components/TSelect'
+import { INPUT_TYPES } from '$trood/components/TInput'
 import { RESTIFY_CONFIG } from 'redux-restify'
-import DateTimePicker, { PICKER_TYPES } from '$trood/components/DateTimePicker'
-import TCheckbox from '$trood/components/TCheckbox'
+import { templateApplyValues } from '$trood/helpers/templates'
+import { PICKER_TYPES } from '$trood/components/DateTimePicker'
 
 
 const EditComponent = ({
@@ -14,12 +13,13 @@ const EditComponent = ({
   teamMemberEntities,
   employeeApiActions,
   employeeEntities,
-  modelFormActions,
-  modelErrors,
-  model, 
+  ModalComponents, 
 }) => {
   const [employeeSearch, employeeSearchSet] = useState('')
   const employeeModelConfig = RESTIFY_CONFIG.registeredModels.employee
+  const employeeTemplate = employeeModelConfig.views.selectOption ||
+    employeeModelConfig.views.default ||
+    `employee/{${employeeModelConfig.idField}}`
   const employeeApiConfig = {
     filter: {
       q: employeeSearch 
@@ -41,6 +41,9 @@ const EditComponent = ({
       
   const [teamMemberSearch, teamMemberSearchSet] = useState('')
   const teamMemberModelConfig = RESTIFY_CONFIG.registeredModels.teamMember
+  const teamMemberTemplate = teamMemberModelConfig.views.selectOption ||
+    teamMemberModelConfig.views.default ||
+    `teamMember/{${teamMemberModelConfig.idField}}`
   const teamMemberApiConfig = {
     filter: {
       q: teamMemberSearch 
@@ -62,76 +65,46 @@ const EditComponent = ({
       
   return (
     <div className={classNames(style.root, modalsStyle.root)}>
-      <TInput
+      <ModalComponents.ModalInput
         {...{
+          fieldName: 'rating',
           type: INPUT_TYPES.float,
-          label: 'rating',
-          className: modalsStyle.control,
-          value: model.rating,
-          errors: modelErrors.rating,
-          onChange: val => modelFormActions.changeField('rating', val),
-          onValid: () => modelFormActions.resetFieldError('rating'),
-          onInvalid: err => modelFormActions.setFieldError('rating', err),
           validate: {
             checkOnBlur: true,
             required: true,
           },
         }}
       />
-      <TSelect
+      <ModalComponents.ModalSelect
         {...{
-          className: modalsStyle.control,
+          fieldName: 'rewiewer',
           items: employeeArray.map(item => ({
             value: item[employeeModelConfig.idField], 
-            label: item.name || item[employeeModelConfig.idField],
+            label: templateApplyValues(employeeTemplate, item),
           })),
-          values: model.rewiewer 
-            ? [model.rewiewer] 
-            : [],
-          onChange: vals => modelFormActions.changeField('rewiewer',
-            vals[0],
-          ),
           onSearch: (value) => employeeSearchSet(value ? encodeURIComponent(value) : ''),
           emptyItemsLabel: employeeArrayIsLoading ? '' : undefined,
           onScrollToEnd: employeeNextPageAction,
           isLoading: employeeArrayIsLoading,
           missingValueResolver: value => 
             employeeEntities.getById(value)[employeeModelConfig.idField],
-          label: 'rewiewer',
-          errors: modelErrors.rewiewer,
-          onValid: () => modelFormActions.resetFieldError('rewiewer'),
-          onInvalid: err => modelFormActions.setFieldError('rewiewer', err),
-          type: SELECT_TYPES.filterDropdown,
           multi: false,
-          clearable: true,
-          placeHolder: 'Not set',
+          clearable: false,
         }}
       />
-      <TInput
+      <ModalComponents.ModalInput
         {...{
+          fieldName: 'details',
           type: INPUT_TYPES.multi,
-          label: 'details',
-          className: modalsStyle.control,
-          value: model.details,
-          errors: modelErrors.details,
-          onChange: val => modelFormActions.changeField('details', val),
-          onValid: () => modelFormActions.resetFieldError('details'),
-          onInvalid: err => modelFormActions.setFieldError('details', err),
           validate: {
             checkOnBlur: true,
             required: true,
           },
         }}
       />
-      <DateTimePicker
+      <ModalComponents.ModalDateTimePicker
         {...{
-          label: 'created',
-          className: modalsStyle.control,
-          value: model.created,
-          errors: modelErrors.created,
-          onChange: val => modelFormActions.changeField('created', val),
-          onValid: () => modelFormActions.resetFieldError('created'),
-          onInvalid: err => modelFormActions.setFieldError('created', err),
+          fieldName: 'created',
           type: PICKER_TYPES.dateTime,
           validate: {
             checkOnBlur: true,
@@ -140,63 +113,39 @@ const EditComponent = ({
           },
         }}
       />
-      <TCheckbox
+      <ModalComponents.ModalCheckbox
           {...{
-            label: 'isMin',
-          className: modalsStyle.control,
-          value: model.isMin,
-          errors: modelErrors.isMin,
-          onChange: val => modelFormActions.changeField('isMin', val),
-          onValid: () => modelFormActions.resetFieldError('isMin'),
-          onInvalid: err => modelFormActions.setFieldError('isMin', err),
+            fieldName: 'isMin',
             validate: {
               checkOnBlur: true,
               required: false,
             },
           }}
         />
-      <TCheckbox
+      <ModalComponents.ModalCheckbox
           {...{
-            label: 'isMax',
-          className: modalsStyle.control,
-          value: model.isMax,
-          errors: modelErrors.isMax,
-          onChange: val => modelFormActions.changeField('isMax', val),
-          onValid: () => modelFormActions.resetFieldError('isMax'),
-          onInvalid: err => modelFormActions.setFieldError('isMax', err),
+            fieldName: 'isMax',
             validate: {
               checkOnBlur: true,
               required: false,
             },
           }}
         />
-      <TSelect
+      <ModalComponents.ModalSelect
         {...{
-          className: modalsStyle.control,
+          fieldName: 'teamMember',
           items: teamMemberArray.map(item => ({
             value: item[teamMemberModelConfig.idField], 
-            label: item.name || item[teamMemberModelConfig.idField],
+            label: templateApplyValues(teamMemberTemplate, item),
           })),
-          values: model.teamMember 
-            ? [model.teamMember] 
-            : [],
-          onChange: vals => modelFormActions.changeField('teamMember',
-            vals[0],
-          ),
           onSearch: (value) => teamMemberSearchSet(value ? encodeURIComponent(value) : ''),
           emptyItemsLabel: teamMemberArrayIsLoading ? '' : undefined,
           onScrollToEnd: teamMemberNextPageAction,
           isLoading: teamMemberArrayIsLoading,
           missingValueResolver: value => 
             teamMemberEntities.getById(value)[teamMemberModelConfig.idField],
-          label: 'teamMember',
-          errors: modelErrors.teamMember,
-          onValid: () => modelFormActions.resetFieldError('teamMember'),
-          onInvalid: err => modelFormActions.setFieldError('teamMember', err),
-          type: SELECT_TYPES.filterDropdown,
           multi: false,
-          clearable: true,
-          placeHolder: 'Not set',
+          clearable: false,
         }}
       />
     </div>

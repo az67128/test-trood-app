@@ -22,7 +22,7 @@ class TCurrency extends PureComponent {
     /** money value */
     value: (props, propName, componentName) => {
       const currentProp = props[propName]
-      if (Number.isNaN(+currentProp)) {
+      if (currentProp !== undefined && Number.isNaN(+currentProp)) {
         return new Error(`Invalid prop ${propName} supplied to ${componentName} Expected number or number-like string.`)
       }
       return undefined
@@ -48,7 +48,6 @@ class TCurrency extends PureComponent {
   }
 
   static defaultProps = {
-    value: 0,
     currencySignType: CURRENCY_SIGN_TYPE.symbol,
     short: false,
     showSign: true,

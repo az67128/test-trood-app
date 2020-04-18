@@ -1,4 +1,3 @@
-import { RestifyForeignKeysArray } from 'redux-restify'
 import { messages } from '$trood/mainConstants'
 export default {
   defaults: {
@@ -6,11 +5,31 @@ export default {
     code: undefined,
     name: undefined,
     order: undefined,
-    employeeSet: new RestifyForeignKeysArray('employee', { allowNested: false }),
   },
   name: 'employeeRole',
   deletion: {
     confirm: true,
     message: messages.deletionQuestion,
+  },
+  views: {
+    default: 'employee_role #{id}',
+  },
+  meta: {
+    id: {
+      type: 'number',
+      optional: true,
+    },
+    code: {
+      type: 'string',
+      optional: false,
+    },
+    name: {
+      type: 'string',
+      optional: false,
+    },
+    order: {
+      type: 'number',
+      optional: false,
+    },
   },
 }

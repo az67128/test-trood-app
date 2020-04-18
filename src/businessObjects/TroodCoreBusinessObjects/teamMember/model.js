@@ -14,4 +14,41 @@ export default {
     confirm: true,
     message: messages.deletionQuestion,
   },
+  views: {
+    default: 'team_member #{id}',
+  },
+  meta: {
+    id: {
+      type: 'number',
+      optional: true,
+    },
+    employee: {
+      type: 'object',
+      linkMeta: 'employee',
+      linkType: 'inner',
+      optional: false,
+    },
+    matter: {
+      type: 'object',
+      linkMeta: 'matter',
+      linkType: 'inner',
+      optional: false,
+    },
+    rate_type: {
+      type: 'object',
+      linkMeta: 'rate_type',
+      linkType: 'inner',
+      optional: false,
+    },
+    rate: {
+      type: 'number',
+      optional: false,
+    },
+    assessment_set: {
+      type: 'array',
+      linkMeta: 'assessment',
+      linkType: 'outer',
+      optional: true,
+    },
+  },
 }

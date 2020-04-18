@@ -11,4 +11,25 @@ export default {
     confirm: true,
     message: messages.deletionQuestion,
   },
+  views: {
+    default: 'matter__contact_person #{id}',
+  },
+  meta: {
+    id: {
+      type: 'number',
+      optional: true,
+    },
+    matter: {
+      type: 'object',
+      linkMeta: 'matter',
+      linkType: 'inner',
+      optional: false,
+    },
+    contact_person: {
+      type: 'object',
+      linkMeta: 'contact_person',
+      linkType: 'inner',
+      optional: false,
+    },
+  },
 }

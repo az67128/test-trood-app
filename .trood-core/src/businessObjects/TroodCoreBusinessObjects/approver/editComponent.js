@@ -2,10 +2,10 @@ import React, { useState } from 'react'
 import style from './editComponent.css'
 import modalsStyle from '$trood/styles/modals.css'
 import classNames from 'classnames'
-import TInput, { INPUT_TYPES } from '$trood/components/TInput'
-import TSelect, { SELECT_TYPES } from '$trood/components/TSelect'
+import { INPUT_TYPES } from '$trood/components/TInput'
 import { RESTIFY_CONFIG } from 'redux-restify'
-import DateTimePicker, { PICKER_TYPES } from '$trood/components/DateTimePicker'
+import { templateApplyValues } from '$trood/helpers/templates'
+import { PICKER_TYPES } from '$trood/components/DateTimePicker'
 
 
 const EditComponent = ({
@@ -13,12 +13,13 @@ const EditComponent = ({
   requestVacationEntities,
   employeeApiActions,
   employeeEntities,
-  modelFormActions,
-  modelErrors,
-  model, 
+  ModalComponents, 
 }) => {
   const [employeeSearch, employeeSearchSet] = useState('')
   const employeeModelConfig = RESTIFY_CONFIG.registeredModels.employee
+  const employeeTemplate = employeeModelConfig.views.selectOption ||
+    employeeModelConfig.views.default ||
+    `employee/{${employeeModelConfig.idField}}`
   const employeeApiConfig = {
     filter: {
       q: employeeSearch 
@@ -40,6 +41,9 @@ const EditComponent = ({
       
   const [requestVacationSearch, requestVacationSearchSet] = useState('')
   const requestVacationModelConfig = RESTIFY_CONFIG.registeredModels.requestVacation
+  const requestVacationTemplate = requestVacationModelConfig.views.selectOption ||
+    requestVacationModelConfig.views.default ||
+    `requestVacation/{${requestVacationModelConfig.idField}}`
   const requestVacationApiConfig = {
     filter: {
       q: requestVacationSearch 
@@ -61,121 +65,73 @@ const EditComponent = ({
       
   return (
     <div className={classNames(style.root, modalsStyle.root)}>
-      <TInput
+      <ModalComponents.ModalInput
         {...{
+          fieldName: 'priority',
           type: INPUT_TYPES.float,
-          label: 'priority',
-          className: modalsStyle.control,
-          value: model.priority,
-          errors: modelErrors.priority,
-          onChange: val => modelFormActions.changeField('priority', val),
-          onValid: () => modelFormActions.resetFieldError('priority'),
-          onInvalid: err => modelFormActions.setFieldError('priority', err),
           validate: {
             checkOnBlur: true,
             required: true,
           },
         }}
       />
-      <TSelect
+      <ModalComponents.ModalSelect
         {...{
-          className: modalsStyle.control,
+          fieldName: 'employee',
           items: employeeArray.map(item => ({
             value: item[employeeModelConfig.idField], 
-            label: item.name || item[employeeModelConfig.idField],
+            label: templateApplyValues(employeeTemplate, item),
           })),
-          values: model.employee 
-            ? [model.employee] 
-            : [],
-          onChange: vals => modelFormActions.changeField('employee',
-            vals[0],
-          ),
           onSearch: (value) => employeeSearchSet(value ? encodeURIComponent(value) : ''),
           emptyItemsLabel: employeeArrayIsLoading ? '' : undefined,
           onScrollToEnd: employeeNextPageAction,
           isLoading: employeeArrayIsLoading,
           missingValueResolver: value => 
             employeeEntities.getById(value)[employeeModelConfig.idField],
-          label: 'employee',
-          errors: modelErrors.employee,
-          onValid: () => modelFormActions.resetFieldError('employee'),
-          onInvalid: err => modelFormActions.setFieldError('employee', err),
-          type: SELECT_TYPES.filterDropdown,
           multi: false,
-          clearable: true,
-          placeHolder: 'Not set',
+          clearable: false,
         }}
       />
-      <TSelect
+      <ModalComponents.ModalSelect
         {...{
-          className: modalsStyle.control,
+          fieldName: 'requestVacation',
           items: requestVacationArray.map(item => ({
             value: item[requestVacationModelConfig.idField], 
-            label: item.name || item[requestVacationModelConfig.idField],
+            label: templateApplyValues(requestVacationTemplate, item),
           })),
-          values: model.requestVacation 
-            ? [model.requestVacation] 
-            : [],
-          onChange: vals => modelFormActions.changeField('requestVacation',
-            vals[0],
-          ),
           onSearch: (value) => requestVacationSearchSet(value ? encodeURIComponent(value) : ''),
           emptyItemsLabel: requestVacationArrayIsLoading ? '' : undefined,
           onScrollToEnd: requestVacationNextPageAction,
           isLoading: requestVacationArrayIsLoading,
           missingValueResolver: value => 
             requestVacationEntities.getById(value)[requestVacationModelConfig.idField],
-          label: 'requestVacation',
-          errors: modelErrors.requestVacation,
-          onValid: () => modelFormActions.resetFieldError('requestVacation'),
-          onInvalid: err => modelFormActions.setFieldError('requestVacation', err),
-          type: SELECT_TYPES.filterDropdown,
           multi: false,
-          clearable: false,
-          placeHolder: 'Not set',
+          clearable: true,
         }}
       />
-      <TInput
+      <ModalComponents.ModalInput
         {...{
+          fieldName: 'approve',
           type: INPUT_TYPES.multi,
-          label: 'approve',
-          className: modalsStyle.control,
-          value: model.approve,
-          errors: modelErrors.approve,
-          onChange: val => modelFormActions.changeField('approve', val),
-          onValid: () => modelFormActions.resetFieldError('approve'),
-          onInvalid: err => modelFormActions.setFieldError('approve', err),
           validate: {
             checkOnBlur: true,
             required: false,
           },
         }}
       />
-      <TInput
+      <ModalComponents.ModalInput
         {...{
+          fieldName: 'comment',
           type: INPUT_TYPES.multi,
-          label: 'comment',
-          className: modalsStyle.control,
-          value: model.comment,
-          errors: modelErrors.comment,
-          onChange: val => modelFormActions.changeField('comment', val),
-          onValid: () => modelFormActions.resetFieldError('comment'),
-          onInvalid: err => modelFormActions.setFieldError('comment', err),
           validate: {
             checkOnBlur: true,
             required: false,
           },
         }}
       />
-      <DateTimePicker
+      <ModalComponents.ModalDateTimePicker
         {...{
-          label: 'approveDate',
-          className: modalsStyle.control,
-          value: model.approveDate,
-          errors: modelErrors.approveDate,
-          onChange: val => modelFormActions.changeField('approveDate', val),
-          onValid: () => modelFormActions.resetFieldError('approveDate'),
-          onInvalid: err => modelFormActions.setFieldError('approveDate', err),
+          fieldName: 'approveDate',
           type: PICKER_TYPES.dateTime,
           validate: {
             checkOnBlur: true,

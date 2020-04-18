@@ -19,4 +19,61 @@ export default {
     confirm: true,
     message: messages.deletionQuestion,
   },
+  views: {
+    default: 'expense #{id}',
+  },
+  meta: {
+    id: {
+      type: 'number',
+      optional: true,
+    },
+    author: {
+      type: 'object',
+      linkMeta: 'employee',
+      linkType: 'inner',
+      optional: false,
+    },
+    amount: {
+      type: 'number',
+      optional: false,
+    },
+    name: {
+      type: 'string',
+      optional: false,
+    },
+    created: {
+      type: 'datetime',
+      optional: true,
+    },
+    expense_type: {
+      type: 'object',
+      linkMeta: 'expense_type',
+      linkType: 'inner',
+      optional: true,
+    },
+    billiable: {
+      type: 'bool',
+      optional: true,
+    },
+    details: {
+      type: 'string',
+      optional: true,
+    },
+    bill: {
+      type: 'object',
+      linkMeta: 'bill',
+      linkType: 'inner',
+      optional: true,
+    },
+    matter: {
+      type: 'object',
+      linkMeta: 'matter',
+      linkType: 'inner',
+      optional: true,
+    },
+    expense_date: {
+      type: 'datetime',
+      optional: true,
+    },
+  },
 }

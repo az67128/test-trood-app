@@ -2,11 +2,10 @@ import React, { useState } from 'react'
 import style from './editComponent.css'
 import modalsStyle from '$trood/styles/modals.css'
 import classNames from 'classnames'
-import TInput, { INPUT_TYPES } from '$trood/components/TInput'
-import TSelect, { SELECT_TYPES } from '$trood/components/TSelect'
+import { INPUT_TYPES } from '$trood/components/TInput'
 import { RESTIFY_CONFIG } from 'redux-restify'
-import TCheckbox from '$trood/components/TCheckbox'
-import DateTimePicker, { PICKER_TYPES } from '$trood/components/DateTimePicker'
+import { templateApplyValues } from '$trood/helpers/templates'
+import { PICKER_TYPES } from '$trood/components/DateTimePicker'
 
 
 const EditComponent = ({
@@ -22,12 +21,13 @@ const EditComponent = ({
   activityStatusEntities,
   employeeApiActions,
   employeeEntities,
-  modelFormActions,
-  modelErrors,
-  model, 
+  ModalComponents, 
 }) => {
   const [employeeSearch, employeeSearchSet] = useState('')
   const employeeModelConfig = RESTIFY_CONFIG.registeredModels.employee
+  const employeeTemplate = employeeModelConfig.views.selectOption ||
+    employeeModelConfig.views.default ||
+    `employee/{${employeeModelConfig.idField}}`
   const employeeApiConfig = {
     filter: {
       q: employeeSearch 
@@ -49,6 +49,9 @@ const EditComponent = ({
       
   const [activityStatusSearch, activityStatusSearchSet] = useState('')
   const activityStatusModelConfig = RESTIFY_CONFIG.registeredModels.activityStatus
+  const activityStatusTemplate = activityStatusModelConfig.views.selectOption ||
+    activityStatusModelConfig.views.default ||
+    `activityStatus/{${activityStatusModelConfig.idField}}`
   const activityStatusApiConfig = {
     filter: {
       q: activityStatusSearch 
@@ -70,6 +73,9 @@ const EditComponent = ({
       
   const [matterSearch, matterSearchSet] = useState('')
   const matterModelConfig = RESTIFY_CONFIG.registeredModels.matter
+  const matterTemplate = matterModelConfig.views.selectOption ||
+    matterModelConfig.views.default ||
+    `matter/{${matterModelConfig.idField}}`
   const matterApiConfig = {
     filter: {
       q: matterSearch 
@@ -91,6 +97,9 @@ const EditComponent = ({
       
   const [activityTypeSearch, activityTypeSearchSet] = useState('')
   const activityTypeModelConfig = RESTIFY_CONFIG.registeredModels.activityType
+  const activityTypeTemplate = activityTypeModelConfig.views.selectOption ||
+    activityTypeModelConfig.views.default ||
+    `activityType/{${activityTypeModelConfig.idField}}`
   const activityTypeApiConfig = {
     filter: {
       q: activityTypeSearch 
@@ -112,6 +121,9 @@ const EditComponent = ({
       
   const [invitationListSearch, invitationListSearchSet] = useState('')
   const invitationListModelConfig = RESTIFY_CONFIG.registeredModels.invitationList
+  const invitationListTemplate = invitationListModelConfig.views.selectOption ||
+    invitationListModelConfig.views.default ||
+    `invitationList/{${invitationListModelConfig.idField}}`
   const invitationListApiConfig = {
     filter: {
       q: invitationListSearch 
@@ -133,6 +145,9 @@ const EditComponent = ({
       
   const [activityAccessStatusSearch, activityAccessStatusSearchSet] = useState('')
   const activityAccessStatusModelConfig = RESTIFY_CONFIG.registeredModels.activityAccessStatus
+  const activityAccessStatusTemplate = activityAccessStatusModelConfig.views.selectOption ||
+    activityAccessStatusModelConfig.views.default ||
+    `activityAccessStatus/{${activityAccessStatusModelConfig.idField}}`
   const activityAccessStatusApiConfig = {
     filter: {
       q: activityAccessStatusSearch 
@@ -154,162 +169,96 @@ const EditComponent = ({
       
   return (
     <div className={classNames(style.root, modalsStyle.root)}>
-      <TInput
+      <ModalComponents.ModalInput
         {...{
+          fieldName: 'name',
           type: INPUT_TYPES.multi,
-          label: 'name',
-          className: modalsStyle.control,
-          value: model.name,
-          errors: modelErrors.name,
-          onChange: val => modelFormActions.changeField('name', val),
-          onValid: () => modelFormActions.resetFieldError('name'),
-          onInvalid: err => modelFormActions.setFieldError('name', err),
           validate: {
             checkOnBlur: true,
             required: true,
           },
         }}
       />
-      <TSelect
+      <ModalComponents.ModalSelect
         {...{
-          className: modalsStyle.control,
+          fieldName: 'responsible',
           items: employeeArray.map(item => ({
             value: item[employeeModelConfig.idField], 
-            label: item.name || item[employeeModelConfig.idField],
+            label: templateApplyValues(employeeTemplate, item),
           })),
-          values: model.responsible 
-            ? [model.responsible] 
-            : [],
-          onChange: vals => modelFormActions.changeField('responsible',
-            vals[0],
-          ),
           onSearch: (value) => employeeSearchSet(value ? encodeURIComponent(value) : ''),
           emptyItemsLabel: employeeArrayIsLoading ? '' : undefined,
           onScrollToEnd: employeeNextPageAction,
           isLoading: employeeArrayIsLoading,
           missingValueResolver: value => 
             employeeEntities.getById(value)[employeeModelConfig.idField],
-          label: 'responsible',
-          errors: modelErrors.responsible,
-          onValid: () => modelFormActions.resetFieldError('responsible'),
-          onInvalid: err => modelFormActions.setFieldError('responsible', err),
-          type: SELECT_TYPES.filterDropdown,
-          multi: false,
-          clearable: true,
-          placeHolder: 'Not set',
-        }}
-      />
-      <TSelect
-        {...{
-          className: modalsStyle.control,
-          items: employeeArray.map(item => ({
-            value: item[employeeModelConfig.idField], 
-            label: item.name || item[employeeModelConfig.idField],
-          })),
-          values: model.executor 
-            ? [model.executor] 
-            : [],
-          onChange: vals => modelFormActions.changeField('executor',
-            vals[0],
-          ),
-          onSearch: (value) => employeeSearchSet(value ? encodeURIComponent(value) : ''),
-          emptyItemsLabel: employeeArrayIsLoading ? '' : undefined,
-          onScrollToEnd: employeeNextPageAction,
-          isLoading: employeeArrayIsLoading,
-          missingValueResolver: value => 
-            employeeEntities.getById(value)[employeeModelConfig.idField],
-          label: 'executor',
-          errors: modelErrors.executor,
-          onValid: () => modelFormActions.resetFieldError('executor'),
-          onInvalid: err => modelFormActions.setFieldError('executor', err),
-          type: SELECT_TYPES.filterDropdown,
           multi: false,
           clearable: false,
-          placeHolder: 'Not set',
         }}
       />
-      <TSelect
+      <ModalComponents.ModalSelect
         {...{
-          className: modalsStyle.control,
+          fieldName: 'executor',
+          items: employeeArray.map(item => ({
+            value: item[employeeModelConfig.idField], 
+            label: templateApplyValues(employeeTemplate, item),
+          })),
+          onSearch: (value) => employeeSearchSet(value ? encodeURIComponent(value) : ''),
+          emptyItemsLabel: employeeArrayIsLoading ? '' : undefined,
+          onScrollToEnd: employeeNextPageAction,
+          isLoading: employeeArrayIsLoading,
+          missingValueResolver: value => 
+            employeeEntities.getById(value)[employeeModelConfig.idField],
+          multi: false,
+          clearable: true,
+        }}
+      />
+      <ModalComponents.ModalSelect
+        {...{
+          fieldName: 'activityStatus',
           items: activityStatusArray.map(item => ({
             value: item[activityStatusModelConfig.idField], 
-            label: item.name || item[activityStatusModelConfig.idField],
+            label: templateApplyValues(activityStatusTemplate, item),
           })),
-          values: model.activityStatus 
-            ? [model.activityStatus] 
-            : [],
-          onChange: vals => modelFormActions.changeField('activityStatus',
-            vals[0],
-          ),
           onSearch: (value) => activityStatusSearchSet(value ? encodeURIComponent(value) : ''),
           emptyItemsLabel: activityStatusArrayIsLoading ? '' : undefined,
           onScrollToEnd: activityStatusNextPageAction,
           isLoading: activityStatusArrayIsLoading,
           missingValueResolver: value => 
             activityStatusEntities.getById(value)[activityStatusModelConfig.idField],
-          label: 'activityStatus',
-          errors: modelErrors.activityStatus,
-          onValid: () => modelFormActions.resetFieldError('activityStatus'),
-          onInvalid: err => modelFormActions.setFieldError('activityStatus', err),
-          type: SELECT_TYPES.filterDropdown,
           multi: false,
-          clearable: true,
-          placeHolder: 'Not set',
+          clearable: false,
         }}
       />
-      <TSelect
+      <ModalComponents.ModalSelect
         {...{
-          className: modalsStyle.control,
+          fieldName: 'matter',
           items: matterArray.map(item => ({
             value: item[matterModelConfig.idField], 
-            label: item.name || item[matterModelConfig.idField],
+            label: templateApplyValues(matterTemplate, item),
           })),
-          values: model.matter 
-            ? [model.matter] 
-            : [],
-          onChange: vals => modelFormActions.changeField('matter',
-            vals[0],
-          ),
           onSearch: (value) => matterSearchSet(value ? encodeURIComponent(value) : ''),
           emptyItemsLabel: matterArrayIsLoading ? '' : undefined,
           onScrollToEnd: matterNextPageAction,
           isLoading: matterArrayIsLoading,
           missingValueResolver: value => 
             matterEntities.getById(value)[matterModelConfig.idField],
-          label: 'matter',
-          errors: modelErrors.matter,
-          onValid: () => modelFormActions.resetFieldError('matter'),
-          onInvalid: err => modelFormActions.setFieldError('matter', err),
-          type: SELECT_TYPES.filterDropdown,
           multi: false,
-          clearable: false,
-          placeHolder: 'Not set',
+          clearable: true,
         }}
       />
-      <TCheckbox
+      <ModalComponents.ModalCheckbox
           {...{
-            label: 'important',
-          className: modalsStyle.control,
-          value: model.important,
-          errors: modelErrors.important,
-          onChange: val => modelFormActions.changeField('important', val),
-          onValid: () => modelFormActions.resetFieldError('important'),
-          onInvalid: err => modelFormActions.setFieldError('important', err),
+            fieldName: 'important',
             validate: {
               checkOnBlur: true,
               required: false,
             },
           }}
         />
-      <DateTimePicker
+      <ModalComponents.ModalDateTimePicker
         {...{
-          label: 'created',
-          className: modalsStyle.control,
-          value: model.created,
-          errors: modelErrors.created,
-          onChange: val => modelFormActions.changeField('created', val),
-          onValid: () => modelFormActions.resetFieldError('created'),
-          onInvalid: err => modelFormActions.setFieldError('created', err),
+          fieldName: 'created',
           type: PICKER_TYPES.dateTime,
           validate: {
             checkOnBlur: true,
@@ -318,31 +267,19 @@ const EditComponent = ({
           },
         }}
       />
-      <TInput
+      <ModalComponents.ModalInput
         {...{
+          fieldName: 'details',
           type: INPUT_TYPES.multi,
-          label: 'details',
-          className: modalsStyle.control,
-          value: model.details,
-          errors: modelErrors.details,
-          onChange: val => modelFormActions.changeField('details', val),
-          onValid: () => modelFormActions.resetFieldError('details'),
-          onInvalid: err => modelFormActions.setFieldError('details', err),
           validate: {
             checkOnBlur: true,
             required: false,
           },
         }}
       />
-      <DateTimePicker
+      <ModalComponents.ModalDateTimePicker
         {...{
-          label: 'start',
-          className: modalsStyle.control,
-          value: model.start,
-          errors: modelErrors.start,
-          onChange: val => modelFormActions.changeField('start', val),
-          onValid: () => modelFormActions.resetFieldError('start'),
-          onInvalid: err => modelFormActions.setFieldError('start', err),
+          fieldName: 'start',
           type: PICKER_TYPES.dateTime,
           validate: {
             checkOnBlur: true,
@@ -351,15 +288,9 @@ const EditComponent = ({
           },
         }}
       />
-      <DateTimePicker
+      <ModalComponents.ModalDateTimePicker
         {...{
-          label: 'deadline',
-          className: modalsStyle.control,
-          value: model.deadline,
-          errors: modelErrors.deadline,
-          onChange: val => modelFormActions.changeField('deadline', val),
-          onValid: () => modelFormActions.resetFieldError('deadline'),
-          onInvalid: err => modelFormActions.setFieldError('deadline', err),
+          fieldName: 'deadline',
           type: PICKER_TYPES.dateTime,
           validate: {
             checkOnBlur: true,
@@ -368,117 +299,69 @@ const EditComponent = ({
           },
         }}
       />
-      <TCheckbox
+      <ModalComponents.ModalCheckbox
           {...{
-            label: 'deleted',
-          className: modalsStyle.control,
-          value: model.deleted,
-          errors: modelErrors.deleted,
-          onChange: val => modelFormActions.changeField('deleted', val),
-          onValid: () => modelFormActions.resetFieldError('deleted'),
-          onInvalid: err => modelFormActions.setFieldError('deleted', err),
+            fieldName: 'deleted',
             validate: {
               checkOnBlur: true,
               required: false,
             },
           }}
         />
-      <TSelect
+      <ModalComponents.ModalSelect
         {...{
-          className: modalsStyle.control,
+          fieldName: 'activityType',
           items: activityTypeArray.map(item => ({
             value: item[activityTypeModelConfig.idField], 
-            label: item.name || item[activityTypeModelConfig.idField],
+            label: templateApplyValues(activityTypeTemplate, item),
           })),
-          values: model.activityType 
-            ? [model.activityType] 
-            : [],
-          onChange: vals => modelFormActions.changeField('activityType',
-            vals[0],
-          ),
           onSearch: (value) => activityTypeSearchSet(value ? encodeURIComponent(value) : ''),
           emptyItemsLabel: activityTypeArrayIsLoading ? '' : undefined,
           onScrollToEnd: activityTypeNextPageAction,
           isLoading: activityTypeArrayIsLoading,
           missingValueResolver: value => 
             activityTypeEntities.getById(value)[activityTypeModelConfig.idField],
-          label: 'activityType',
-          errors: modelErrors.activityType,
-          onValid: () => modelFormActions.resetFieldError('activityType'),
-          onInvalid: err => modelFormActions.setFieldError('activityType', err),
-          type: SELECT_TYPES.filterDropdown,
           multi: false,
-          clearable: true,
-          placeHolder: 'Not set',
+          clearable: false,
         }}
       />
-      <TSelect
+      <ModalComponents.ModalSelect
         {...{
-          className: modalsStyle.control,
+          fieldName: 'invitationList',
           items: invitationListArray.map(item => ({
             value: item[invitationListModelConfig.idField], 
-            label: item.name || item[invitationListModelConfig.idField],
+            label: templateApplyValues(invitationListTemplate, item),
           })),
-          values: model.invitationList 
-            ? [model.invitationList] 
-            : [],
-          onChange: vals => modelFormActions.changeField('invitationList',
-            vals[0],
-          ),
           onSearch: (value) => invitationListSearchSet(value ? encodeURIComponent(value) : ''),
           emptyItemsLabel: invitationListArrayIsLoading ? '' : undefined,
           onScrollToEnd: invitationListNextPageAction,
           isLoading: invitationListArrayIsLoading,
           missingValueResolver: value => 
             invitationListEntities.getById(value)[invitationListModelConfig.idField],
-          label: 'invitationList',
-          errors: modelErrors.invitationList,
-          onValid: () => modelFormActions.resetFieldError('invitationList'),
-          onInvalid: err => modelFormActions.setFieldError('invitationList', err),
-          type: SELECT_TYPES.filterDropdown,
           multi: false,
-          clearable: false,
-          placeHolder: 'Not set',
+          clearable: true,
         }}
       />
-      <TSelect
+      <ModalComponents.ModalSelect
         {...{
-          className: modalsStyle.control,
+          fieldName: 'activityAccessStatus',
           items: activityAccessStatusArray.map(item => ({
             value: item[activityAccessStatusModelConfig.idField], 
-            label: item.name || item[activityAccessStatusModelConfig.idField],
+            label: templateApplyValues(activityAccessStatusTemplate, item),
           })),
-          values: model.activityAccessStatus 
-            ? [model.activityAccessStatus] 
-            : [],
-          onChange: vals => modelFormActions.changeField('activityAccessStatus',
-            vals[0],
-          ),
           onSearch: (value) => activityAccessStatusSearchSet(value ? encodeURIComponent(value) : ''),
           emptyItemsLabel: activityAccessStatusArrayIsLoading ? '' : undefined,
           onScrollToEnd: activityAccessStatusNextPageAction,
           isLoading: activityAccessStatusArrayIsLoading,
           missingValueResolver: value => 
             activityAccessStatusEntities.getById(value)[activityAccessStatusModelConfig.idField],
-          label: 'activityAccessStatus',
-          errors: modelErrors.activityAccessStatus,
-          onValid: () => modelFormActions.resetFieldError('activityAccessStatus'),
-          onInvalid: err => modelFormActions.setFieldError('activityAccessStatus', err),
-          type: SELECT_TYPES.filterDropdown,
           multi: false,
-          clearable: true,
-          placeHolder: 'Not set',
+          clearable: false,
         }}
       />
-      <TCheckbox
+      <ModalComponents.ModalCheckbox
           {...{
-            label: 'haveTime',
-          className: modalsStyle.control,
-          value: model.haveTime,
-          errors: modelErrors.haveTime,
-          onChange: val => modelFormActions.changeField('haveTime', val),
-          onValid: () => modelFormActions.resetFieldError('haveTime'),
-          onInvalid: err => modelFormActions.setFieldError('haveTime', err),
+            fieldName: 'haveTime',
             validate: {
               checkOnBlur: true,
               required: false,

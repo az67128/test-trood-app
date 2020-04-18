@@ -2,26 +2,29 @@ import React, { useState } from 'react'
 import style from './editComponent.css'
 import modalsStyle from '$trood/styles/modals.css'
 import classNames from 'classnames'
-import TSelect, { SELECT_TYPES } from '$trood/components/TSelect'
 import { RESTIFY_CONFIG } from 'redux-restify'
-import TInput, { INPUT_TYPES } from '$trood/components/TInput'
-import DateTimePicker, { PICKER_TYPES } from '$trood/components/DateTimePicker'
+import { templateApplyValues } from '$trood/helpers/templates'
+import { INPUT_TYPES } from '$trood/components/TInput'
+import { PICKER_TYPES } from '$trood/components/DateTimePicker'
 import { snakeToCamel } from '$trood/helpers/namingNotation'
 
 const EditComponent = ({
   docCustomTypeApiActions,
   docCustomTypeEntities,
+  modelFormActions,
+  model,
   targetObjectApiActions,
   targetObjectEntities,
   employeeApiActions,
   employeeEntities,
-  modelFormActions,
-  modelErrors,
-  model,
+  ModalComponents,
   ...restProps 
 }) => {
   const [employeeSearch, employeeSearchSet] = useState('')
   const employeeModelConfig = RESTIFY_CONFIG.registeredModels.employee
+  const employeeTemplate = employeeModelConfig.views.selectOption ||
+    employeeModelConfig.views.default ||
+    `employee/{${employeeModelConfig.idField}}`
   const employeeApiConfig = {
     filter: {
       q: employeeSearch 
@@ -45,6 +48,9 @@ const EditComponent = ({
   const targetObjectGenericEnteties = restProps[targetObjectModelName + 'Entities']
   const [targetObjectSearch, targetObjectSearchSet] = useState('')
   const targetObjectModelConfig = RESTIFY_CONFIG.registeredModels[targetObjectModelName]
+  const targetObjectTemplate = targetObjectModelConfig.views.selectOption ||
+    targetObjectModelConfig.views.default ||
+    `targetObject/{${targetObjectModelConfig.idField}}`
   const targetObjectApiConfig = {
     filter: {
       q: targetObjectSearch 
@@ -66,6 +72,9 @@ const EditComponent = ({
       
   const [docCustomTypeSearch, docCustomTypeSearchSet] = useState('')
   const docCustomTypeModelConfig = RESTIFY_CONFIG.registeredModels.docCustomType
+  const docCustomTypeTemplate = docCustomTypeModelConfig.views.selectOption ||
+    docCustomTypeModelConfig.views.default ||
+    `docCustomType/{${docCustomTypeModelConfig.idField}}`
   const docCustomTypeApiConfig = {
     filter: {
       q: docCustomTypeSearch 
@@ -87,45 +96,27 @@ const EditComponent = ({
       
   return (
     <div className={classNames(style.root, modalsStyle.root)}>
-      <TSelect
+      <ModalComponents.ModalSelect
         {...{
-          className: modalsStyle.control,
+          fieldName: 'author',
           items: employeeArray.map(item => ({
             value: item[employeeModelConfig.idField], 
-            label: item.name || item[employeeModelConfig.idField],
+            label: templateApplyValues(employeeTemplate, item),
           })),
-          values: model.author 
-            ? [model.author] 
-            : [],
-          onChange: vals => modelFormActions.changeField('author',
-            vals[0],
-          ),
           onSearch: (value) => employeeSearchSet(value ? encodeURIComponent(value) : ''),
           emptyItemsLabel: employeeArrayIsLoading ? '' : undefined,
           onScrollToEnd: employeeNextPageAction,
           isLoading: employeeArrayIsLoading,
           missingValueResolver: value => 
             employeeEntities.getById(value)[employeeModelConfig.idField],
-          label: 'author',
-          errors: modelErrors.author,
-          onValid: () => modelFormActions.resetFieldError('author'),
-          onInvalid: err => modelFormActions.setFieldError('author', err),
-          type: SELECT_TYPES.filterDropdown,
           multi: false,
-          clearable: true,
-          placeHolder: 'Not set',
+          clearable: false,
         }}
       />
-      <TInput
+      <ModalComponents.ModalInput
         {...{
+          fieldName: 'file',
           type: INPUT_TYPES.multi,
-          label: 'file',
-          className: modalsStyle.control,
-          value: model.file,
-          errors: modelErrors.file,
-          onChange: val => modelFormActions.changeField('file', val),
-          onValid: () => modelFormActions.resetFieldError('file'),
-          onInvalid: err => modelFormActions.setFieldError('file', err),
           validate: {
             checkOnBlur: true,
             required: true,
@@ -133,8 +124,9 @@ const EditComponent = ({
         }}
       />
       <div className={style.row}>
-        <TSelect 
+        <ModalComponents.ModalSelect
           {...{
+            fieldName: ['targetObject', '_object'],
             className: undefined,
             label: 'targetObject_type',
             items: [
@@ -146,70 +138,43 @@ const EditComponent = ({
               { value: 'employee' },
               { value: 'bill' },
             ],
-            type: SELECT_TYPES.filterDropdown,
-            clearable: true,
-            values: model.targetObject && model.targetObject._object ? [model.targetObject._object] : [],
-            placeHolder: 'Not set',
+            clearable: false,
             onChange: vals => modelFormActions.changeField('targetObject', { _object: vals[0] }),
-            onInvalid: err => modelFormActions.setFieldError('targetObject', err),
             validate: {
               checkOnBlur: true,
               required: true,
             },
           }} 
         />
-        <TSelect
+        <ModalComponents.ModalSelect
           {...{
+            fieldName: ['targetObject', targetObjectModelConfig.idField],
             items: targetObjectArray.map(item => ({
               value: item[targetObjectModelConfig.idField], 
-              label: item.name || item[targetObjectModelConfig.idField],
+              label: templateApplyValues(targetObjectTemplate, item),
             })),
-            values: model.targetObject[targetObjectModelConfig.idField]  
-              ? [model.targetObject[targetObjectModelConfig.idField] ] 
-              : [],
-            onChange: vals => modelFormActions.changeField(['targetObject', targetObjectModelConfig.idField],
-              vals[0],
-            ),
             onSearch: (value) => targetObjectSearchSet(value ? encodeURIComponent(value) : ''),
             emptyItemsLabel: targetObjectArrayIsLoading ? '' : undefined,
             onScrollToEnd: targetObjectNextPageAction,
             isLoading: targetObjectArrayIsLoading,
-            label: 'targetObject',
-            errors: modelErrors.targetObject,
-            onValid: () => modelFormActions.resetFieldError('targetObject'),
-            onInvalid: err => modelFormActions.setFieldError('targetObject', err),
-            type: SELECT_TYPES.filterDropdown,
             multi: false,
-            clearable: true,
-            placeHolder: 'Not set',
+            clearable: false,
           }}
         />
       </div>
-      <TInput
+      <ModalComponents.ModalInput
         {...{
+          fieldName: 'documentType',
           type: INPUT_TYPES.multi,
-          label: 'documentType',
-          className: modalsStyle.control,
-          value: model.documentType,
-          errors: modelErrors.documentType,
-          onChange: val => modelFormActions.changeField('documentType', val),
-          onValid: () => modelFormActions.resetFieldError('documentType'),
-          onInvalid: err => modelFormActions.setFieldError('documentType', err),
           validate: {
             checkOnBlur: true,
             required: true,
           },
         }}
       />
-      <DateTimePicker
+      <ModalComponents.ModalDateTimePicker
         {...{
-          label: 'created',
-          className: modalsStyle.control,
-          value: model.created,
-          errors: modelErrors.created,
-          onChange: val => modelFormActions.changeField('created', val),
-          onValid: () => modelFormActions.resetFieldError('created'),
-          onInvalid: err => modelFormActions.setFieldError('created', err),
+          fieldName: 'created',
           type: PICKER_TYPES.dateTime,
           validate: {
             checkOnBlur: true,
@@ -218,61 +183,37 @@ const EditComponent = ({
           },
         }}
       />
-      <TSelect
+      <ModalComponents.ModalSelect
         {...{
-          className: modalsStyle.control,
+          fieldName: 'docCustomType',
           items: docCustomTypeArray.map(item => ({
             value: item[docCustomTypeModelConfig.idField], 
-            label: item.name || item[docCustomTypeModelConfig.idField],
+            label: templateApplyValues(docCustomTypeTemplate, item),
           })),
-          values: model.docCustomType 
-            ? [model.docCustomType] 
-            : [],
-          onChange: vals => modelFormActions.changeField('docCustomType',
-            vals[0],
-          ),
           onSearch: (value) => docCustomTypeSearchSet(value ? encodeURIComponent(value) : ''),
           emptyItemsLabel: docCustomTypeArrayIsLoading ? '' : undefined,
           onScrollToEnd: docCustomTypeNextPageAction,
           isLoading: docCustomTypeArrayIsLoading,
           missingValueResolver: value => 
             docCustomTypeEntities.getById(value)[docCustomTypeModelConfig.idField],
-          label: 'docCustomType',
-          errors: modelErrors.docCustomType,
-          onValid: () => modelFormActions.resetFieldError('docCustomType'),
-          onInvalid: err => modelFormActions.setFieldError('docCustomType', err),
-          type: SELECT_TYPES.filterDropdown,
           multi: false,
-          clearable: false,
-          placeHolder: 'Not set',
+          clearable: true,
         }}
       />
-      <TInput
+      <ModalComponents.ModalInput
         {...{
+          fieldName: 'description',
           type: INPUT_TYPES.multi,
-          label: 'description',
-          className: modalsStyle.control,
-          value: model.description,
-          errors: modelErrors.description,
-          onChange: val => modelFormActions.changeField('description', val),
-          onValid: () => modelFormActions.resetFieldError('description'),
-          onInvalid: err => modelFormActions.setFieldError('description', err),
           validate: {
             checkOnBlur: true,
             required: false,
           },
         }}
       />
-      <TInput
+      <ModalComponents.ModalInput
         {...{
+          fieldName: 'filename',
           type: INPUT_TYPES.multi,
-          label: 'filename',
-          className: modalsStyle.control,
-          value: model.filename,
-          errors: modelErrors.filename,
-          onChange: val => modelFormActions.changeField('filename', val),
-          onValid: () => modelFormActions.resetFieldError('filename'),
-          onInvalid: err => modelFormActions.setFieldError('filename', err),
           validate: {
             checkOnBlur: true,
             required: true,

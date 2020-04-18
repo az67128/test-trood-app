@@ -12,4 +12,29 @@ export default {
     confirm: true,
     message: messages.deletionQuestion,
   },
+  views: {
+    default: 'client_rate #{id}',
+  },
+  meta: {
+    id: {
+      type: 'number',
+      optional: true,
+    },
+    client: {
+      type: 'object',
+      linkMeta: 'client',
+      linkType: 'inner',
+      optional: false,
+    },
+    employee_position: {
+      type: 'object',
+      linkMeta: 'employee_position',
+      linkType: 'inner',
+      optional: false,
+    },
+    rate: {
+      type: 'number',
+      optional: false,
+    },
+  },
 }
