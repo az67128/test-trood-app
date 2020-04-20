@@ -23,9 +23,6 @@ import configRestify from './configRestify'
 
 import registerServiceWorker from './registerServiceWorker'
 
-import whyDidYouRender from '@welldone-software/why-did-you-render';
-whyDidYouRender(React);
-
 if (!process.env.TEST) {
   const history = qhistory(
     createBrowserHistory(),

@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import memoizeOne from 'memoize-one'
-import deepEqual from 'deep-equal'
 
 import {
   api,
@@ -14,6 +13,8 @@ import {
 } from 'redux-restify'
 
 import { getPageChildContainer } from '$trood/pageManager'
+
+import { withService } from '$trood/serviceManager'
 
 import modalsStyle from '$trood/styles/modals.css'
 
@@ -277,6 +278,7 @@ const getEntityEditComponent = (entityComponentName) => (modelName, modelConfig)
   }
 
   const entitiesToGet = getEntitiesToGet(modelName, currentModel)
+  const servicesToGet = currentModel.services || []
 
   const getEntityManagerContext = (entityId, parents, prevForm, nextParents) => {
     let realNextParents = nextParents
@@ -316,9 +318,9 @@ const getEntityEditComponent = (entityComponentName) => (modelName, modelConfig)
         <div {...{
           className,
           'data-cy': dataCyName,
-        }} >
+        }}>
           <EntityManagerContext.Provider value={contextValue}>
-          <AuthManagerContext.Consumer>
+            <AuthManagerContext.Consumer>
               {({ checkCustodianCreateRule, checkCustodianUpdateRule, checkCustodianGetRule }) => {
                 const editMaskChecker = model.id ? checkCustodianUpdateRule : checkCustodianCreateRule
                 const entities = this.props[modelName + 'Entities']
@@ -641,18 +643,20 @@ const getEntityEditComponent = (entityComponentName) => (modelName, modelConfig)
   }
 
   if (entityComponentName === ENTITY_COMPONENT_INLINE_EDIT) {
-    return connect(
+    return withService(
+      servicesToGet,
       stateToProps,
       dispatchToProps,
       mergeProps,
     )(EntityComponentWrapper)
   }
 
-  return registerModal(
-    dataCyName,
+  return withService(
+    servicesToGet,
     stateToProps,
     dispatchToProps,
     mergeProps,
+    (...args) => registerModal(dataCyName, ...args),
   )(EntityComponentWrapper)
 }
 

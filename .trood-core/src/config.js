@@ -305,6 +305,26 @@ export default {
         },
       ],
     },
+    {
+      title: 'Table',
+      url: 'table',
+      type: 'grid',
+      components: [
+        {
+          id: 'table',
+          type: 'TroodCoreComponents/TableView',
+          span: 3,
+          withMargin: true,
+          models: {
+            table: 'activity',
+            activity: 'activity',
+          },
+          props: {
+            editable: true,
+          },
+        },
+      ],
+    },
   ],
   entityPages: {},
 }

@@ -18,6 +18,10 @@ const messages = defineMessages({
 'documents': {
     id: 'documents',
     defaultMessage: 'Documents',
+  },
+'table': {
+    id: 'table',
+    defaultMessage: 'Table',
   }
 })
 
