@@ -27,11 +27,11 @@ export default {
       type: 'number',
       optional: true,
     },
-    bank_name: {
+    bankName: {
       type: 'string',
       optional: true,
     },
-    bank_address: {
+    bankAddress: {
       type: 'string',
       optional: true,
     },

@@ -22,7 +22,7 @@ export default {
       type: 'number',
       optional: true,
     },
-    timer_status: {
+    timerStatus: {
       type: 'object',
       linkMeta: 'timer_status',
       linkType: 'inner',

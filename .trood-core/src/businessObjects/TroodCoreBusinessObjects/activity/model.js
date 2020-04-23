@@ -51,7 +51,7 @@ export default {
       linkType: 'inner',
       optional: true,
     },
-    activity_status: {
+    activityStatus: {
       type: 'object',
       linkMeta: 'activity_status',
       linkType: 'inner',
@@ -87,43 +87,43 @@ export default {
       type: 'bool',
       optional: true,
     },
-    document_set: {
+    documentSet: {
       type: 'generic',
       linkMeta: 'document',
       linkType: 'outer',
       optional: true,
     },
-    comment_set: {
+    commentSet: {
       type: 'generic',
       linkMeta: 'comment',
       linkType: 'outer',
       optional: true,
     },
-    time_entry_set: {
+    timeEntrySet: {
       type: 'array',
       linkMeta: 'time_entry',
       linkType: 'outer',
       optional: true,
     },
-    activity_type: {
+    activityType: {
       type: 'object',
       linkMeta: 'activity_type',
       linkType: 'inner',
       optional: false,
     },
-    invitation_list: {
+    invitationList: {
       type: 'object',
       linkMeta: 'invitation_list',
       linkType: 'inner',
       optional: true,
     },
-    activity_access_status: {
+    activityAccessStatus: {
       type: 'object',
       linkMeta: 'activity_access_status',
       linkType: 'inner',
       optional: false,
     },
-    have_time: {
+    haveTime: {
       type: 'bool',
       optional: true,
     },

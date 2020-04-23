@@ -34,7 +34,7 @@ export default {
       linkType: 'inner',
       optional: false,
     },
-    rate_type: {
+    rateType: {
       type: 'object',
       linkMeta: 'rate_type',
       linkType: 'inner',
@@ -44,7 +44,7 @@ export default {
       type: 'number',
       optional: false,
     },
-    assessment_set: {
+    assessmentSet: {
       type: 'array',
       linkMeta: 'assessment',
       linkType: 'outer',

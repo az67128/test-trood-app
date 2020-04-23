@@ -53,25 +53,25 @@ export default {
       type: 'datetime',
       optional: true,
     },
-    approved_date: {
+    approvedDate: {
       type: 'datetime',
       optional: true,
     },
-    bill_status: {
+    billStatus: {
       type: 'object',
       linkMeta: 'bill_status',
       linkType: 'inner',
       optional: true,
     },
-    date_invoice_sent: {
+    dateInvoiceSent: {
       type: 'datetime',
       optional: true,
     },
-    sum_bill: {
+    sumBill: {
       type: 'number',
       optional: true,
     },
-    total_sum_payment: {
+    totalSumPayment: {
       type: 'number',
       optional: true,
     },
@@ -79,37 +79,37 @@ export default {
       type: 'bool',
       optional: true,
     },
-    time_entry_set: {
+    timeEntrySet: {
       type: 'array',
       linkMeta: 'time_entry',
       linkType: 'outer',
       optional: true,
     },
-    expense_set: {
+    expenseSet: {
       type: 'array',
       linkMeta: 'expense',
       linkType: 'outer',
       optional: true,
     },
-    invoice_set: {
+    invoiceSet: {
       type: 'array',
       linkMeta: 'invoice',
       linkType: 'outer',
       optional: true,
     },
-    document_set: {
+    documentSet: {
       type: 'generic',
       linkMeta: 'document',
       linkType: 'outer',
       optional: true,
     },
-    payment_set: {
+    paymentSet: {
       type: 'array',
       linkMeta: 'payment',
       linkType: 'outer',
       optional: true,
     },
-    date_full_paid: {
+    dateFullPaid: {
       type: 'datetime',
       optional: true,
     },

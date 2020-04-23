@@ -33,7 +33,7 @@ export default {
       type: 'string',
       optional: false,
     },
-    vacancy_status: {
+    vacancyStatus: {
       type: 'object',
       linkMeta: 'vacancy_status',
       linkType: 'inner',
@@ -47,7 +47,7 @@ export default {
       type: 'datetime',
       optional: true,
     },
-    vacancy_candidate_set: {
+    vacancyCandidateSet: {
       type: 'array',
       linkMeta: 'vacancy_candidate',
       linkType: 'outer',

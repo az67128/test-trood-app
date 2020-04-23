@@ -39,7 +39,7 @@ export default {
       type: 'string',
       optional: false,
     },
-    target_object: {
+    targetObject: {
       type: 'generic',
       linkMetaList: [
         'candidate',

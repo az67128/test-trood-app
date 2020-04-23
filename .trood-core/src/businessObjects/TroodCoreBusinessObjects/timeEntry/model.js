@@ -44,7 +44,7 @@ export default {
       linkType: 'inner',
       optional: false,
     },
-    time_entry_billable: {
+    timeEntryBillable: {
       type: 'object',
       linkMeta: 'time_entry_billable',
       linkType: 'inner',
@@ -64,7 +64,7 @@ export default {
       linkType: 'inner',
       optional: false,
     },
-    time_entry_date: {
+    timeEntryDate: {
       type: 'datetime',
       optional: true,
     },
@@ -88,11 +88,11 @@ export default {
       linkType: 'inner',
       optional: true,
     },
-    approved_duration: {
+    approvedDuration: {
       type: 'number',
       optional: true,
     },
-    approved_date: {
+    approvedDate: {
       type: 'datetime',
       optional: true,
     },
@@ -102,7 +102,7 @@ export default {
       linkType: 'inner',
       optional: true,
     },
-    time_entry_status: {
+    timeEntryStatus: {
       type: 'object',
       linkMeta: 'time_entry_status',
       linkType: 'inner',
@@ -112,7 +112,7 @@ export default {
       type: 'number',
       optional: true,
     },
-    approve_rate: {
+    approveRate: {
       type: 'number',
       optional: true,
     },
@@ -120,19 +120,19 @@ export default {
       type: 'bool',
       optional: true,
     },
-    sum_record: {
+    sumRecord: {
       type: 'number',
       optional: true,
     },
-    approved_sum_record: {
+    approvedSumRecord: {
       type: 'number',
       optional: true,
     },
-    have_time: {
+    haveTime: {
       type: 'bool',
       optional: true,
     },
-    time_entry_end_date: {
+    timeEntryEndDate: {
       type: 'datetime',
       optional: true,
     },

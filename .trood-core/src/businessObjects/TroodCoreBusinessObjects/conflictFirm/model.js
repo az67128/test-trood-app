@@ -23,7 +23,7 @@ export default {
       type: 'number',
       optional: true,
     },
-    company_code: {
+    companyCode: {
       type: 'string',
       optional: true,
     },
@@ -41,7 +41,7 @@ export default {
       type: 'datetime',
       optional: true,
     },
-    ur_adress: {
+    urAdress: {
       type: 'string',
       optional: true,
     },

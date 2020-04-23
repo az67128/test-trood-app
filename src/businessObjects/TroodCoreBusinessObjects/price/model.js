@@ -33,7 +33,7 @@ export default {
       type: 'string',
       optional: false,
     },
-    price_unit: {
+    priceUnit: {
       type: 'object',
       linkMeta: 'price_unit',
       linkType: 'inner',
@@ -59,7 +59,7 @@ export default {
       linkType: 'inner',
       optional: true,
     },
-    service_type: {
+    serviceType: {
       type: 'object',
       linkMeta: 'service_type',
       linkType: 'inner',

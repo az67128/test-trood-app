@@ -25,7 +25,7 @@ export default {
       linkType: 'inner',
       optional: false,
     },
-    contact_person: {
+    contactPerson: {
       type: 'object',
       linkMeta: 'contact_person',
       linkType: 'inner',

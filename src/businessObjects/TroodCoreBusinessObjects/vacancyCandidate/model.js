@@ -32,13 +32,13 @@ export default {
       linkType: 'inner',
       optional: false,
     },
-    candidate_status: {
+    candidateStatus: {
       type: 'object',
       linkMeta: 'candidate_status',
       linkType: 'inner',
       optional: false,
     },
-    resolve_candidate: {
+    resolveCandidate: {
       type: 'object',
       linkMeta: 'resolve_candidate',
       linkType: 'inner',
@@ -60,15 +60,15 @@ export default {
       type: 'datetime',
       optional: true,
     },
-    status_date: {
+    statusDate: {
       type: 'datetime',
       optional: true,
     },
-    resolve_date: {
+    resolveDate: {
       type: 'datetime',
       optional: true,
     },
-    comment_set: {
+    commentSet: {
       type: 'generic',
       linkMeta: 'comment',
       linkType: 'outer',

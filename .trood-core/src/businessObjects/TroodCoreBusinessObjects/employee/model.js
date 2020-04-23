@@ -75,23 +75,23 @@ export default {
       type: 'string',
       optional: true,
     },
-    total_rating: {
+    totalRating: {
       type: 'number',
       optional: true,
     },
-    contact_set: {
+    contactSet: {
       type: 'generic',
       linkMeta: 'contact',
       linkType: 'outer',
       optional: true,
     },
-    cv_record_set: {
+    cvRecordSet: {
       type: 'generic',
       linkMeta: 'cv_record',
       linkType: 'outer',
       optional: true,
     },
-    document_set: {
+    documentSet: {
       type: 'generic',
       linkMeta: 'document',
       linkType: 'outer',

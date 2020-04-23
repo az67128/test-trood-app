@@ -37,7 +37,7 @@ export default {
       type: 'string',
       optional: false,
     },
-    client_active_status: {
+    clientActiveStatus: {
       type: 'object',
       linkMeta: 'client_active_status',
       linkType: 'inner',
@@ -49,7 +49,7 @@ export default {
       linkType: 'inner',
       optional: false,
     },
-    client_type: {
+    clientType: {
       type: 'object',
       linkMeta: 'client_type',
       linkType: 'inner',
@@ -59,7 +59,7 @@ export default {
       type: 'datetime',
       optional: true,
     },
-    conflict_check_date: {
+    conflictCheckDate: {
       type: 'datetime',
       optional: true,
     },
@@ -67,55 +67,55 @@ export default {
       type: 'number',
       optional: true,
     },
-    contact_set: {
+    contactSet: {
       type: 'generic',
       linkMeta: 'contact',
       linkType: 'outer',
       optional: true,
     },
-    comment_set: {
+    commentSet: {
       type: 'generic',
       linkMeta: 'comment',
       linkType: 'outer',
       optional: true,
     },
-    document_set: {
+    documentSet: {
       type: 'generic',
       linkMeta: 'document',
       linkType: 'outer',
       optional: true,
     },
-    conflict_firm_set: {
+    conflictFirmSet: {
       type: 'array',
       linkMeta: 'conflict_firm',
       linkType: 'outer',
       optional: true,
     },
-    contact_person_set: {
+    contactPersonSet: {
       type: 'array',
       linkMeta: 'contact_person',
       linkType: 'outer',
       optional: true,
     },
-    matter_set: {
+    matterSet: {
       type: 'array',
       linkMeta: 'matter',
       linkType: 'outer',
       optional: true,
     },
-    requisites_set: {
+    requisitesSet: {
       type: 'array',
       linkMeta: 'requisites',
       linkType: 'outer',
       optional: true,
     },
-    conflict_status: {
+    conflictStatus: {
       type: 'object',
       linkMeta: 'conflict_status',
       linkType: 'inner',
       optional: true,
     },
-    client_rate_set: {
+    clientRateSet: {
       type: 'array',
       linkMeta: 'client_rate',
       linkType: 'outer',

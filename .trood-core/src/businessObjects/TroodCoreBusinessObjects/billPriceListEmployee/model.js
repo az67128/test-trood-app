@@ -19,7 +19,7 @@ export default {
       type: 'number',
       optional: true,
     },
-    bill_price_list: {
+    billPriceList: {
       type: 'object',
       linkMeta: 'bill_price_list',
       linkType: 'inner',

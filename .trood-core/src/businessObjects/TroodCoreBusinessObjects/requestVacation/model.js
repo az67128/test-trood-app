@@ -30,7 +30,7 @@ export default {
       linkType: 'inner',
       optional: false,
     },
-    status_request_vacation: {
+    statusRequestVacation: {
       type: 'object',
       linkMeta: 'status_request_vacation',
       linkType: 'inner',
@@ -40,7 +40,7 @@ export default {
       type: 'datetime',
       optional: true,
     },
-    status_date: {
+    statusDate: {
       type: 'datetime',
       optional: true,
     },
@@ -48,13 +48,13 @@ export default {
       type: 'string',
       optional: true,
     },
-    vacation_period_set: {
+    vacationPeriodSet: {
       type: 'array',
       linkMeta: 'vacation_period',
       linkType: 'outer',
       optional: true,
     },
-    approver_set: {
+    approverSet: {
       type: 'array',
       linkMeta: 'approver',
       linkType: 'outer',

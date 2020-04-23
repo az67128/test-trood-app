@@ -26,7 +26,7 @@ export default {
       linkType: 'inner',
       optional: false,
     },
-    employee_position: {
+    employeePosition: {
       type: 'object',
       linkMeta: 'employee_position',
       linkType: 'inner',

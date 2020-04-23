@@ -60,7 +60,7 @@ export default {
       type: 'string',
       optional: true,
     },
-    contact_set: {
+    contactSet: {
       type: 'generic',
       linkMeta: 'contact',
       linkType: 'outer',

@@ -42,15 +42,15 @@ export default {
       type: 'datetime',
       optional: true,
     },
-    is_min: {
+    isMin: {
       type: 'bool',
       optional: true,
     },
-    is_max: {
+    isMax: {
       type: 'bool',
       optional: true,
     },
-    team_member: {
+    teamMember: {
       type: 'object',
       linkMeta: 'team_member',
       linkType: 'inner',

@@ -26,7 +26,7 @@ export default {
       type: 'number',
       optional: true,
     },
-    legal_name: {
+    legalName: {
       type: 'string',
       optional: true,
     },
@@ -34,7 +34,7 @@ export default {
       type: 'string',
       optional: true,
     },
-    legal_address: {
+    legalAddress: {
       type: 'string',
       optional: true,
     },
@@ -60,7 +60,7 @@ export default {
       linkType: 'inner',
       optional: true,
     },
-    bank_details_set: {
+    bankDetailsSet: {
       type: 'array',
       linkMeta: 'bank_details',
       linkType: 'outer',

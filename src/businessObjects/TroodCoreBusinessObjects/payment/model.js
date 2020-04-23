@@ -31,7 +31,7 @@ export default {
       linkType: 'inner',
       optional: false,
     },
-    sum_payment: {
+    sumPayment: {
       type: 'number',
       optional: false,
     },
@@ -49,7 +49,7 @@ export default {
       type: 'datetime',
       optional: true,
     },
-    payment_date: {
+    paymentDate: {
       type: 'datetime',
       optional: true,
     },

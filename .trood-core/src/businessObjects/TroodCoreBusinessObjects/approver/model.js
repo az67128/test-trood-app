@@ -33,7 +33,7 @@ export default {
       linkType: 'inner',
       optional: false,
     },
-    request_vacation: {
+    requestVacation: {
       type: 'object',
       linkMeta: 'request_vacation',
       linkType: 'inner',
@@ -47,7 +47,7 @@ export default {
       type: 'string',
       optional: true,
     },
-    approve_date: {
+    approveDate: {
       type: 'datetime',
       optional: true,
     },

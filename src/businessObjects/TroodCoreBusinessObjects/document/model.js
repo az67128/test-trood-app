@@ -43,7 +43,7 @@ export default {
       type: 'string',
       optional: false,
     },
-    target_object: {
+    targetObject: {
       type: 'generic',
       linkMetaList: [
         'activity',
@@ -57,7 +57,7 @@ export default {
       linkType: 'inner',
       optional: false,
     },
-    document_type: {
+    documentType: {
       type: 'string',
       optional: false,
     },
@@ -65,7 +65,7 @@ export default {
       type: 'datetime',
       optional: true,
     },
-    doc_custom_type: {
+    docCustomType: {
       type: 'object',
       linkMeta: 'doc_custom_type',
       linkType: 'inner',

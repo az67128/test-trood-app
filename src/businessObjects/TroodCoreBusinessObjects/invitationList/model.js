@@ -25,7 +25,7 @@ export default {
       linkType: 'inner',
       optional: false,
     },
-    activity_set: {
+    activitySet: {
       type: 'array',
       linkMeta: 'activity',
       linkType: 'outer',

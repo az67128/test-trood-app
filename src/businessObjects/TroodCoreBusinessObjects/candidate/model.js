@@ -43,25 +43,25 @@ export default {
       type: 'string',
       optional: true,
     },
-    cv_record_set: {
+    cvRecordSet: {
       type: 'generic',
       linkMeta: 'cv_record',
       linkType: 'outer',
       optional: true,
     },
-    document_set: {
+    documentSet: {
       type: 'generic',
       linkMeta: 'document',
       linkType: 'outer',
       optional: true,
     },
-    contact_set: {
+    contactSet: {
       type: 'generic',
       linkMeta: 'contact',
       linkType: 'outer',
       optional: true,
     },
-    vacancy_candidate_set: {
+    vacancyCandidateSet: {
       type: 'array',
       linkMeta: 'vacancy_candidate',
       linkType: 'outer',

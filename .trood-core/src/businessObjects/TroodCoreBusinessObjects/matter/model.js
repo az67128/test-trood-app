@@ -55,31 +55,31 @@ export default {
       linkType: 'inner',
       optional: false,
     },
-    matter_type: {
+    matterType: {
       type: 'object',
       linkMeta: 'matter_type',
       linkType: 'inner',
       optional: false,
     },
-    matter_status: {
+    matterStatus: {
       type: 'object',
       linkMeta: 'matter_status',
       linkType: 'inner',
       optional: false,
     },
-    matter_active_status: {
+    matterActiveStatus: {
       type: 'object',
       linkMeta: 'matter_active_status',
       linkType: 'inner',
       optional: false,
     },
-    budget_type: {
+    budgetType: {
       type: 'object',
       linkMeta: 'budget_type',
       linkType: 'inner',
       optional: false,
     },
-    contact_persons: {
+    contactPersons: {
       type: 'objects',
       linkMeta: 'contact_person',
       linkType: 'inner',
@@ -97,31 +97,31 @@ export default {
       type: 'datetime',
       optional: true,
     },
-    total_bill_amount: {
+    totalBillAmount: {
       type: 'number',
       optional: true,
     },
-    start_date: {
+    startDate: {
       type: 'datetime',
       optional: true,
     },
-    end_date: {
+    endDate: {
       type: 'datetime',
       optional: true,
     },
-    comment_set: {
+    commentSet: {
       type: 'generic',
       linkMeta: 'comment',
       linkType: 'outer',
       optional: true,
     },
-    matter_info_set: {
+    matterInfoSet: {
       type: 'array',
       linkMeta: 'matter_info',
       linkType: 'outer',
       optional: true,
     },
-    team_member_set: {
+    teamMemberSet: {
       type: 'array',
       linkMeta: 'team_member',
       linkType: 'outer',

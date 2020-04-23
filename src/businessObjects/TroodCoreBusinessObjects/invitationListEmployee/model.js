@@ -25,7 +25,7 @@ export default {
       linkType: 'inner',
       optional: false,
     },
-    invitation_list: {
+    invitationList: {
       type: 'object',
       linkMeta: 'invitation_list',
       linkType: 'inner',

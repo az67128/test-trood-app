@@ -24,11 +24,11 @@ export default {
       type: 'number',
       optional: true,
     },
-    start_date: {
+    startDate: {
       type: 'datetime',
       optional: false,
     },
-    end_date: {
+    endDate: {
       type: 'datetime',
       optional: false,
     },
@@ -36,7 +36,7 @@ export default {
       type: 'bool',
       optional: false,
     },
-    request_vacation: {
+    requestVacation: {
       type: 'object',
       linkMeta: 'request_vacation',
       linkType: 'inner',
@@ -52,7 +52,7 @@ export default {
       linkType: 'inner',
       optional: false,
     },
-    vacation_is: {
+    vacationIs: {
       type: 'object',
       linkMeta: 'employee',
       linkType: 'inner',

@@ -25,7 +25,7 @@ export default {
       type: 'number',
       optional: true,
     },
-    contact_type: {
+    contactType: {
       type: 'object',
       linkMeta: 'contact_type',
       linkType: 'inner',
@@ -35,7 +35,7 @@ export default {
       type: 'string',
       optional: false,
     },
-    target_object: {
+    targetObject: {
       type: 'generic',
       linkMetaList: [
         'employee',

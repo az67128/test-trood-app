@@ -45,7 +45,7 @@ export default {
       type: 'datetime',
       optional: true,
     },
-    expense_type: {
+    expenseType: {
       type: 'object',
       linkMeta: 'expense_type',
       linkType: 'inner',
@@ -71,7 +71,7 @@ export default {
       linkType: 'inner',
       optional: true,
     },
-    expense_date: {
+    expenseDate: {
       type: 'datetime',
       optional: true,
     },
