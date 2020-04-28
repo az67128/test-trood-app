@@ -60,12 +60,15 @@ We have props that are implicitly passed to components, but you can interact wit
 When you transfer a Business object, you will get access to its props:
 
 * BONameEditorActions - actions for edit business object
-* BONameActions - custom actions from business object (if has export default { actions } in <BOName>/index.js)
-* BONameComponents - constants from business object (if has exports in <BOName>/components/index.js)
-* BONameConstants - constants from business object (if has <BOName>/constants.js)
+* BONameActions - custom actions from business object (if has export default { actions } in ``<BOName>/index.js``)
+* BONameComponents - constants from business object (if has exports in ``<BOName>/components/index.js``)
+* BONameConstants - constants from business object (if has ``<BOName>/constants.js``)
 * BONameEntities - restify api.selectors - `redux-restify api selectors docs`_
 * BONameApiActions - restify api.actions - `redux-restify api actions docs`_
-* childBOName - actions for working with child
+* childBOName - actions for working with children.
+    - We can use **getChildArray()** to get an array of children associated with the current entity.
+    - We can use **getChildArrayCount()** to get the number of children in the array associated with the current entity.
+    - We can use **getIsLoadingChildArray()** to check if the array of children associated with the current entity is loaded.
 
 *******************************
 Page components library config
@@ -91,7 +94,7 @@ The page components library config file is ``ssrc/componentLibraries/<PageCompLi
 
         models
 
-For example, we describe the connection of the component "ClientsTableView":
+For example, we describe the connection of the component ``ClientsTableView``:
 
 .. code-block:: javascript
 
@@ -111,3 +114,56 @@ For example, we describe the connection of the component "ClientsTableView":
       },
     ],
   }
+
+*******************************
+TroodCoreComponents 
+*******************************
+
+``TroodCoreComponents/TableView``
+
+Represents preconfigured table view for business entity passed to ``table`` model.
+
+props:
+
+.. attribute:: checking
+
+Boolean. If true displays row checkboxes.
+
+.. attribute:: editable
+
+Boolean. If true adds column with edit icon which allow edit entity.
+
+.. attribute:: include
+
+Array of string. List of column names to include in table output
+
+.. attribute:: exclude
+
+Array of string. List of column names to exclude in table output
+
+Simple usage in ``./src/config.js``
+
+.. code-block:: javascript
+
+  pages: [
+    {
+      title: 'Employee',
+      url: 'table',
+      type: 'grid',
+      components: [
+        {
+          type: 'TroodCoreComponents/TableView',
+          span: 3,
+          withMargin: true,
+          models: {
+            table: 'employee',
+          },
+          props: {
+            editable: true,
+            checking: true,
+            exclude: ['id'],
+          },
+        },
+      ],
+    },
+  ],

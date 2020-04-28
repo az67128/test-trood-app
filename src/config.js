@@ -309,6 +309,7 @@ export default {
       title: 'Table',
       url: 'table',
       type: 'grid',
+      icon: 'edit',
       components: [
         {
           type: 'TroodCoreComponents/TableView',

@@ -1,6 +1,6 @@
 export default {
-    defaults: {
-      sort: undefined,
-      sortOrder: undefined,
-    },
-  }
+  defaults: {
+    sort: undefined,
+    sortOrder: undefined,
+  },
+}

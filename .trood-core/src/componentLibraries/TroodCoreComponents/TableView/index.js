@@ -18,9 +18,9 @@ const TableView = ({
   editable = false,
   include = [],
   exclude = [],
-  form: {sortColumn, sortOrder}, formActions
+  form: { sortColumn, sortOrder },
+  formActions,
 }) => {
-
   const config = RESTIFY_CONFIG.registeredModels[tableEntities.modelType]
 
   const sort = sortColumn ? `sort(${sortOrder > 0 ? '+' : '-'}${sortColumn})` : ''
@@ -40,10 +40,11 @@ const TableView = ({
       return include.includes(fieldName)
     })
     .map((fieldName) => {
-      const fieldNameSnake = camelToLowerSnake(fieldName);
-
+      const fieldNameSnake = camelToLowerSnake(fieldName)
       const field = config.meta[fieldName]
+
       if (field.linkType === 'outer') return null
+
       return {
         title: fieldName,
         name: fieldNameSnake,
@@ -70,9 +71,11 @@ const TableView = ({
               <EntityPageLink model={item[fieldName]}>{templateApplyValues(template, item[fieldName])}</EntityPageLink>
             )
           }
+
           if (field.type === 'bool') {
             return item[fieldName] ? 'true' : 'false'
           }
+
           if (field.type === 'datetime') {
             return (
               <SmartDate
@@ -83,9 +86,11 @@ const TableView = ({
               />
             )
           }
+
           if (config.idField === fieldNameSnake) {
             return <EntityPageLink model={item[fieldName]}>{item[fieldName]}</EntityPageLink>
           }
+
           return item[fieldName]
         },
       }

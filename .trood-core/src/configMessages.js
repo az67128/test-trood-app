@@ -3,68 +3,68 @@ import { defineMessages } from 'react-intl'
 
 
 const messages = defineMessages({
-  'general_contactPerson': {
-    id: 'general_contactPerson',
+  'clientsContactPersonGeneralContactPerson': {
+    id: 'clientsContactPersonGeneralContactPerson',
     defaultMessage: 'General',
   },
-'matters_contactPerson': {
-    id: 'matters_contactPerson',
+'clientsContactPersonMattersContactPerson': {
+    id: 'clientsContactPersonMattersContactPerson',
     defaultMessage: 'Matters',
   },
-'documents_contactPerson': {
-    id: 'documents_contactPerson',
+'clientsContactPersonDocumentsContactPerson': {
+    id: 'clientsContactPersonDocumentsContactPerson',
     defaultMessage: 'Documents',
   },
-'general_employee': {
-    id: 'general_employee',
+'employeesEmployeeGeneralEmployee': {
+    id: 'employeesEmployeeGeneralEmployee',
     defaultMessage: 'General',
   },
-'efficiency_employee': {
-    id: 'efficiency_employee',
+'employeesEmployeeEfficiencyEmployee': {
+    id: 'employeesEmployeeEfficiencyEmployee',
     defaultMessage: 'Efficiency',
   },
-'evaluation_employee': {
-    id: 'evaluation_employee',
+'employeesEmployeeEvaluationEmployee': {
+    id: 'employeesEmployeeEvaluationEmployee',
     defaultMessage: 'Evaluation',
   },
-'presonal-file_employee': {
-    id: 'presonal-file_employee',
+'employeesEmployeePresonal-fileEmployee': {
+    id: 'employeesEmployeePresonal-fileEmployee',
     defaultMessage: 'Personal File',
   },
-'matters_matter': {
-    id: 'matters_matter',
+'mattersMatter': {
+    id: 'mattersMatter',
     defaultMessage: 'Matters',
   },
-'general_matter': {
-    id: 'general_matter',
+'mattersMatterGeneralMatter': {
+    id: 'mattersMatterGeneralMatter',
     defaultMessage: 'General',
   },
-'team_matter': {
-    id: 'team_matter',
+'mattersMatterTeamMatter': {
+    id: 'mattersMatterTeamMatter',
     defaultMessage: 'Team',
   },
-'activities_matter': {
-    id: 'activities_matter',
+'mattersMatterActivitiesMatter': {
+    id: 'mattersMatterActivitiesMatter',
     defaultMessage: 'Activities',
   },
-'documents_matter': {
-    id: 'documents_matter',
+'mattersMatterDocumentsMatter': {
+    id: 'mattersMatterDocumentsMatter',
     defaultMessage: 'Documents',
   },
-'billing_matter': {
-    id: 'billing_matter',
+'mattersMatterBillingMatter': {
+    id: 'mattersMatterBillingMatter',
     defaultMessage: 'Billing',
   },
-'invoices_matter': {
-    id: 'invoices_matter',
+'mattersMatterInvoicesMatter': {
+    id: 'mattersMatterInvoicesMatter',
     defaultMessage: 'Invoices',
   },
-'candidate_candidate': {
-    id: 'candidate_candidate',
+'candidateCandidate': {
+    id: 'candidateCandidate',
     defaultMessage: 'Candidate',
   },
-'vacancy_vacancy': {
-    id: 'vacancy_vacancy',
+'vacancyVacancy': {
+    id: 'vacancyVacancy',
     defaultMessage: 'Vacancy',
   },
 'payments': {
