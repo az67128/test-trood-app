@@ -309,14 +309,15 @@ export default {
       title: 'Table',
       url: 'table',
       type: 'grid',
-      icon: 'edit',
       components: [
         {
           type: 'TroodCoreComponents/TableView',
           span: 3,
-          withMargin: true,
+          withMargin: false,
           models: {
             table: 'matter',
+            employee: 'employee',
+            contactPerson: 'contactPerson',
           },
           props: {
             editable: true,

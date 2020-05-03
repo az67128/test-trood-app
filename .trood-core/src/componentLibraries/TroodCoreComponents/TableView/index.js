@@ -8,6 +8,7 @@ import SmartDate, { SMART_DATE_FORMATS } from '$trood/components/SmartDate'
 import { templateApplyValues } from '$trood/helpers/templates'
 import { RESTIFY_CONFIG } from 'redux-restify'
 import { EntityPageLink } from '$trood/pageManager'
+import Filters from './Filters'
 import style from './style.css'
 
 const TableView = ({
@@ -18,27 +19,60 @@ const TableView = ({
   editable = false,
   include = [],
   exclude = [],
-  form: { sortColumn, sortOrder },
+  form,
   formActions,
+  ...restProps
 }) => {
   const config = RESTIFY_CONFIG.registeredModels[tableEntities.modelType]
+  // console.log(form)
 
-  const sort = sortColumn ? `sort(${sortOrder > 0 ? '+' : '-'}${sortColumn})` : ''
+  const fieldList = Object.keys(config.meta).filter((fieldName) => {
+    if (exclude.includes(fieldName)) return false
+    if (include.length === 0) return true
+    return include.includes(fieldName)
+  })
+
+  const sort = form.sortColumn ? `sort(${form.sortOrder > 0 ? '+' : '-'}${form.sortColumn})` : ''
+  const filterQuery = fieldList.reduce((memo, fieldName) => {
+    const fieldNameSnake = camelToLowerSnake(fieldName)
+    const formField = form[fieldNameSnake]
+    
+    if (!formField) return memo
+    const field = config.meta[fieldName]
+
+    if (field.linkType && Array.isArray(formField)) {
+      return memo + (formField.length ? `,in(${fieldNameSnake},(${formField}))` : '')
+    }
+
+    if (field.type === 'datetime') {
+      if (formField.periodType === 'all') return memo
+      return `${memo},and(ge(${fieldNameSnake},${encodeURIComponent(
+        formField.startDate,
+      )}),le(${fieldNameSnake},${encodeURIComponent(formField.endDate)}))`
+    }
+
+    if (field.type === 'number' && (formField.min || formField.max)) {
+      const min = formField.min ? `ge(${fieldNameSnake},${formField.min})` : ''
+      const max = formField.max ? `ge(${fieldNameSnake},${formField.max})` : ''
+      return min && max ? `${memo},and(${min},${max})` : `${memo},${min}${max}`
+    }
+    return memo
+  }, '')
+
+  // console.log(filterQuery)
+
   const tableApiConfig = {
     filter: {
-      q: sort,
+      q: sort + filterQuery,
     },
   }
+
   const tableArray = tableEntities.getArray(tableApiConfig)
   const tableNextPage = tableEntities.getNextPage(tableApiConfig)
   const tableIsLoading = tableEntities.getIsLoadingArray(tableApiConfig)
   const tableNextPageAction = () => tableApiActions.loadNextPage(tableApiConfig)
-  const header = Object.keys(config.meta)
-    .filter((fieldName) => {
-      if (exclude.includes(fieldName)) return false
-      if (include.length === 0) return true
-      return include.includes(fieldName)
-    })
+
+  const header = fieldList
     .map((fieldName) => {
       const fieldNameSnake = camelToLowerSnake(fieldName)
       const field = config.meta[fieldName]
@@ -90,7 +124,6 @@ const TableView = ({
           if (config.idField === fieldNameSnake) {
             return <EntityPageLink model={item[fieldName]}>{item[fieldName]}</EntityPageLink>
           }
-
           return item[fieldName]
         },
       }
@@ -115,6 +148,7 @@ const TableView = ({
 
   return (
     <div className={basePageLayout.block}>
+      <Filters {...{ fieldList, config, form, formActions, ...restProps }} />
       <AsyncEntitiesList
         {...{
           nextPage: tableNextPage,
@@ -125,8 +159,8 @@ const TableView = ({
         <TTable
           {...{
             rowKey: (item) => `${item.$modelType}_${item[config.idField]}`,
-            sortingColumn: sortColumn,
-            sortingOrder: sortOrder,
+            sortingColumn: form.sortColumn,
+            sortingOrder: form.sortOrder,
             onSort: (name, order) => {
               formActions.changeSomeFields({
                 sortColumn: name,
