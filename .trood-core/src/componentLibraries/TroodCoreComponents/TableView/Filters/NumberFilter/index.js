@@ -1,10 +1,14 @@
-import React from 'react'
+import React, { useRef, useEffect } from 'react'
 import TLabel from '$trood/components/TLabel'
 import TInput, { INPUT_TYPES } from '$trood/components/TInput'
 import style from '../style.css'
 
-
 const NumberFilter = ({ value = {}, fieldName, onChange }) => {
+  const internaValue = useRef(value)
+
+  useEffect(() => {
+    internaValue.current = value
+  }, [value])
 
   return (
     <div className={style.filterItem}>
@@ -14,7 +18,7 @@ const NumberFilter = ({ value = {}, fieldName, onChange }) => {
           {...{
             className: style.numberFilterMin,
             placeholder: 'Min',
-            onChange: (val) => onChange({ ...value, min: val }),
+            onChange: (val) => onChange({ ...internaValue.current, min: val }),
             value: value.min || '',
             type: INPUT_TYPES.number,
           }}
@@ -22,7 +26,7 @@ const NumberFilter = ({ value = {}, fieldName, onChange }) => {
         <TInput
           {...{
             placeholder: 'Max',
-            onChange: (val) => onChange({ ...value, max: val }),
+            onChange: (val) => onChange({ ...internaValue.current, max: val }),
             value: value.max || '',
             type: INPUT_TYPES.number,
           }}

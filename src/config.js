@@ -318,6 +318,7 @@ export default {
             table: 'matter',
             employee: 'employee',
             contactPerson: 'contactPerson',
+            budgetType: 'budgetType',
           },
           props: {
             editable: true,
@@ -325,6 +326,8 @@ export default {
             exclude: [
               'id',
             ],
+            filters: ['responsible', 'important', 'budgetType'],
+            search: true,
           },
         },
       ],
